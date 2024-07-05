@@ -41,52 +41,116 @@
                 <article style="flex-basis: 15%">
                     <div>
                         <b>Parameters</b>
-                        <button onclick="resetAll()" style="margin-bottom: 0px">Reset All</button>
+                        <button onclick="resetAll()" style="margin-bottom: 0px">
+                            Reset All
+                        </button>
                     </div>
                     <hr />
                     <div>
                         <label for="str">Strength</label>
-                        <input id="str" type="number" name="stat" value="10" min="0" max="99" onchange="update()" />
+                        <input
+                            id="str"
+                            type="number"
+                            name="stat"
+                            value="10"
+                            min="0"
+                            max="99"
+                            onchange="update()"
+                        />
                     </div>
                     <div>
                         <label for="dex">Dexterity</label>
-                        <input id="dex" type="number" name="stat" value="10" min="0" max="99" onchange="update()" />
+                        <input
+                            id="dex"
+                            type="number"
+                            name="stat"
+                            value="10"
+                            min="0"
+                            max="99"
+                            onchange="update()"
+                        />
                     </div>
                     <div>
                         <label for="int">Intelligence</label>
-                        <input id="int" type="number" name="stat" value="10" min="0" max="99" onchange="update()" />
+                        <input
+                            id="int"
+                            type="number"
+                            name="stat"
+                            value="10"
+                            min="0"
+                            max="99"
+                            onchange="update()"
+                        />
                     </div>
                     <div>
                         <label for="fth">Faith</label>
-                        <input id="fth" type="number" name="stat" value="10" min="0" max="99" onchange="update()" />
+                        <input
+                            id="fth"
+                            type="number"
+                            name="stat"
+                            value="10"
+                            min="0"
+                            max="99"
+                            onchange="update()"
+                        />
                     </div>
                     <div>
                         <label for="arc">Arcane</label>
-                        <input id="arc" type="number" name="stat" value="10" min="0" max="99" onchange="update()" />
+                        <input
+                            id="arc"
+                            type="number"
+                            name="stat"
+                            value="10"
+                            min="0"
+                            max="99"
+                            onchange="update()"
+                        />
                     </div>
                     <hr />
                     <div>
                         <span>
-                            <input type="radio" id="max-upgrade" name="upgrade-level" onchange="update()" checked />
-                            <label for="max-upgrade">Reinforced (+10 or +25)</label>
+                            <input
+                                type="radio"
+                                id="max-upgrade"
+                                name="upgrade-level"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="max-upgrade"
+                                >Reinforced (+10 or +25)</label
+                            >
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="radio" id="min-upgrade" name="upgrade-level" onchange="update()" />
+                            <input
+                                type="radio"
+                                id="min-upgrade"
+                                name="upgrade-level"
+                                onchange="update()"
+                            />
                             <label for="min-upgrade">Not Reinforced (+0)</label>
                         </span>
                     </div>
                     <hr />
                     <div>
                         <span>
-                            <input id="requirements" type="checkbox" onchange="update()" checked />
+                            <input
+                                id="requirements"
+                                type="checkbox"
+                                onchange="update()"
+                                checked
+                            />
                             <label for="requirements">Requirements Met</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="buffable" onchange="update()" />
+                            <input
+                                type="checkbox"
+                                id="buffable"
+                                onchange="update()"
+                            />
                             <label for="buffable">Buffable Only</label>
                         </span>
                     </div>
@@ -94,13 +158,24 @@
                     <b>Handedness</b>
                     <div>
                         <span>
-                            <input type="radio" id="2h-never" name="handedness" onchange="update()" checked />
+                            <input
+                                type="radio"
+                                id="2h-never"
+                                name="handedness"
+                                onchange="update()"
+                                checked
+                            />
                             <label for="2h-never">One-handing</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="radio" id="2h-sometimes" name="handedness" onchange="update()" />
+                            <input
+                                type="radio"
+                                id="2h-sometimes"
+                                name="handedness"
+                                onchange="update()"
+                            />
                             <label for="2h-sometimes">Usable One-handed</label>
                         </span>
                     </div>
@@ -120,8 +195,12 @@
                     <div>
                         <b>Infusions</b>
                         <span>
-                            <button onclick="setAll('infusion', true)">Any</button>
-                            <button onclick="setAll('infusion', false)">None</button>
+                            <button onclick="setAll('infusion', true)">
+                                Any
+                            </button>
+                            <button onclick="setAll('infusion', false)">
+                                None
+                            </button>
                         </span>
                     </div>
                     <div>
@@ -298,31 +377,56 @@
                     <b>Damage Types</b>
                     <div>
                         <span>
-                            <input id="physical-type" type="checkbox" name="damage-type" disabled />
+                            <input
+                                id="physical-type"
+                                type="checkbox"
+                                name="damage-type"
+                                disabled
+                            />
                             <label for="physical-type">Physical Damage</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input id="magic-type" type="checkbox" name="damage-type" disabled />
+                            <input
+                                id="magic-type"
+                                type="checkbox"
+                                name="damage-type"
+                                disabled
+                            />
                             <label for="magic-type">Magic Damage</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input id="fire-type" type="checkbox" name="damage-type" disabled />
+                            <input
+                                id="fire-type"
+                                type="checkbox"
+                                name="damage-type"
+                                disabled
+                            />
                             <label for="fire-type">Fire Damage</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input id="lightning-type" type="checkbox" name="damage-type" disabled />
+                            <input
+                                id="lightning-type"
+                                type="checkbox"
+                                name="damage-type"
+                                disabled
+                            />
                             <label for="lightning-type">Lightning Damage</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input id="holy-type" type="checkbox" name="damage-type" disabled />
+                            <input
+                                id="holy-type"
+                                type="checkbox"
+                                name="damage-type"
+                                disabled
+                            />
                             <label for="holy-type">Holy Damage</label>
                         </span>
                     </div>
@@ -508,16 +612,24 @@
                     <div>
                         <b>Categories</b>
                         <span>
-                            <button onclick="setAll('category', true)">Any</button>
-                            <button onclick="setAll('category', false)">None</button>
+                            <button onclick="setAll('category', true)">
+                                Any
+                            </button>
+                            <button onclick="setAll('category', false)">
+                                None
+                            </button>
                         </span>
                     </div>
                     <hr />
                     <div>
                         <b>Weapons</b>
                         <span>
-                            <button onclick="setAll('weapon', true)">Any</button>
-                            <button onclick="setAll('weapon', false)">None</button>
+                            <button onclick="setAll('weapon', true)">
+                                Any
+                            </button>
+                            <button onclick="setAll('weapon', false)">
+                                None
+                            </button>
                         </span>
                     </div>
                     <div>
@@ -563,6 +675,21 @@
                         <span>
                             <input
                                 type="checkbox"
+                                id="light-greatsword"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="light-greatsword"
+                                >Light Greatswords</label
+                            >
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
                                 id="colossal-sword"
                                 name="category"
                                 class="weapon"
@@ -582,7 +709,24 @@
                                 onchange="update()"
                                 checked
                             />
-                            <label for="thrusting-sword">Thrusting Swords</label>
+                            <label for="thrusting-sword"
+                                >Thrusting Swords</label
+                            >
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="thrusting-shield"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="thrusting-shield"
+                                >Thrusting Shields</label
+                            >
                         </span>
                     </div>
                     <div>
@@ -595,7 +739,9 @@
                                 onchange="update()"
                                 checked
                             />
-                            <label for="heavy-thrusting-sword">Heavy Thrusting Swords</label>
+                            <label for="heavy-thrusting-sword"
+                                >Heavy Thrusting Swords</label
+                            >
                         </span>
                     </div>
                     <div>
@@ -615,13 +761,28 @@
                         <span>
                             <input
                                 type="checkbox"
+                                id="backhand-blade"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="backhand-blade">Backhand Blades</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
                                 id="curved-greatsword"
                                 name="category"
                                 class="weapon"
                                 onchange="update()"
                                 checked
                             />
-                            <label for="curved-greatsword">Curved Greatswords</label>
+                            <label for="curved-greatsword"
+                                >Curved Greatswords</label
+                            >
                         </span>
                     </div>
                     <div>
@@ -635,6 +796,19 @@
                                 checked
                             />
                             <label for="katana">Katanas</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="great-katana"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="great-katana">Great Katanas</label>
                         </span>
                     </div>
                     <div>
@@ -810,13 +984,43 @@
                         <span>
                             <input
                                 type="checkbox"
+                                id="hand-to-hand-art"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="hand-to-hand-art"
+                                >Hand-to-Hand Arts</label
+                            >
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="beast-claw"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="beast-claw">Beast Claws</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
                                 id="colossal-weapon"
                                 name="category"
                                 class="weapon"
                                 onchange="update()"
                                 checked
                             />
-                            <label for="colossal-weapon">Colossal Weapons</label>
+                            <label for="colossal-weapon"
+                                >Colossal Weapons</label
+                            >
                         </span>
                     </div>
                     <div>
@@ -832,13 +1036,43 @@
                             <label for="torch">Torches</label>
                         </span>
                     </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="perfume-bottle"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="perfume-bottle">Perfume Bottles</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <input
+                                type="checkbox"
+                                id="throwing-blade"
+                                name="category"
+                                class="weapon"
+                                onchange="update()"
+                                checked
+                            />
+                            <label for="throwing-blade">Throwing Blades</label>
+                        </span>
+                    </div>
                     <hr />
                     <div>
                         <b>Ranged</b>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="light-bow" name="category" />
+                            <input
+                                type="checkbox"
+                                id="light-bow"
+                                name="category"
+                            />
                             <label for="light-bow">Light Bows</label>
                         </span>
                     </div>
@@ -850,19 +1084,31 @@
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="greatbow" name="category" />
+                            <input
+                                type="checkbox"
+                                id="greatbow"
+                                name="category"
+                            />
                             <label for="greatbow">Greatbows</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="crossbow" name="category" />
+                            <input
+                                type="checkbox"
+                                id="crossbow"
+                                name="category"
+                            />
                             <label for="crossbow">Crossbows</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="ballistas" name="category" />
+                            <input
+                                type="checkbox"
+                                id="ballistas"
+                                name="category"
+                            />
                             <label for="ballistas">Ballistas</label>
                         </span>
                     </div>
@@ -872,19 +1118,31 @@
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="small-shield" name="category" />
+                            <input
+                                type="checkbox"
+                                id="small-shield"
+                                name="category"
+                            />
                             <label for="small-shield">Small Shields</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="medium-shield" name="category" />
+                            <input
+                                type="checkbox"
+                                id="medium-shield"
+                                name="category"
+                            />
                             <label for="medium-shield">Medium Shields</label>
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="greatshield" name="category" />
+                            <input
+                                type="checkbox"
+                                id="greatshield"
+                                name="category"
+                            />
                             <label for="greatshield">Greatshields</label>
                         </span>
                     </div>
@@ -894,13 +1152,23 @@
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="glintstone-staff" name="category" />
-                            <label for="glintstone-staff">Glintstone Staves</label>
+                            <input
+                                type="checkbox"
+                                id="glintstone-staff"
+                                name="category"
+                            />
+                            <label for="glintstone-staff"
+                                >Glintstone Staves</label
+                            >
                         </span>
                     </div>
                     <div>
                         <span>
-                            <input type="checkbox" id="sacred-seal" name="category" />
+                            <input
+                                type="checkbox"
+                                id="sacred-seal"
+                                name="category"
+                            />
                             <label for="sacred-seal">Sacred Seals</label>
                         </span>
                     </div>
@@ -908,33 +1176,46 @@
             </div>
             <div>
                 <h2 style="text-align: center">Notes</h2>
-                <p>Click the headers in the table to sort the table based that column.</p>
+                <p>
+                    Click the headers in the table to sort the table based that
+                    column.
+                </p>
                 <p>You can choose between three modes of handedness:</p>
                 <ol>
-                    <li>One-handed: Calculates damage and requirements based on one-handed use</li>
                     <li>
-                        Usable one-handed: Calculates damage based on two-handed use, but accounts for weapon being
-                        usable one-handed as well
+                        One-handed: Calculates damage and requirements based on
+                        one-handed use
+                    </li>
+                    <li>
+                        Usable one-handed: Calculates damage based on two-handed
+                        use, but accounts for weapon being usable one-handed as
+                        well
                     </li>
                     <li>Two-handed: Self-explanatory</li>
                 </ol>
                 <p>
-                    This calculator currently doesn't take auxiliary damage procs (cold, bleed, scarlet rot and poison)
-                    into account. Therefore, it won't be very useful for finding weapons to use in a bleed build.
+                    This calculator currently doesn't take auxiliary damage
+                    procs (cold, bleed, scarlet rot and poison) into account.
+                    Therefore, it won't be very useful for finding weapons to
+                    use in a bleed build.
                 </p>
                 <p>
-                    Catalysts (sacred seals and glintstone staffs) will show their
+                    Catalysts (sacred seals and glintstone staffs) will show
+                    their
                     <em>attack rating</em>, not their <em>spell scaling</em>.
                 </p>
                 <p>
-                    The same holds true for shields, which are also sorted based on
+                    The same holds true for shields, which are also sorted based
+                    on
                     <em>attack rating</em>
                 </p>
             </div>
         </main>
         <footer>
             <h5>
-                Erdtree Planner (<a href="https://git.palmoe.dk/vodofrede/erdtree" style="color: var(--link-color)"
+                Erdtree Planner (<a
+                    href="https://git.palmoe.dk/vodofrede/erdtree"
+                    style="color: var(--link-color)"
                     >available under BSD-3-Clause license</a
                 >)
             </h5>
