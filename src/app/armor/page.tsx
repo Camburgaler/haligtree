@@ -29,33 +29,6 @@ export default function ArmorPage() {
     const [chestpieces, setChestpieces] = useState(Array<Armor>());
     const [gauntlets, setGauntlets] = useState(Array<Armor>());
     const [leggings, setLeggings] = useState(Array<Armor>());
-    const [selection, setSelection] = useState(Array<Set>());
-
-    // HELPER FUNCTIONS
-    const isAllowedSet = (set: Set) => [
-        lockedItems.every(
-            (item: Armor) => item == undefined || set.includes(item)
-        ),
-        ignoredItems.every(
-            (item: Armor) => item == undefined || set.includes(item)
-        ),
-    ];
-    const setWeight = (set: Set) =>
-        (set.weight ??= set.reduce(
-            (total: number, item: Armor) => total + item.weight,
-            0
-        ));
-    const setFitness = (set: Set) => {
-        if (!set.fitness) {
-            set.fitness = set.reduce((total: number, item: Armor) => {
-                if (!item.fitness) {
-                    item.fitness = fitness(item);
-                }
-                return total + item.fitness;
-            }, 0.0);
-        }
-        return set.fitness;
-    };
 
     // STATE UPDATE FUNCTIONS
     function updateLockedItems(newItem: Armor, oldItem?: Armor): void {
@@ -93,6 +66,12 @@ export default function ArmorPage() {
         if (ignoredItems.includes(newItem)) return;
         setIgnoredItems([...ignoredItems, newItem]);
         console.timeEnd("add ignored item");
+    }
+
+    function removeIgnoredItem(oldItem: Armor): void {
+        console.time("remove ignored item");
+        setIgnoredItems([...ignoredItems.filter((i) => i !== oldItem)]);
+        console.timeEnd("remove ignored item");
     }
 
     // FUNCTIONS
@@ -190,38 +169,113 @@ export default function ArmorPage() {
         }
     }
 
-    function permutations([helmets, chestpieces, gauntlets, leggings]: [
-        Armor[],
-        Armor[],
-        Armor[],
-        Armor[]
-    ]): Set[] {
-        return helmets.flatMap((h: Armor) => {
-            return chestpieces.flatMap((c: Armor) => {
-                return gauntlets.flatMap((g: Armor) => {
-                    return leggings
-                        .filter((l: Armor) => isAllowedSet([h, c, g, l]))
-                        .filter(
-                            (l: Armor) =>
-                                equipLoadBudget >= setWeight([h, c, g, l])
-                        )
-                        .map((l: Armor) => [h, c, g, l]);
-                });
-            });
-        });
-    }
-
     function knapSack(): Set[] {
-        return selection.reduce((best: Set[], set: Set) => {
-            const index = best.findIndex(
-                (element: Set) => setFitness(element) < setFitness(set)
+        // Convert max equip load to integer by multiplying by 10
+        const equipLoadBudgetInt = Math.round(equipLoadBudget * 10);
+
+        // Initialize DP table
+        const dp: Set[][] = Array(5)
+            .fill(0)
+            .map(() =>
+                Array(equipLoadBudgetInt + 1)
+                    .fill(null)
+                    .map(() => {
+                        let set: Set = [];
+                        set.weight = 0;
+                        set.fitness = 0;
+                        return set;
+                    })
             );
-            if (index !== -1) {
-                best.splice(index, 0, set);
-                best.pop();
+
+        const equipment = [helmets, chestpieces, gauntlets, leggings];
+        // Fill DP table
+        for (let i = 0; i < 4; i++) {
+            const pieces = equipment[i];
+
+            for (const piece of pieces) {
+                // Convert piece weight to integer
+                const pieceWeight = piece.weight;
+                const pieceWeightInt = Math.round(pieceWeight * 10);
+                const pieceStat = fitness(piece);
+
+                for (
+                    let wInt = equipLoadBudgetInt;
+                    wInt >= pieceWeightInt;
+                    wInt--
+                ) {
+                    if (
+                        dp[i][wInt - pieceWeightInt].weight! + pieceWeight <=
+                        equipLoadBudgetInt
+                    ) {
+                        const newFitness =
+                            dp[i][wInt - pieceWeightInt].fitness! + pieceStat;
+                        if (newFitness > dp[i + 1][wInt].fitness!) {
+                            // helmet
+                            dp[i + 1][wInt][0] =
+                                i === 0
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][0] ??
+                                      HELMETS[0];
+                            // chestpiece
+                            dp[i + 1][wInt][1] =
+                                i === 1
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][1] ??
+                                      CHESTPIECES[0];
+                            // gauntlets
+                            dp[i + 1][wInt][2] =
+                                i === 2
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][2] ??
+                                      GAUNTLETS[0];
+                            // leggings
+                            dp[i + 1][wInt][3] =
+                                i === 3
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][3] ??
+                                      LEGGINGS[0];
+                            // fitness
+                            dp[i + 1][wInt].fitness = newFitness;
+                            // weight
+                            dp[i + 1][wInt].weight =
+                                dp[i][wInt - pieceWeightInt].weight! +
+                                pieceWeight;
+                        }
+                    }
+                }
             }
-            return best;
-        }, selection.slice(0, 5));
+
+            // Carry forward the best set from the previous category without adding a new piece
+            for (let w = 0; w <= equipLoadBudgetInt; w++) {
+                if (dp[i + 1][w].fitness! < dp[i][w].fitness!) {
+                    dp[i + 1][w] = dp[i][w];
+                }
+            }
+        }
+
+        // Extract top 3 sets
+        const topSets: Set[] = [];
+        for (let wInt = equipLoadBudgetInt; wInt >= 0; wInt--) {
+            if (dp[4][wInt].fitness! > 0) {
+                let duplicate = false;
+                for (const set of topSets) {
+                    if (
+                        dp[4][wInt][0] === set[0] &&
+                        dp[4][wInt][1] === set[1] &&
+                        dp[4][wInt][2] === set[2] &&
+                        dp[4][wInt][3] === set[3]
+                    ) {
+                        duplicate = true;
+                        break;
+                    }
+                }
+                if (duplicate) continue;
+                topSets.push(dp[4][wInt]);
+                if (topSets.length === 3) break;
+            }
+        }
+
+        return topSets;
     }
 
     function resetAll(): void {
@@ -235,8 +289,8 @@ export default function ArmorPage() {
     }
 
     function itemStatsToString(item: Armor): string[] {
-        let weight = item.weight.toFixed(1) + " Weight, ";
-        let poise = item.poise + " Poise, ";
+        let weight = item.weight.toFixed(1);
+        let poise = item.poise.toString();
         let standard =
             [
                 item.defenses.physical,
@@ -282,19 +336,10 @@ export default function ArmorPage() {
         );
 
         return [
-            weight +
-                poise +
-                standard +
-                physical +
-                strike +
-                slash +
-                pierce +
-                "\n" +
-                elemental +
-                magic +
-                fire +
-                lightning +
-                holy,
+            weight,
+            poise,
+            standard + physical + strike + slash + pierce,
+            elemental + magic + fire + lightning + holy,
             resistances,
         ];
     }
@@ -396,13 +441,6 @@ export default function ArmorPage() {
         setBest(knapSack());
         console.timeEnd("update best");
         console.timeEnd("update");
-    }, [selection]);
-
-    useEffect(() => {
-        console.time("update");
-        console.time("update selection");
-        setSelection(permutations([helmets, chestpieces, gauntlets, leggings]));
-        console.timeEnd("update selection");
     }, [helmets, chestpieces, gauntlets, leggings, equipLoadBudget]);
 
     useEffect(() => {
@@ -440,11 +478,14 @@ export default function ArmorPage() {
                             label="Max. Equip Load"
                             className="stat"
                             id="max-equip-load"
-                            onChange={(event) =>
+                            onChange={(event) => {
+                                if (event.target.value == "") {
+                                    event.target.value = "0";
+                                }
                                 updateMaxEquipLoad(
                                     parseFloat(event.target.value)
-                                )
-                            }
+                                );
+                            }}
                             value={maxEquipLoad}
                             name="equip-load"
                         />
@@ -452,11 +493,14 @@ export default function ArmorPage() {
                             label="Current Equip Load"
                             className="stat"
                             id="current-equip-load"
-                            onChange={(event) =>
+                            onChange={(event) => {
+                                if (event.target.value == "") {
+                                    event.target.value = "0";
+                                }
                                 updateCurrentEquipLoad(
                                     parseFloat(event.target.value)
-                                )
-                            }
+                                );
+                            }}
                             value={currentEquipLoad}
                             name="equip-load"
                         />
@@ -507,7 +551,7 @@ export default function ArmorPage() {
                             name="sorting-order"
                             checked={sortBy === "sort-standard"}
                         />
-                        {/* <InputRadio
+                        <InputRadio
                             label="Greatest Physical Absorption"
                             id="sort-physical"
                             onClick={() => updateSortBy("sort-physical")}
@@ -534,7 +578,7 @@ export default function ArmorPage() {
                             onClick={() => updateSortBy("sort-pierce")}
                             name="sorting-order"
                             checked={sortBy === "sort-pierce"}
-                        /> */}
+                        />
                         <InputRadio
                             label="Greatest Elemental Absorption"
                             id="sort-elemental"
@@ -542,7 +586,7 @@ export default function ArmorPage() {
                             name="sorting-order"
                             checked={sortBy === "sort-elemental"}
                         />
-                        {/* <InputRadio
+                        <InputRadio
                             label="Greatest Magic Absorption"
                             id="sort-magic"
                             onClick={() => updateSortBy("sort-magic")}
@@ -569,7 +613,7 @@ export default function ArmorPage() {
                             onClick={() => updateSortBy("sort-holy")}
                             name="sorting-order"
                             checked={sortBy === "sort-holy"}
-                        /> */}
+                        />
                         <InputRadio
                             label="Greatest Average Resistance"
                             id="sort-resistances"
@@ -577,7 +621,7 @@ export default function ArmorPage() {
                             name="sorting-order"
                             checked={sortBy === "sort-resistances"}
                         />
-                        {/* <InputRadio
+                        <InputRadio
                             label="Greatest Scarlet Rot Resistance"
                             id="sort-scarlet-rot"
                             onClick={() => updateSortBy("sort-scarlet-rot")}
@@ -625,7 +669,7 @@ export default function ArmorPage() {
                             onClick={() => updateSortBy("sort-death")}
                             name="sorting-order"
                             checked={sortBy === "sort-death"}
-                        /> */}
+                        />
                         <InputRadio
                             label="Greatest Poise"
                             id="sort-poise"
@@ -704,7 +748,7 @@ export default function ArmorPage() {
                                 Reset All
                             </button>
                         </div>
-                        {/* <hr />
+                        <hr />
                         <b>Ignored Armor</b>
                         <div>
                             <ul id="ignored-items">
@@ -726,33 +770,35 @@ export default function ArmorPage() {
                                     </li>
                                 ))}
                             </ul>
-                        </div> */}
+                        </div>
                     </article>
                     {/* <!-- sort --> */}
                     <article style={{ flexBasis: "60%", minWidth: "320px" }}>
                         <b>Results</b>
                         <div>
                             <table id="results">
-                                {best.map((set: Set, i) => (
-                                    <ArmorResultSet
-                                        key={i}
-                                        id={ARMOR_RESULTS_SET_IDS[i]}
-                                        armorIds={set.map(
-                                            (item: Armor) => item.id
-                                        )}
-                                        armorNames={set.map(
-                                            (item: Armor) => item.name
-                                        )}
-                                        itemStats={set.map((item: Armor) =>
-                                            itemStatsToString(item)
-                                        )}
-                                        setStats={setStatsToString(set)}
-                                        best={best}
-                                        addIgnoredItem={set.map((item) => {
-                                            return () => addIgnoredItem(item);
-                                        })}
-                                    />
-                                ))}
+                                {best.map((set: Set, i) => {
+                                    return (
+                                        <ArmorResultSet
+                                            key={i}
+                                            id={ARMOR_RESULTS_SET_IDS[i]}
+                                            armorIds={set.map(
+                                                (item: Armor) => item.id
+                                            )}
+                                            armorNames={set.map(
+                                                (item: Armor) => item.name
+                                            )}
+                                            itemStats={set.map((item: Armor) =>
+                                                itemStatsToString(item)
+                                            )}
+                                            setStats={setStatsToString(set)}
+                                            addIgnoredItem={set.map((item) => {
+                                                return () =>
+                                                    addIgnoredItem(item);
+                                            })}
+                                        />
+                                    );
+                                })}
                             </table>
                         </div>
                     </article>

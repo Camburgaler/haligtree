@@ -1,13 +1,8 @@
-import { Set } from "../util/types/set";
-
 function ArmorResultRow(props: {
     name: string;
-    absorption: string;
-    resistances: string;
     id: string;
     armorId?: string;
     stats: string[];
-    best: Set[];
     addIgnoredItem: Function;
 }) {
     let ignoreButton;
@@ -46,10 +41,13 @@ function ArmorResultRow(props: {
         <tr id={props.id}>
             <td>
                 {name}
-                {/* {ignoreButton} */}
+                {ignoreButton}
             </td>
             <td>{props.stats[0]}</td>
             <td>{props.stats[1]}</td>
+            <td>{props.stats[2]}</td>
+            <td>{props.stats[3]}</td>
+            <td>{props.stats[4]}</td>
         </tr>
     );
 }
