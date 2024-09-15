@@ -5,11 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.1] - TBD
+## [2.2.0] - TBD
+
+### Added
+
+-   added hover-over breakdown for weapon attack ratings
+-   added ability to disable split damage results
+-   added ability to filter damage types
+-   added status effects to breakdown
+-   added a toggle for considering status effects in rating
+-   added link to create an issue in footer
 
 ### Changed
 
 -   updated credits in footer
+-   updated weapon damage from ER v1.14
 
 ## [2.1.0] - 2024-08-27
 

@@ -1,21 +1,16 @@
-import { Stat } from "../interfaces/stat";
+import { InfusionMap } from "../interfaces/infusionMap";
+import StatMap from "../interfaces/statMap";
+import WeaponInfusion from "../interfaces/weaponInfusion";
 import { Equippable } from "./equippable";
 
-interface WeaponInfusion {
-    [key: string]: {
-        id: string;
-        damage: number[];
-        scaling: number[];
-        aux: { id: string; effect: [number, number] };
-        masks: number[][];
-        corrections: string[];
-        buffable: boolean;
-    };
+interface Aux {
+    [key: string]: { effect: [number, number] };
 }
 
 export type Weapon = Equippable & {
-    requirements: Stat;
+    requirements: StatMap;
     category: string;
     unique: boolean;
-    infusions: WeaponInfusion;
+    infusions: InfusionMap<WeaponInfusion>;
+    aux?: Aux;
 };
