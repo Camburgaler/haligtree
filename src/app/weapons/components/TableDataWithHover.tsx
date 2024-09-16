@@ -1,7 +1,7 @@
 import "@/app/globals.css";
 import { useState } from "react";
-import { DAMAGE_TYPE_NAMES } from "../util/constants";
-import DamageTypeMap from "../util/interfaces/damageTypeMap";
+import { DAMAGE_TYPE_NAMES } from "../../util/constants";
+import DamageTypeMap from "../../util/interfaces/damageTypeMap";
 
 const DAMAGE_TYPE_ID_TO_NAME: { [key: string]: string } = {
     physical: DAMAGE_TYPE_NAMES[0],

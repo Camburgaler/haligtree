@@ -1,5 +1,5 @@
-import DamageTypeMap from "../util/interfaces/damageTypeMap";
-import { InfusionMap } from "../util/interfaces/infusionMap";
+import DamageTypeMap from "../../util/interfaces/damageTypeMap";
+import { InfusionMap } from "../../util/interfaces/infusionMap";
 import { TableDataWithHover } from "./TableDataWithHover";
 
 const INFUSION_IDS: string[] = [

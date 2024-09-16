@@ -10,7 +10,7 @@ import WeaponInfusion from "../util/interfaces/weaponInfusion";
 import { Correction } from "../util/types/correction";
 import { Infusion } from "../util/types/infusion";
 import { Weapon } from "../util/types/weapon";
-import { WeaponResultRow } from "./WeaponResultRow";
+import { WeaponResultRow } from "./components/WeaponResultRow";
 
 // GLOBAL CONSTANTS
 const WEAPONS: Weapon[] = Object.values(require("../data/weapons.json"));
