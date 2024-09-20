@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DAMAGE_TYPE_NAMES } from "../util/constants";
 import DamageTypeMap from "../util/interfaces/damageTypeMap";
-import { InfusionMap } from "../util/interfaces/infusionMap";
+import InfusionMap from "../util/interfaces/infusionMap";
 import StatMap from "../util/interfaces/statMap";
 import WeaponInfusion from "../util/interfaces/weaponInfusion";
 import { Correction } from "../util/types/correction";

@@ -1,4 +1,4 @@
-import { InfusionMap } from "../interfaces/infusionMap";
+import InfusionMap from "../interfaces/infusionMap";
 import StatMap from "../interfaces/statMap";
 import WeaponInfusion from "../interfaces/weaponInfusion";
 import { Equippable } from "./equippable";
