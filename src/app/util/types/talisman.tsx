@@ -2,11 +2,16 @@ import StatMap from "../interfaces/statMap";
 import Equippable from "./equippable";
 
 interface Multipliers {
-    [key: string]: number;
+    maxHp: number;
+    maxFp: number;
+    maxStamina: number;
+    equipLoad: number;
 }
 
-export type Talisman = Equippable & {
+type Talisman = Equippable & {
     weight: string;
     stats: StatMap;
     multipliers: Multipliers;
 };
+
+export default Talisman;
