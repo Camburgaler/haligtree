@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import { Armor } from "../../util/types/armor";
+import Armor from "../../util/types/armor";
 
 function InputSelect(props: {
     id: string;
