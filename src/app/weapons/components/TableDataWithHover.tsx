@@ -1,21 +1,10 @@
 import "@/app/globals.css";
 import { useState } from "react";
-import { DAMAGE_TYPE_NAMES } from "../../util/constants";
+import {
+    DAMAGE_TYPE_ID_TO_NAME,
+    INFUSION_ID_TO_NAME,
+} from "../../util/constants";
 import DamageTypeMap from "../../util/interfaces/damageTypeMap";
-
-const DAMAGE_TYPE_ID_TO_NAME: { [key: string]: string } = {
-    physical: DAMAGE_TYPE_NAMES[0],
-    magic: DAMAGE_TYPE_NAMES[1],
-    fire: DAMAGE_TYPE_NAMES[2],
-    lightning: DAMAGE_TYPE_NAMES[3],
-    holy: DAMAGE_TYPE_NAMES[4],
-    blood: DAMAGE_TYPE_NAMES[5],
-    poison: DAMAGE_TYPE_NAMES[6],
-    frost: DAMAGE_TYPE_NAMES[7],
-    "scarlet-rot": DAMAGE_TYPE_NAMES[8],
-    madness: DAMAGE_TYPE_NAMES[9],
-    sleep: DAMAGE_TYPE_NAMES[10],
-};
 
 export function TableDataWithHover(props: {
     attackRating: number;
@@ -25,6 +14,7 @@ export function TableDataWithHover(props: {
         scalingDmg: DamageTypeMap<number>;
     };
     style?: React.CSSProperties;
+    infId: string;
 }) {
     const [hoveredCell, setHoveredCell] = useState<string>("");
     const [cardPosition, setCardPosition] = useState({
@@ -99,7 +89,7 @@ export function TableDataWithHover(props: {
                         width: `${cardWidth}px`,
                     }}
                 >
-                    <h4>Breakdown</h4>
+                    <h4>{INFUSION_ID_TO_NAME[props.infId]} Breakdown</h4>
                     <table>
                         <tbody>
                             {Object.keys(props.data.baseDmg).map(

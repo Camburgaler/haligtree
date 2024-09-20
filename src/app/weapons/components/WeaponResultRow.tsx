@@ -7,14 +7,14 @@ const INFUSION_IDS: string[] = [
     "heavy",
     "keen",
     "quality",
+    "magic",
     "fire",
     "flame-art",
     "lightning",
     "sacred",
-    "magic",
-    "cold",
     "poison",
     "blood",
+    "cold",
     "occult",
 ];
 
@@ -69,6 +69,7 @@ export function WeaponResultRow(props: {
                             ? { fontWeight: 900 }
                             : {}
                     }
+                    infId={infId}
                 />
             ))}
         </tr>
