@@ -1,5 +1,5 @@
 import StatMap from "../interfaces/statMap";
-import { Equippable } from "./equippable";
+import Equippable from "./equippable";
 
 interface Multipliers {
     [key: string]: number;
