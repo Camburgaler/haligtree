@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import StatMap from "../util/interfaces/statMap";
-import { Armor } from "../util/types/armor";
-import { Class } from "../util/types/class";
-import { Equippable } from "../util/types/equippable";
-import { Talisman } from "../util/types/talisman";
+import Armor from "../util/types/armor";
+import Class from "../util/types/class";
+import Equippable from "../util/types/equippable";
+import Talisman from "../util/types/talisman";
 
 // GLOBAL CONSTANTS
 const CLASSES: Class[] = Object.values(require("../data/classes.json"));
