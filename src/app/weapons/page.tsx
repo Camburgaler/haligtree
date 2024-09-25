@@ -32,10 +32,7 @@ export default function Weapons() {
     const [buffableOnly, setBuffableOnly] = useState(false);
     const [splitDamage, setSplitDamage] = useState(true);
     const [statusEffects, setStatusEffects] = useState<boolean>(false);
-    const [twoHanded, setTwoHanded] = useState({
-        damage: false,
-        requirements: false,
-    });
+    const [twoHanded, setTwoHanded] = useState(false);
     const [infusions, setInfusions] = useState<InfusionMap<boolean>>({
         standard: true,
         heavy: true,
@@ -276,10 +273,7 @@ export default function Weapons() {
         setRequireStats(true);
         setBuffableOnly(false);
         setSplitDamage(true);
-        setTwoHanded({
-            requirements: false,
-            damage: false,
-        });
+        setTwoHanded(false);
         setAllInfusions(true);
         setDamageTypeMode(DAMAGE_TYPE_MODE_ANY);
         setAllDamageTypes(true);
@@ -422,6 +416,7 @@ export default function Weapons() {
                             </div>
                         ))}
                         <hr />
+                        <b>Reinforcement</b>
                         <div>
                             <span>
                                 <input
@@ -494,7 +489,7 @@ export default function Weapons() {
                                     checked={splitDamage}
                                 />
                                 <label htmlFor="split-damage">
-                                    Split Damage
+                                    Allow Split Damage
                                 </label>
                             </span>
                         </div>
@@ -522,39 +517,11 @@ export default function Weapons() {
                                     id="2h-never"
                                     name="handedness"
                                     onChange={(event) => {
-                                        setTwoHanded({
-                                            damage: !event.target.checked,
-                                            requirements: !event.target.checked,
-                                        });
+                                        setTwoHanded(!event.target.checked);
                                     }}
-                                    checked={
-                                        !twoHanded.damage &&
-                                        !twoHanded.requirements
-                                    }
+                                    checked={!twoHanded}
                                 />
                                 <label htmlFor="2h-never">One-handing</label>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="2h-sometimes"
-                                    name="handedness"
-                                    onChange={(event) => {
-                                        setTwoHanded({
-                                            damage: event.target.checked,
-                                            requirements: !event.target.checked,
-                                        });
-                                    }}
-                                    checked={
-                                        twoHanded.damage &&
-                                        !twoHanded.requirements
-                                    }
-                                />
-                                <label htmlFor="2h-sometimes">
-                                    Usable 1H or 2H
-                                </label>
                             </span>
                         </div>
                         <div>
@@ -564,15 +531,9 @@ export default function Weapons() {
                                     type="radio"
                                     name="handedness"
                                     onChange={(event) => {
-                                        setTwoHanded({
-                                            damage: event.target.checked,
-                                            requirements: event.target.checked,
-                                        });
+                                        setTwoHanded(event.target.checked);
                                     }}
-                                    checked={
-                                        twoHanded.damage &&
-                                        twoHanded.requirements
-                                    }
+                                    checked={twoHanded}
                                 />
                                 <label htmlFor="2h-always">Two-handing</label>
                             </span>
@@ -873,20 +834,6 @@ export default function Weapons() {
                         Click the headers in the table to sort the table based
                         that column.
                     </p>
-                    <p>You can choose between three modes of handedness:</p>
-                    <ol>
-                        <li>
-                            One-handed: Calculates damage and requirements based
-                            on one-handed use
-                        </li>
-                        <li>
-                            Usable one-handed: Calculates damage based on
-                            two-handed use, but accounts for weapon being usable
-                            one-handed as well
-                        </li>
-                        <li>Two-handed: Self-explanatory</li>
-                    </ol>
-                    <br />
                     <p>You can choose between six modes of damage types:</p>
                     <ul>
                         <li>
@@ -931,19 +878,13 @@ export default function Weapons() {
                         </li>
                     </ul>
                     <p>
-                        This calculator currently doesn&apos;t take auxiliary
-                        damage procs (cold, bleed, scarlet rot and poison) into
-                        account. Therefore, it won&apos;t be very useful for
-                        finding weapons to use in a bleed build.
-                    </p>
-                    <p>
-                        Catalysts (sacred seals and glintstone staffs) will show
-                        their <em>attack rating</em>, not their{" "}
-                        <em>spell scaling</em>.
+                        Glintstone Staves and Sacred Seals will show their{" "}
+                        <em>attack rating</em>, not their <em>spell scaling</em>
+                        .
                     </p>
                     <p>
                         The same holds true for shields, which are also sorted
-                        based on <em>attack rating</em>
+                        based on <em>attack rating</em>.
                     </p>
                 </div>
             </main>

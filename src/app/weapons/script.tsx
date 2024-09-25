@@ -356,10 +356,7 @@ function damage(
 
 function filterWeapons(
     stats: StatMap,
-    twoHanded: {
-        damage: boolean;
-        requirements: boolean;
-    },
+    twoHanded: boolean,
     requireStats: boolean,
     categories: CategoryMap<boolean>,
     infusions: InfusionMap<boolean>,
@@ -379,14 +376,9 @@ function filterWeapons(
                     : stats[statName]! >= weapon.requirements[statName]!
             ) &&
                 // and if the weapon is using two handed damage
-                (twoHanded.damage
-                    ? // and if the weapon is using two handed requirements
-                      twoHanded.requirements
-                        ? // then use the two handing formula for STR
-                          stats["STR"] * 1.5 >= weapon.requirements["STR"]
-                        : // else use the one handable formula for STR
-                          Math.ceil(stats["STR"] / 1.5) >=
-                          weapon.requirements["STR"]
+                (twoHanded
+                    ? // then use the two handing formula for STR
+                      stats["STR"] * 1.5 >= weapon.requirements["STR"]
                     : // else use the one handed formula for STR
                       stats["STR"] >= weapon.requirements["STR"])) ||
                 // or ignore stats if not required
@@ -401,9 +393,7 @@ function filterWeapons(
             ) &&
             // and if the weapon is buffable or buffable is not required
             (!buffableOnly ||
-                Object.keys(weapon.infusions).some(
-                    (infId) => weapon.infusions[infId]!.buffable
-                )) &&
+                Object.values(weapon.infusions).some((inf) => inf?.buffable)) &&
             // and if the weapon is split damage (prefer for check to be done with Heavy infusion to catch cases where the Standard infusion is split but the physical infusions are not)
             (isSplitDamage(
                 weapon.infusions.heavy?.damage ??
@@ -437,10 +427,7 @@ function filterWeapons(
 
 export function mapWeapons(
     stats: StatMap,
-    twoHanded: {
-        damage: boolean;
-        requirements: boolean;
-    },
+    twoHanded: boolean,
     requireStats: boolean,
     categories: CategoryMap<boolean>,
     infusions: InfusionMap<boolean>,
@@ -472,7 +459,7 @@ export function mapWeapons(
             arBreakdown: {},
         };
         Object.entries(INFUSIONS)
-            .filter(([infId, inf]) => infusions[inf.id])
+            .filter(([infId, inf]) => infusions[infId])
             .forEach(([infId, inf]) => {
                 let temp: WeaponResult = {
                     weaponName: weapon.name,
@@ -514,7 +501,7 @@ export function mapWeapons(
                         weapon,
                         { [infId]: inf },
                         reinforced,
-                        twoHanded.damage
+                        twoHanded
                             ? {
                                   ...stats,
                                   STR: stats["STR"] * 1.5,
