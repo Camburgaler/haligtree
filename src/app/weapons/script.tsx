@@ -169,6 +169,14 @@ function adjustStatsForTwoHanding(
     return stats;
 }
 
+function slopeInterceptGivenX(
+    slope: number,
+    intercept: number,
+    x: number
+): number {
+    return slope * x + intercept;
+}
+
 function attackPower(
     weapon: Weapon,
     infusion: Infusion,
@@ -315,7 +323,11 @@ function attackPower(
         if (isDamageType) {
             baseAttackRating[attackPowerType] =
                 (weaponInfusion.damage[attackPowerType] ?? 0) *
-                inf.damageUpgradeRate[attackPowerType]![upgLevel]!;
+                slopeInterceptGivenX(
+                    inf.damageUpgradeRate[attackPowerType]?.slope!,
+                    inf.damageUpgradeRate[attackPowerType]?.intercept!,
+                    upgLevel
+                );
         } else if (weaponInfusion.aux?.[attackPowerType]) {
             baseAttackRating[attackPowerType] =
                 weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0] ?? 0;
