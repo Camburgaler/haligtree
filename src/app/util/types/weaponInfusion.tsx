@@ -1,13 +1,13 @@
-import DamageTypeMap from "../interfaces/damageTypeMap";
+import AttackPowerTypeMap from "../interfaces/attackPowerTypeMap";
 import StatMap from "../interfaces/statMap";
 
 type WeaponInfusion = {
     id: string;
-    damage: DamageTypeMap<number>;
-    scaling: StatMap;
+    damage: AttackPowerTypeMap<number>;
+    scaling: StatMap<number>[];
     aux: { [key: string]: [number, number] };
-    masks: DamageTypeMap<StatMap>;
-    corrections: DamageTypeMap<string>;
+    masks: AttackPowerTypeMap<StatMap<boolean>>;
+    corrections: AttackPowerTypeMap<string>;
     buffable: boolean;
 };
 
