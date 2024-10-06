@@ -3,16 +3,16 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
+    ATTACK_POWER_TYPE_MODE_All,
+    ATTACK_POWER_TYPE_MODE_ANY,
+    ATTACK_POWER_TYPE_MODE_EXACTLY,
+    ATTACK_POWER_TYPE_NAMES,
     CATEGORY_NAMES,
-    DAMAGE_TYPE_MODE_All,
-    DAMAGE_TYPE_MODE_ANY,
-    DAMAGE_TYPE_MODE_EXACTLY,
-    DAMAGE_TYPE_NAMES,
     INFUSION_NAMES,
     INFUSIONS,
 } from "../util/constants";
+import AttackPowerTypeMap from "../util/interfaces/attackPowerTypeMap";
 import CategoryMap from "../util/interfaces/categoryMap";
-import DamageTypeMap from "../util/interfaces/damageTypeMap";
 import InfusionMap from "../util/interfaces/infusionMap";
 import StatMap from "../util/interfaces/statMap";
 import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
@@ -20,7 +20,7 @@ import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
 export default function Weapons() {
     // STATES
     const [results, setResults] = useState<WeaponResult[]>([]);
-    const [stats, setStats] = useState<StatMap>({
+    const [stats, setStats] = useState<StatMap<number>>({
         STR: 10,
         DEX: 10,
         INT: 10,
@@ -48,10 +48,14 @@ export default function Weapons() {
         cold: true,
         occult: true,
     });
-    const [damageTypeMode, setDamageTypeMode] =
-        useState<string>(DAMAGE_TYPE_MODE_ANY);
-    const [damageTypesInclude, setDamageTypesInclude] = useState<boolean>(true);
-    const [damageTypes, setDamageTypes] = useState<DamageTypeMap<boolean>>({
+    const [attackPowerTypeMode, setAttackPowerTypeMode] = useState<string>(
+        ATTACK_POWER_TYPE_MODE_ANY
+    );
+    const [attackPowerTypesInclude, setAttackPowerTypesInclude] =
+        useState<boolean>(true);
+    const [attackPowerTypes, setAttackPowerTypes] = useState<
+        AttackPowerTypeMap<boolean>
+    >({
         physical: true,
         magic: true,
         fire: true,
@@ -135,9 +139,9 @@ export default function Weapons() {
         });
     }
 
-    function updateDamageTypes(id: string, state: boolean): void {
-        setDamageTypes({
-            ...damageTypes,
+    function updateAttackPowerTypes(id: string, state: boolean): void {
+        setAttackPowerTypes({
+            ...attackPowerTypes,
             [id]: state,
         });
     }
@@ -160,8 +164,8 @@ export default function Weapons() {
         });
     }
 
-    function setAllDamageTypes(state: boolean): void {
-        setDamageTypes({
+    function setAllAttackPowerTypes(state: boolean): void {
+        setAttackPowerTypes({
             physical: state,
             magic: state,
             fire: state,
@@ -275,9 +279,9 @@ export default function Weapons() {
         setSplitDamage(true);
         setTwoHanded(false);
         setAllInfusions(true);
-        setDamageTypeMode(DAMAGE_TYPE_MODE_ANY);
-        setAllDamageTypes(true);
-        setDamageTypesInclude(true);
+        setAttackPowerTypeMode(ATTACK_POWER_TYPE_MODE_ANY);
+        setAllAttackPowerTypes(true);
+        setAttackPowerTypesInclude(true);
     }
 
     function createCategoryCheckbox(
@@ -348,9 +352,9 @@ export default function Weapons() {
             infusions,
             buffableOnly,
             splitDamage,
-            damageTypesInclude,
-            damageTypeMode,
-            damageTypes,
+            attackPowerTypesInclude,
+            attackPowerTypeMode,
+            attackPowerTypes,
             reinforced,
             statusEffects
         );
@@ -370,9 +374,9 @@ export default function Weapons() {
         categories,
         sortBy,
         splitDamage,
-        damageTypesInclude,
-        damageTypeMode,
-        damageTypes,
+        attackPowerTypesInclude,
+        attackPowerTypeMode,
+        attackPowerTypes,
         statusEffects,
     ]);
 
@@ -574,17 +578,19 @@ export default function Weapons() {
                         ))}
                         <hr />
                         <div>
-                            <b>Damage Types</b>
+                            <b>Attack Power Types</b>
                             <span>
                                 <button
                                     onClick={() => {
-                                        setAllDamageTypes(true);
+                                        setAllAttackPowerTypes(true);
                                     }}
                                 >
                                     Any
                                 </button>
                                 <button
-                                    onClick={() => setAllDamageTypes(false)}
+                                    onClick={() =>
+                                        setAllAttackPowerTypes(false)
+                                    }
                                 >
                                     None
                                 </button>
@@ -595,12 +601,12 @@ export default function Weapons() {
                                 <button
                                     style={{ width: "100%" }}
                                     onClick={() =>
-                                        setDamageTypesInclude(
-                                            !damageTypesInclude
+                                        setAttackPowerTypesInclude(
+                                            !attackPowerTypesInclude
                                         )
                                     }
                                 >
-                                    {damageTypesInclude
+                                    {attackPowerTypesInclude
                                         ? "ONLY INCLUDE results that contain..."
                                         : "EXCLUDE results that contain..."}
                                 </button>
@@ -610,16 +616,19 @@ export default function Weapons() {
                             <span>
                                 <input
                                     type="radio"
-                                    id="damage-type-any"
-                                    name="damage-type-mode"
+                                    id="attack-power-type-any"
+                                    name="attack-power-type-mode"
                                     onChange={() => {
-                                        setDamageTypeMode(DAMAGE_TYPE_MODE_ANY);
+                                        setAttackPowerTypeMode(
+                                            ATTACK_POWER_TYPE_MODE_ANY
+                                        );
                                     }}
                                     checked={
-                                        damageTypeMode === DAMAGE_TYPE_MODE_ANY
+                                        attackPowerTypeMode ===
+                                        ATTACK_POWER_TYPE_MODE_ANY
                                     }
                                 />
-                                <label htmlFor="damage-type-any">
+                                <label htmlFor="attack-power-type-any">
                                     ANY of the following
                                 </label>
                             </span>
@@ -628,16 +637,19 @@ export default function Weapons() {
                             <span>
                                 <input
                                     type="radio"
-                                    id="damage-type-all"
-                                    name="damage-type-mode"
+                                    id="attack-power-type-all"
+                                    name="attack-power-type-mode"
                                     onChange={() => {
-                                        setDamageTypeMode(DAMAGE_TYPE_MODE_All);
+                                        setAttackPowerTypeMode(
+                                            ATTACK_POWER_TYPE_MODE_All
+                                        );
                                     }}
                                     checked={
-                                        damageTypeMode === DAMAGE_TYPE_MODE_All
+                                        attackPowerTypeMode ===
+                                        ATTACK_POWER_TYPE_MODE_All
                                     }
                                 />
-                                <label htmlFor="damage-type-all">
+                                <label htmlFor="attack-power-type-all">
                                     ALL of the following
                                 </label>
                             </span>
@@ -646,41 +658,41 @@ export default function Weapons() {
                             <span>
                                 <input
                                     type="radio"
-                                    id="damage-type-exactly"
-                                    name="damage-type-mode"
+                                    id="attack-power-type-exactly"
+                                    name="attack-power-type-mode"
                                     onChange={() => {
-                                        setDamageTypeMode(
-                                            DAMAGE_TYPE_MODE_EXACTLY
+                                        setAttackPowerTypeMode(
+                                            ATTACK_POWER_TYPE_MODE_EXACTLY
                                         );
                                     }}
                                     checked={
-                                        damageTypeMode ===
-                                        DAMAGE_TYPE_MODE_EXACTLY
+                                        attackPowerTypeMode ===
+                                        ATTACK_POWER_TYPE_MODE_EXACTLY
                                     }
                                 />
-                                <label htmlFor="damage-type-exactly">
+                                <label htmlFor="attack-power-type-exactly">
                                     EXACTLY the following
                                 </label>
                             </span>
                         </div>
-                        {Object.keys(damageTypes).map((key: string, i) => (
+                        {Object.keys(attackPowerTypes).map((key: string, i) => (
                             <div key={key}>
                                 <span>
                                     <input
-                                        id={key + "-damage-type"}
+                                        id={key + "-attack-power-type"}
                                         value={key}
                                         type="checkbox"
-                                        name="damage-type"
+                                        name="attack-power-type"
                                         onChange={(event) => {
-                                            updateDamageTypes(
+                                            updateAttackPowerTypes(
                                                 key,
                                                 event.target.checked
                                             );
                                         }}
-                                        checked={damageTypes[key]}
+                                        checked={attackPowerTypes[key]}
                                     />
                                     <label htmlFor={key}>
-                                        {DAMAGE_TYPE_NAMES[i]}
+                                        {ATTACK_POWER_TYPE_NAMES[i]}
                                     </label>
                                 </span>
                             </div>
@@ -688,7 +700,7 @@ export default function Weapons() {
                     </article>
                     {/* <!-- results --> */}
                     <article style={{ flexBasis: "55%" }}>
-                        <b>Damage</b>
+                        <b>Attack Power</b>
                         <div style={{ overflow: "auto" }}>
                             <table>
                                 <thead>
@@ -834,7 +846,9 @@ export default function Weapons() {
                         Click the headers in the table to sort the table based
                         that column.
                     </p>
-                    <p>You can choose between six modes of damage types:</p>
+                    <p>
+                        You can choose between six modes of attack power types:
+                    </p>
                     <ul>
                         <li>
                             INCLUDE:
@@ -842,17 +856,17 @@ export default function Weapons() {
                                 <li>
                                     ANY: Will display an attack rating as long
                                     as it includes any one of the selected
-                                    damage types.
+                                    attack power types.
                                 </li>
                                 <li>
                                     ALL: Will display an attack rating as long
-                                    as it includes all of the selected damage
-                                    types.
+                                    as it includes all of the selected attack
+                                    power types.
                                 </li>
                                 <li>
                                     EXACTLY: Will display an attack rating only
                                     if it consists of exactly the combination of
-                                    damage types selected.
+                                    attack power types selected.
                                 </li>
                             </ul>
                         </li>
@@ -862,17 +876,17 @@ export default function Weapons() {
                                 <li>
                                     ANY: Will not display an attack rating as
                                     long as it includes any one of the selected
-                                    damage types.
+                                    attack power types.
                                 </li>
                                 <li>
                                     ALL: Will not display an attack rating as
                                     long as it includes all of the selected
-                                    damage types.
+                                    attack power types.
                                 </li>
                                 <li>
                                     EXACTLY: Will not display an attack rating
                                     only if it consists of exactly the
-                                    combination of damage types selected.
+                                    combination of attack power types selected.
                                 </li>
                             </ul>
                         </li>
