@@ -1,8 +1,11 @@
+export type CalcCorrectGraph = {
+    softcap: number;
+    growth: number;
+    adjustment: number;
+};
+
 type Correction = {
-    id: string;
-    softcaps: number[];
-    growth: number[];
-    adjustments: number[];
+    [key: string]: CalcCorrectGraph[];
 };
 
 export default Correction;
