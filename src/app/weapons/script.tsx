@@ -1,15 +1,20 @@
 import {
+    ATTACK_POWER_STAT_IDS,
+    ATTACK_POWER_TYPE_IDS,
+    ATTACK_POWER_TYPE_MODE_All,
+    ATTACK_POWER_TYPE_MODE_ANY,
+    CATEGORY_NAMES,
     CORRECTIONS,
-    DAMAGE_TYPE_MODE_All,
-    DAMAGE_TYPE_MODE_ANY,
+    DAMAGE_IDS,
+    INEFFECTIVE_STAT_PENALTY,
     INFUSIONS,
     WEAPONS,
 } from "../util/constants";
+import AttackPowerTypeMap from "../util/interfaces/attackPowerTypeMap";
 import CategoryMap from "../util/interfaces/categoryMap";
-import DamageTypeMap from "../util/interfaces/damageTypeMap";
 import InfusionMap from "../util/interfaces/infusionMap";
 import StatMap from "../util/interfaces/statMap";
-import Correction from "../util/types/correction";
+import { CalcCorrectGraph } from "../util/types/correction";
 import Infusion from "../util/types/infusion";
 import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
@@ -21,9 +26,10 @@ export type WeaponResult = {
     attackRatings: InfusionMap<number>;
     max: number;
     arBreakdown: InfusionMap<{
-        baseDmg: DamageTypeMap<number>;
-        scalingDmg: DamageTypeMap<number>;
+        baseDmg: AttackPowerTypeMap<number>;
+        scalingDmg: AttackPowerTypeMap<number>;
     }>;
+    spellScaling: number;
 };
 export type SortBy = {
     dmgType: string;
@@ -31,8 +37,8 @@ export type SortBy = {
 };
 
 // HELPER FUNCTIONS
-const isSplitDamage = (dmg: DamageTypeMap<number>): boolean => {
-    let temp: DamageTypeMap<number> = {
+const isSplitDamage = (dmg: AttackPowerTypeMap<number>): boolean => {
+    let temp: AttackPowerTypeMap<number> = {
         physical: dmg.physical,
         magic: dmg.magic,
         fire: dmg.fire,
@@ -49,89 +55,86 @@ const isSplitDamage = (dmg: DamageTypeMap<number>): boolean => {
     );
 };
 
-const anyDamageTypes = (
-    dmg: DamageTypeMap<number>,
-    damageTypes: DamageTypeMap<boolean>,
-    damageTypesInclude: boolean
+const anyAttackPowerTypes = (
+    dmg: AttackPowerTypeMap<number>,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
+    attackPowerTypesInclude: boolean
 ): boolean => {
     let result: boolean = Object.entries(dmg).some(
-        ([key, value]) => damageTypes[key] && value
+        ([key, value]) => attackPowerTypes[key] && value
     );
-    return damageTypesInclude ? result : !result;
+    return attackPowerTypesInclude ? result : !result;
 };
 
-const allDamageTypes = (
-    dmg: DamageTypeMap<number>,
-    damageTypes: DamageTypeMap<boolean>,
-    damageTypesInclude: boolean
+const allAttackPowerTypes = (
+    dmg: AttackPowerTypeMap<number>,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
+    attackPowerTypesInclude: boolean
 ): boolean => {
     let result: boolean = true;
-    if (!(Object.values(damageTypes) as boolean[]).includes(true)) {
+    if (!(Object.values(attackPowerTypes) as boolean[]).includes(true)) {
         result = false;
     } else {
         result = Object.entries(dmg).every(([key, value]) =>
-            damageTypes[key] ? value! > 0 : true
+            attackPowerTypes[key] ? value! > 0 : true
         ) as boolean;
     }
-    return damageTypesInclude ? result : !result;
+    return attackPowerTypesInclude ? result : !result;
 };
 
-const exactlyDamageTypes = (
-    dmg: DamageTypeMap<number>,
-    damageTypes: DamageTypeMap<boolean>,
-    damageTypesInclude: boolean
+const exactlyAttackPowerTypes = (
+    dmg: AttackPowerTypeMap<number>,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
+    attackPowerTypesInclude: boolean
 ): boolean => {
-    let result: boolean = Object.entries(damageTypes).every(([key, value]) =>
-        value ? dmg[key]! > 0 : dmg[key]! == 0 || dmg[key]! == undefined
+    let result: boolean = Object.entries(attackPowerTypes).every(
+        ([key, value]) =>
+            value ? dmg[key]! > 0 : dmg[key]! == 0 || dmg[key]! == undefined
     ) as boolean;
-    return damageTypesInclude ? result : !result;
+    return attackPowerTypesInclude ? result : !result;
 };
 
 // FUNCTIONS
 function corrections(
-    calc: Correction,
-    stats: StatMap,
-    masks: StatMap
-): StatMap {
-    let result: StatMap = {
+    calc: CalcCorrectGraph[] = CORRECTIONS[0],
+    stats: StatMap<number>,
+    masks: StatMap<boolean>
+): StatMap<number> {
+    const result: StatMap<number> = {
         STR: 0,
         DEX: 0,
         INT: 0,
         FTH: 0,
         ARC: 0,
     };
+
     Object.entries(stats).forEach(
         ([statId, statVal]: [string, number | undefined]) => {
             if (masks[statId]) {
-                let capIndex: number = calc.softcaps.findIndex(
-                    (cap: number) => cap >= statVal!
-                );
-                capIndex == -1
-                    ? (capIndex = calc.softcaps.length - 2)
-                    : (capIndex = capIndex - 1);
-                let cap: number = calc.softcaps[capIndex];
-                let capDelta: number =
-                    (calc.softcaps[capIndex + 1] ?? cap) - cap;
-                let growth: number = calc.growth[capIndex];
-                let growthDelta: number =
-                    (calc.growth[capIndex + 1] ?? growth) - growth;
-                let adjust: number = calc.adjustments[capIndex];
-                // in case statVal > hardcap
-                let effectiveStatVal: number = Math.min(
-                    statVal as number,
-                    calc.softcaps[capIndex + 1]
+                const stage: CalcCorrectGraph = calc.find(
+                    (stage) => stage.softcap > statVal!
+                )!;
+                const prevStage: CalcCorrectGraph =
+                    calc[calc.indexOf(stage) - 1];
+
+                let ratio: number = Math.max(
+                    0,
+                    Math.min(
+                        1,
+                        (statVal! - prevStage.softcap) /
+                            (stage.softcap - prevStage.softcap)
+                    )
                 );
 
+                if (prevStage.adjustment > 0) {
+                    ratio = ratio ** prevStage.adjustment;
+                } else if (prevStage.adjustment < 0) {
+                    ratio = 1 - (1 - ratio) ** -prevStage.adjustment;
+                }
+
                 result[statId] =
-                    Math.sign(adjust) != -1
-                        ? growth +
-                          growthDelta *
-                              ((effectiveStatVal - cap) / capDelta) ** adjust
-                        : growth +
-                          growthDelta *
-                              (1 -
-                                  (1 - (effectiveStatVal - cap) / capDelta) **
-                                      Math.abs(adjust));
+                    prevStage.growth +
+                    (stage.growth - prevStage.growth) * ratio;
             }
         }
     );
@@ -139,109 +142,243 @@ function corrections(
     return result;
 }
 
-function damage(
+function adjustStatsForTwoHanding(
+    twoHanded: boolean,
+    weapon: Weapon,
+    stats: StatMap<number>
+): StatMap<number> {
+    let twoHandingBonus = twoHanded;
+
+    // Paired weapons do not get the two handing bonus
+    if (weapon.paired) {
+        twoHandingBonus = false;
+    }
+
+    // Bows and ballistae can only be two handed
+    if (CATEGORY_NAMES[1].includes(weapon.category)) {
+        twoHandingBonus = true;
+    }
+
+    if (twoHandingBonus) {
+        return {
+            ...stats,
+            STR: Math.floor(stats.STR * 1.5),
+        };
+    }
+
+    return stats;
+}
+
+function attackPower(
     weapon: Weapon,
     infusion: Infusion,
     upgraded: boolean,
-    stats: StatMap,
+    stats: StatMap<number>,
+    twoHanded: boolean,
     splitDamage: boolean,
-    damageTypesInclude: boolean,
-    damageTypeMode: string,
-    damageTypes: DamageTypeMap<boolean>,
+    attackPowerTypesInclude: boolean,
+    attackPowerTypeMode: string,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
     statusEffects: boolean
 ): WeaponResult {
-    // initialize result
-    let result: WeaponResult = {
-        attackRatings: {},
-        max: 0,
-        arBreakdown: {},
-        weaponName: "",
-    };
     let infId: string = Object.keys(infusion)[0];
     let inf = Object.values(infusion)[0];
+    let result: WeaponResult = {
+        weaponName: weapon.name,
+        attackRatings: {},
+        max: 0,
+        arBreakdown: {
+            [infId]: {
+                baseDmg: {
+                    physical: 0,
+                    magic: 0,
+                    fire: 0,
+                    lightning: 0,
+                    holy: 0,
+                },
+                scalingDmg: {
+                    physical: 0,
+                    magic: 0,
+                    fire: 0,
+                    lightning: 0,
+                    holy: 0,
+                },
+            },
+        },
+        spellScaling: 0,
+    };
 
     // initialize weapon infusion
     let weaponInfusion: WeaponInfusion = weapon.infusions[infId]!;
     weaponInfusion.masks = {
         ...weaponInfusion.masks,
         blood: {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 1,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: true,
         },
         poison: {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 1,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: true,
         },
         sleep: {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 1,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: true,
         },
         madness: {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 1,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: true,
         },
         frost: {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 0,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: false,
         },
         "scarlet-rot": {
-            STR: 0,
-            DEX: 0,
-            INT: 0,
-            FTH: 0,
-            ARC: 0,
+            STR: false,
+            DEX: false,
+            INT: false,
+            FTH: false,
+            ARC: false,
         },
     };
 
     // initialize upgrade level
     let upgLevel: number = upgraded ? (weapon.unique ? 10 : 25) : 0;
 
-    // initialize base damage
-    let baseDmg: DamageTypeMap<number> = {
+    const adjustedStats: StatMap<number> = adjustStatsForTwoHanding(
+        twoHanded,
+        weapon,
+        stats
+    );
+    const ineffectiveStats: StatMap<boolean> = {
+        STR: false,
+        DEX: false,
+        INT: false,
+        FTH: false,
+        ARC: false,
+    };
+    Object.entries(weapon.requirements)
+        .filter(([statId, requirement]) => {
+            adjustedStats[statId]! < (requirement as number)!;
+        })
+        .forEach(([statId, _]) => {
+            ineffectiveStats[statId] = true;
+        });
+
+    const ineffectiveAttackPowerTypes: AttackPowerTypeMap<boolean> = {
+        physical: false,
+        magic: false,
+        fire: false,
+        lightning: false,
+        holy: false,
+    };
+
+    let baseAttackRating: AttackPowerTypeMap<number> = {
         physical: 0,
         magic: 0,
         fire: 0,
         lightning: 0,
         holy: 0,
     };
-    // populate base damage
-    Object.entries(inf.damage).forEach(
-        ([dmgTypeId, dmg]: [string, number | undefined]) => {
-            baseDmg[dmgTypeId] =
-                weaponInfusion.damage[dmgTypeId]! *
-                (dmg! +
-                    inf.upgrade[dmgTypeId]! *
-                        upgLevel *
-                        (weapon.unique ? 2.5 : 1.0));
+    let scalingAttackRating: AttackPowerTypeMap<number> = {
+        physical: 0,
+        magic: 0,
+        fire: 0,
+        lightning: 0,
+        holy: 0,
+    };
+    const spellScaling: AttackPowerTypeMap<number> = {
+        physical: 0,
+        magic: 0,
+        fire: 0,
+        lightning: 0,
+        holy: 0,
+    };
+
+    for (const attackPowerType of ATTACK_POWER_TYPE_IDS) {
+        const isDamageType: boolean = DAMAGE_IDS.includes(attackPowerType);
+
+        if (isDamageType) {
+            baseAttackRating[attackPowerType] =
+                (weaponInfusion.damage[attackPowerType] ?? 0) *
+                inf.damageUpgradeRate[attackPowerType]![upgLevel]!;
+        } else if (weaponInfusion.aux?.[attackPowerType]) {
+            baseAttackRating[attackPowerType] =
+                weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0] ?? 0;
         }
-    );
-    // include aux damage if it is present
-    if (weaponInfusion.aux) {
-        Object.entries(weaponInfusion.aux).forEach(
-            ([dmgTypeId, dmg]: [string, [number, number]]) => {
-                baseDmg[dmgTypeId] = upgraded ? dmg[1] : dmg[0];
+
+        if (
+            baseAttackRating[attackPowerType] ||
+            weapon["glintstone-staff"] ||
+            weapon["sacred-seal"]
+        ) {
+            // This weapon's AttackElementCorrectParam determines what attributes each damage type scales with
+            const scalingStats: StatMap<boolean> =
+                weaponInfusion.masks[attackPowerType]!;
+
+            let totalScaling: number = 1;
+
+            if (Object.values(ineffectiveStats).includes(true)) {
+                // If the requirements for this damage type are not met, a penalty is subtracted instead of a scaling bonus being added
+                totalScaling = 1 - INEFFECTIVE_STAT_PENALTY;
+                ineffectiveAttackPowerTypes[attackPowerType] = true;
+            } else {
+                // Otherwise, the scaling multiplier is equal to the sum of the corrected attribute values multiplied by the scaling for that attribute
+                const effectiveStats: StatMap<number> = isDamageType
+                    ? adjustedStats
+                    : stats;
+                let correctionIndex: number = parseInt(
+                    weaponInfusion.corrections[attackPowerType] as string
+                );
+                let statScaling: StatMap<number> = corrections(
+                    CORRECTIONS[correctionIndex],
+                    effectiveStats,
+                    scalingStats
+                );
+                for (const statId of ATTACK_POWER_STAT_IDS) {
+                    const statCorrect: boolean = scalingStats[statId] ?? false;
+                    if (statCorrect) {
+                        let scaling: number =
+                            weaponInfusion.scaling[upgLevel][statId]! ?? 0;
+
+                        totalScaling += statScaling[statId]! * scaling;
+                    }
+                }
             }
-        );
+
+            // The final scaling multiplier modifies the attack power for this damage type as a percentage boost, e.g. 0.5 adds +50% of the base attack power
+            if (baseAttackRating[attackPowerType]) {
+                scalingAttackRating[attackPowerType] =
+                    baseAttackRating[attackPowerType] * totalScaling -
+                    baseAttackRating[attackPowerType];
+            }
+
+            if (
+                isDamageType &&
+                (weapon["glintstone-staff"] || weapon["sacred-seal"])
+            ) {
+                spellScaling[attackPowerType] = 100 * totalScaling;
+            }
+        }
     }
 
-    // if weapon is split damage, set base damage to 0
-    if (isSplitDamage(baseDmg) && !splitDamage) {
-        baseDmg = {
+    // if weapon is split damage and split damage is disallowed, set base damage to 0
+    if (isSplitDamage(baseAttackRating) && !splitDamage) {
+        baseAttackRating = {
             physical: 0,
             magic: 0,
             fire: 0,
@@ -249,16 +386,29 @@ function damage(
             holy: 0,
         };
     }
+
     let matchesDamageTypes: boolean =
-        damageTypeMode == DAMAGE_TYPE_MODE_ANY
-            ? anyDamageTypes(baseDmg, damageTypes, damageTypesInclude)
-            : damageTypeMode == DAMAGE_TYPE_MODE_All
-            ? allDamageTypes(baseDmg, damageTypes, damageTypesInclude)
-            : exactlyDamageTypes(baseDmg, damageTypes, damageTypesInclude);
+        attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ANY
+            ? anyAttackPowerTypes(
+                  baseAttackRating,
+                  attackPowerTypes,
+                  attackPowerTypesInclude
+              )
+            : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_All
+            ? allAttackPowerTypes(
+                  baseAttackRating,
+                  attackPowerTypes,
+                  attackPowerTypesInclude
+              )
+            : exactlyAttackPowerTypes(
+                  baseAttackRating,
+                  attackPowerTypes,
+                  attackPowerTypesInclude
+              );
 
     // if weapon does not match damage types, set base damage to 0
     if (!matchesDamageTypes) {
-        baseDmg = {
+        baseAttackRating = {
             physical: 0,
             magic: 0,
             fire: 0,
@@ -267,104 +417,57 @@ function damage(
         };
     }
 
-    let scalingDmg: DamageTypeMap<number> = {
-        physical: 0,
-        magic: 0,
-        fire: 0,
-        lightning: 0,
-        holy: 0,
+    result.attackRatings = {
+        [infId]: Math.floor(
+            (Object.entries(baseAttackRating) as [string, number][]).reduce(
+                (sum: [string, number], n: [string, number]) =>
+                    statusEffects ||
+                    (n[0] != "blood" &&
+                        n[0] != "poison" &&
+                        n[0] != "frost" &&
+                        n[0] != "scarlet-rot" &&
+                        n[0] != "madness" &&
+                        n[0] != "sleep")
+                        ? ["", sum[1] + n[1]]
+                        : sum
+            )[1] +
+                (
+                    Object.entries(scalingAttackRating) as [string, number][]
+                ).reduce((sum: [string, number], n: [string, number]) =>
+                    statusEffects ||
+                    (n[0] != "blood" &&
+                        n[0] != "poison" &&
+                        n[0] != "frost" &&
+                        n[0] != "scarlet-rot" &&
+                        n[0] != "madness" &&
+                        n[0] != "sleep")
+                        ? ["", sum[1] + n[1]]
+                        : sum
+                )[1]
+        ),
     };
-    Object.keys(stats).some(
-        (statId: string, i: number) => stats[statId]! < weapon.requirements[i]!
-    )
-        ? Object.entries(baseDmg).forEach(
-              ([dmgTypeId, dmg]) => (scalingDmg[dmgTypeId] = dmg! * -0.4)
-          )
-        : Object.entries(baseDmg).forEach(([dmgTypeId, dmg]) => {
-              let calcCorrect: StatMap = corrections(
-                  CORRECTIONS.find(
-                      (c) => c.id == weaponInfusion.corrections[dmgTypeId]
-                  )!,
-                  stats,
-                  weaponInfusion.masks[dmgTypeId]!
-              );
-              let statScaling: StatMap = {
-                  STR: 0,
-                  DEX: 0,
-                  INT: 0,
-                  FTH: 0,
-                  ARC: 0,
-              };
-              Object.entries(weaponInfusion.scaling).forEach(
-                  ([statId, scaling]: [string, number | undefined]) =>
-                      (statScaling[statId] =
-                          inf.scaling[statId]! *
-                          (scaling! +
-                              scaling! *
-                                  inf.growth[statId]! *
-                                  upgLevel *
-                                  (weapon.unique ? 4.0 : 1.0)))
-              );
-              scalingDmg[dmgTypeId] = Object.entries(statScaling)
-                  .map(([statId, scaling]: [string, number | undefined]) => {
-                      return (dmg! * scaling! * calcCorrect[statId]!) / 100.0;
-                  })
-                  .reduce((sum: number, n: number) => sum + n);
-          });
-
-    result = {
-        weaponName: "",
-        arBreakdown: {
-            [infId]: {
-                baseDmg: baseDmg,
-                scalingDmg: scalingDmg,
-            },
-        },
-        max: 0,
-        attackRatings: {
-            [infId]: Math.floor(
-                (Object.entries(baseDmg) as [string, number][]).reduce(
-                    (sum: [string, number], n: [string, number]) =>
-                        statusEffects ||
-                        (n[0] != "blood" &&
-                            n[0] != "poison" &&
-                            n[0] != "frost" &&
-                            n[0] != "scarlet-rot" &&
-                            n[0] != "madness" &&
-                            n[0] != "sleep")
-                            ? ["", sum[1] + n[1]]
-                            : sum
-                )[1] +
-                    (Object.entries(scalingDmg) as [string, number][]).reduce(
-                        (sum: [string, number], n: [string, number]) =>
-                            statusEffects ||
-                            (n[0] != "blood" &&
-                                n[0] != "poison" &&
-                                n[0] != "frost" &&
-                                n[0] != "scarlet-rot" &&
-                                n[0] != "madness" &&
-                                n[0] != "sleep")
-                                ? ["", sum[1] + n[1]]
-                                : sum
-                    )[1]
-            ),
-        },
-    };
+    result.arBreakdown[infId]!.baseDmg = baseAttackRating;
+    result.arBreakdown[infId]!.scalingDmg = scalingAttackRating;
+    result.spellScaling =
+        Object.values(spellScaling).reduce(
+            (sum: number | undefined, n: number | undefined) => sum! + n!,
+            0
+        ) ?? 0;
 
     return result;
 }
 
 function filterWeapons(
-    stats: StatMap,
+    stats: StatMap<number>,
     twoHanded: boolean,
     requireStats: boolean,
     categories: CategoryMap<boolean>,
     infusions: InfusionMap<boolean>,
     buffableOnly: boolean,
     splitDamage: boolean,
-    damageTypesInclude: boolean,
-    damageTypeMode: string,
-    damageTypes: DamageTypeMap<boolean>
+    attackPowerTypesInclude: boolean,
+    attackPowerTypeMode: string,
+    attackPowerTypes: AttackPowerTypeMap<boolean>
 ): Weapon[] {
     return WEAPONS.filter((weapon) => {
         // filter out weapons that don't fit the current parameters
@@ -404,38 +507,38 @@ function filterWeapons(
                 : true) &&
             // and if the weapon has only Standard infusion and contains selected damage type
             (weapon.infusions.heavy ??
-                (damageTypeMode == DAMAGE_TYPE_MODE_ANY
-                    ? anyDamageTypes(
+                (attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ANY
+                    ? anyAttackPowerTypes(
                           weapon.infusions.standard!.damage,
-                          damageTypes,
-                          damageTypesInclude
+                          attackPowerTypes,
+                          attackPowerTypesInclude
                       )
-                    : damageTypeMode == DAMAGE_TYPE_MODE_All
-                    ? allDamageTypes(
+                    : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_All
+                    ? allAttackPowerTypes(
                           weapon.infusions.standard!.damage,
-                          damageTypes,
-                          damageTypesInclude
+                          attackPowerTypes,
+                          attackPowerTypesInclude
                       )
-                    : exactlyDamageTypes(
+                    : exactlyAttackPowerTypes(
                           weapon.infusions.standard!.damage,
-                          damageTypes,
-                          damageTypesInclude
+                          attackPowerTypes,
+                          attackPowerTypesInclude
                       )))
         );
     });
 }
 
 export function mapWeapons(
-    stats: StatMap,
+    stats: StatMap<number>,
     twoHanded: boolean,
     requireStats: boolean,
     categories: CategoryMap<boolean>,
     infusions: InfusionMap<boolean>,
     buffableOnly: boolean,
     splitDamage: boolean,
-    damageTypesInclude: boolean,
-    damageTypeMode: string,
-    damageTypes: DamageTypeMap<boolean>,
+    attackPowerTypesInclude: boolean,
+    attackPowerTypeMode: string,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
     reinforced: boolean,
     statusEffects: boolean
 ): WeaponResult[] {
@@ -447,9 +550,9 @@ export function mapWeapons(
         infusions,
         buffableOnly,
         splitDamage,
-        damageTypesInclude,
-        damageTypeMode,
-        damageTypes
+        attackPowerTypesInclude,
+        attackPowerTypeMode,
+        attackPowerTypes
     ).map((weapon) => {
         // calculate attack ratings for every allowed infusion as well as the maximum damage of any infusion
         let result: WeaponResult = {
@@ -457,6 +560,7 @@ export function mapWeapons(
             attackRatings: {},
             max: 0,
             arBreakdown: {},
+            spellScaling: 0,
         };
         Object.entries(INFUSIONS)
             .filter(([infId, inf]) => infusions[infId])
@@ -464,11 +568,11 @@ export function mapWeapons(
                 let temp: WeaponResult = {
                     weaponName: weapon.name,
                     attackRatings: {
-                        [inf.id]: 0,
+                        [infId]: 0,
                     },
                     max: 0,
                     arBreakdown: {
-                        [inf.id]: {
+                        [infId]: {
                             baseDmg: {
                                 physical: 0,
                                 magic: 0,
@@ -485,32 +589,26 @@ export function mapWeapons(
                             },
                         },
                     },
+                    spellScaling: 0,
                 };
 
                 if (
-                    (buffableOnly
-                        ? weapon.infusions[inf.id]?.buffable
-                        : true) &&
-                    (weapon.infusions[inf.id]
-                        ? Object.values(weapon.infusions[inf.id]?.damage!).some(
-                              (d) => d! > 0
-                          )
-                        : false)
+                    (!buffableOnly || weapon.infusions[infId]?.buffable) &&
+                    weapon.infusions[infId] &&
+                    Object.values(weapon.infusions[infId]?.damage!).some(
+                        (d) => d! > 0
+                    )
                 ) {
-                    temp = damage(
+                    temp = attackPower(
                         weapon,
                         { [infId]: inf },
                         reinforced,
-                        twoHanded
-                            ? {
-                                  ...stats,
-                                  STR: stats["STR"] * 1.5,
-                              }
-                            : stats,
+                        stats,
+                        twoHanded,
                         splitDamage,
-                        damageTypesInclude,
-                        damageTypeMode,
-                        damageTypes,
+                        attackPowerTypesInclude,
+                        attackPowerTypeMode,
+                        attackPowerTypes,
                         statusEffects
                     );
                 }
@@ -522,19 +620,20 @@ export function mapWeapons(
                     },
                     attackRatings: {
                         ...result.attackRatings,
-                        [inf.id]: Object.keys(weapon.infusions).find(
-                            (infId) => infId == inf.id
-                        )
-                            ? !buffableOnly ||
-                              weapon.infusions[
-                                  Object.keys(weapon.infusions).find(
-                                      (infId) => infId == inf.id
-                                  )!
-                              ]?.buffable
-                                ? temp.attackRatings[inf.id]
-                                : 0
-                            : 0,
+                        [infId]:
+                            (Object.keys(weapon.infusions).find(
+                                (weaponInfId) => weaponInfId == infId
+                            ) &&
+                                !buffableOnly) ||
+                            weapon.infusions[
+                                Object.keys(weapon.infusions).find(
+                                    (weaponInfId) => weaponInfId == infId
+                                )!
+                            ]?.buffable
+                                ? temp.attackRatings[infId]
+                                : 0,
                     },
+                    spellScaling: temp.spellScaling,
                 };
             });
 
