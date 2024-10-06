@@ -1,17 +1,17 @@
 import "@/app/globals.css";
 import { useState } from "react";
 import {
-    DAMAGE_TYPE_ID_TO_NAME,
+    ATTACK_POWER_TYPE_ID_TO_NAME,
     INFUSION_ID_TO_NAME,
 } from "../../util/constants";
-import DamageTypeMap from "../../util/interfaces/damageTypeMap";
+import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
 
 export function TableDataWithHover(props: {
     attackRating: number;
     max: number;
     data: {
-        baseDmg: DamageTypeMap<number>;
-        scalingDmg: DamageTypeMap<number>;
+        baseDmg: AttackPowerTypeMap<number>;
+        scalingDmg: AttackPowerTypeMap<number>;
     };
     style?: React.CSSProperties;
     infId: string;
@@ -56,7 +56,10 @@ export function TableDataWithHover(props: {
                 return (
                     <>
                         <td>{props.data.baseDmg[dmgType]?.toFixed(1)}</td>
-                        <td>+{props.data.scalingDmg[dmgType]?.toFixed(1)}</td>
+                        <td>
+                            {props.data.scalingDmg[dmgType]! >= 0 ? "+" : ""}
+                            {props.data.scalingDmg[dmgType]?.toFixed(1)}
+                        </td>
                     </>
                 );
         }
@@ -70,7 +73,7 @@ export function TableDataWithHover(props: {
         >
             {props.attackRating != 0
                 ? props.attackRating != undefined
-                    ? props.attackRating?.toString()
+                    ? Math.floor(props.attackRating)?.toString()
                     : "-"
                 : "-"}
 
@@ -99,7 +102,11 @@ export function TableDataWithHover(props: {
                                         style={{ fontWeight: "normal" }}
                                     >
                                         <td>
-                                            {DAMAGE_TYPE_ID_TO_NAME[dmgType]}
+                                            {
+                                                ATTACK_POWER_TYPE_ID_TO_NAME[
+                                                    dmgType
+                                                ]
+                                            }
                                         </td>
                                         {renderData(dmgType)}
                                     </tr>
