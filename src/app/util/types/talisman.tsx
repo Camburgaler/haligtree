@@ -10,7 +10,7 @@ interface Multipliers {
 
 type Talisman = Equippable & {
     weight: string;
-    stats: StatMap;
+    stats: StatMap<number>;
     multipliers: Multipliers;
 };
 

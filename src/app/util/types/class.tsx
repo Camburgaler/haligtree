@@ -4,7 +4,7 @@ type Class = {
     id: string;
     name: string;
     level: number;
-    stats: StatMap;
+    stats: StatMap<number>;
     total?: number;
 };
 
