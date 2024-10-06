@@ -8,11 +8,13 @@ interface Aux {
 }
 
 type Weapon = Equippable & {
-    requirements: StatMap;
+    requirements: StatMap<number>;
     category: string;
     unique: boolean;
+    paired: boolean;
+    "glintstone-staff": boolean;
+    "sacred-seal": boolean;
     infusions: InfusionMap<WeaponInfusion>;
-    aux?: Aux;
 };
 
 export default Weapon;
