@@ -353,7 +353,8 @@ function attackPower(
                     const statCorrect: boolean = scalingStats[statId] ?? false;
                     if (statCorrect) {
                         let scaling: number =
-                            weaponInfusion.scaling[upgLevel][statId]! ?? 0;
+                            (weaponInfusion.scaling[statId]! ?? 0) *
+                            inf.statScalingRate[statId]![upgLevel]!;
 
                         totalScaling += statScaling[statId]! * scaling;
                     }
