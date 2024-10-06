@@ -1,5 +1,5 @@
 import InfusionMap from "@/app/util/interfaces/infusionMap";
-import DamageTypeMap from "../../util/interfaces/damageTypeMap";
+import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
 import { TableDataWithHover } from "./TableDataWithHover";
 
 const INFUSION_IDS: string[] = [
@@ -39,8 +39,8 @@ export function WeaponResultRow(props: {
     attackRatings: InfusionMap<number>;
     max: number;
     arBreakdown: InfusionMap<{
-        baseDmg: DamageTypeMap<number>;
-        scalingDmg: DamageTypeMap<number>;
+        baseDmg: AttackPowerTypeMap<number>;
+        scalingDmg: AttackPowerTypeMap<number>;
     }>;
 }) {
     return (
@@ -56,7 +56,7 @@ export function WeaponResultRow(props: {
                     {props.weaponName}
                 </a>
             </td>
-            <td>{props.max.toString()}</td>
+            <td>{Math.floor(props.max).toString()}</td>
             {INFUSION_IDS.map((infId) => (
                 <TableDataWithHover
                     key={infId}
