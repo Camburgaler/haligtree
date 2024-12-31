@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add spell scaling to weapon page
 
-## [2.3.0] - 2024-10-06
+## [2.3.0] - 2024-12-31
 
 ### Changed
 
