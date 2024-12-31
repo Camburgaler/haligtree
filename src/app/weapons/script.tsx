@@ -613,7 +613,7 @@ export function mapWeapons(
         Object.keys(INFUSIONS)
             .filter((infId) => infusions[infId])
             .forEach((infId) => {
-                if (weapon.name == "Antspur Rapier" && infId == "standard") {
+                if (weapon.name == "Anvil Hammer" && infId == "unique") {
                     logWeapon = true;
                 } else {
                     logWeapon = false;
@@ -709,6 +709,9 @@ export function mapWeapons(
         if (result.attackRatings.unique) {
             result.attackRatings = {
                 standard: result.attackRatings.unique,
+            };
+            result.arBreakdown = {
+                standard: result.arBreakdown.unique,
             };
         }
 
