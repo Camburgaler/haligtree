@@ -6,13 +6,15 @@ type SlopeIntercept = {
     intercept: number;
 };
 
+export type InfusionData = {
+    id: string;
+    name: string;
+    damageUpgradeRate: AttackPowerTypeMap<SlopeIntercept>;
+    statScalingRate: StatMap<number[]>;
+};
+
 type Infusion = {
-    [key: string]: {
-        id: string;
-        name: string;
-        damageUpgradeRate: AttackPowerTypeMap<SlopeIntercept>;
-        statScalingRate: StatMap<number[]>;
-    };
+    [key: string]: InfusionData;
 };
 
 export default Infusion;

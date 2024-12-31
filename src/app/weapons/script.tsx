@@ -6,6 +6,12 @@ import {
     CATEGORY_NAMES,
     CORRECTIONS,
     DAMAGE_IDS,
+    DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN,
+    DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
+    DEFAULT_ATTACK_RATING_BREAKDOWN,
+    DEFAULT_STAT_MAP_BOOLEAN,
+    DEFAULT_STAT_MAP_NUMBER,
+    DEFAULT_WEAPON_RESULT,
     INEFFECTIVE_STAT_PENALTY,
     INFUSIONS,
     WEAPONS,
@@ -15,20 +21,22 @@ import CategoryMap from "../util/interfaces/categoryMap";
 import InfusionMap from "../util/interfaces/infusionMap";
 import StatMap from "../util/interfaces/statMap";
 import { CalcCorrectGraph } from "../util/types/correction";
-import Infusion from "../util/types/infusion";
 import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
 import { WeaponResultRow } from "./components/WeaponResultRow";
 
+let logWeapon: boolean;
+
 // TYPES
+export type AttackRatingBreakdown = InfusionMap<{
+    baseDmg: AttackPowerTypeMap<number>;
+    scalingDmg: AttackPowerTypeMap<number>;
+}>;
 export type WeaponResult = {
     weaponName: string;
     attackRatings: InfusionMap<number>;
     max: number;
-    arBreakdown: InfusionMap<{
-        baseDmg: AttackPowerTypeMap<number>;
-        scalingDmg: AttackPowerTypeMap<number>;
-    }>;
+    arBreakdown: AttackRatingBreakdown;
     spellScaling: number;
 };
 export type SortBy = {
@@ -95,28 +103,50 @@ const exactlyAttackPowerTypes = (
 };
 
 // FUNCTIONS
+
+/**
+ * Applies corrections to a set of stats based on the given calc graph.
+ * The corrections are applied by linearly interpolating between the
+ * growth values of the graph stages, using the stat value as the
+ * interpolation parameter. The interpolation is adjusted by the
+ * adjustment value of each stage, which is interpreted as a power
+ * to which the interpolation ratio is raised.
+ *
+ * @param calc The correction graph to use. Defaults to the first
+ * graph in CORRECTIONS.
+ * @param stats The stats to apply the corrections to.
+ * @param masks A map of stat IDs to booleans, indicating whether
+ * the correction should be applied to the stat. If the value is
+ * false, the stat will not be corrected.
+ * @returns The corrected stats.
+ */
 function corrections(
     calc: CalcCorrectGraph[] = CORRECTIONS[0],
     stats: StatMap<number>,
     masks: StatMap<boolean>
 ): StatMap<number> {
-    const result: StatMap<number> = {
-        STR: 0,
-        DEX: 0,
-        INT: 0,
-        FTH: 0,
-        ARC: 0,
-    };
+    // initialize result
+    const result: StatMap<number> = { ...DEFAULT_STAT_MAP_NUMBER };
 
+    // for each stat
     Object.entries(stats).forEach(
         ([statId, statVal]: [string, number | undefined]) => {
+            // if the stat should be corrected
             if (masks[statId]) {
-                const stage: CalcCorrectGraph = calc.find(
-                    (stage) => stage.softcap > statVal!
-                )!;
-                const prevStage: CalcCorrectGraph =
-                    calc[calc.indexOf(stage) - 1];
+                // find the stage that the stat is in
+                let index = calc.findIndex((stage) => stage.softcap > statVal!);
+                // if the stat is outside of the graph, use the last stage
+                index == -1 ? (index = calc.length - 1) : index;
 
+                // identify the stage
+                const stage: CalcCorrectGraph = calc[index];
+                // identify the previous stage
+                const prevStage: CalcCorrectGraph = calc[index - 1];
+
+                // calculate the interpolation ratio
+                // this is the ratio of the distance between the stat value
+                // and the previous stage's softcap and the distance between
+                // the previous stage's softcap and the current stage's softcap
                 let ratio: number = Math.max(
                     0,
                     Math.min(
@@ -126,12 +156,14 @@ function corrections(
                     )
                 );
 
+                // apply the adjustment
                 if (prevStage.adjustment > 0) {
                     ratio = ratio ** prevStage.adjustment;
                 } else if (prevStage.adjustment < 0) {
                     ratio = 1 - (1 - ratio) ** -prevStage.adjustment;
                 }
 
+                // apply the correction
                 result[statId] =
                     prevStage.growth +
                     (stage.growth - prevStage.growth) * ratio;
@@ -177,9 +209,84 @@ function slopeInterceptGivenX(
     return slope * x + intercept;
 }
 
+function calculateIneffectiveStats(
+    stats: StatMap<number>,
+    requirements: StatMap<number>
+): StatMap<boolean> {
+    let results: StatMap<boolean> = { ...DEFAULT_STAT_MAP_BOOLEAN };
+    Object.entries(requirements)
+        .filter(([statId, requirement]) => {
+            stats[statId]! < (requirement as number)!;
+        })
+        .forEach(([statId, _]) => {
+            results[statId] = true;
+        });
+
+    return results;
+}
+
+function calculateBaseAttackPowerRating(
+    isDamageType: boolean,
+    attackPowerType: string,
+    weaponInfusion: WeaponInfusion,
+    weapon: Weapon,
+    infId: string,
+    upgLevel: number,
+    upgraded: boolean
+): number {
+    if (logWeapon)
+        console.log(
+            "base",
+            attackPowerType,
+            ":",
+            weaponInfusion.damage[attackPowerType],
+            "\nSlope: ",
+            INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope,
+            "\nIntercept: ",
+            INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept,
+            "Damage Upgrade Rate: ",
+            slopeInterceptGivenX(
+                INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope!,
+                INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept!,
+                upgLevel
+            ),
+            "\nBase Attack Rating: ",
+            (weaponInfusion.damage[attackPowerType] ?? 0) *
+                (weapon.id === "unarmed"
+                    ? 1
+                    : slopeInterceptGivenX(
+                          INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+                              ?.slope!,
+                          INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+                              ?.intercept!,
+                          upgLevel
+                      ))
+        );
+    if (isDamageType) {
+        return (
+            (weaponInfusion.damage[attackPowerType] ?? 0) *
+            (weapon.id === "unarmed"
+                ? 1
+                : // calculate upgrade rate based on upgrade level
+                  slopeInterceptGivenX(
+                      INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+                          ?.slope!,
+                      INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+                          ?.intercept!,
+                      upgLevel
+                  ))
+        );
+    } else if (weaponInfusion.aux?.[attackPowerType]) {
+        return weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0] ?? 0;
+    }
+    throw new Error(
+        "calculateBaseAttackPowerRating: Invalid attack power data"
+    );
+}
+
 function attackPower(
     weapon: Weapon,
-    infusion: Infusion,
+    infId: string,
     upgraded: boolean,
     stats: StatMap<number>,
     twoHanded: boolean,
@@ -189,148 +296,72 @@ function attackPower(
     attackPowerTypes: AttackPowerTypeMap<boolean>,
     statusEffects: boolean
 ): WeaponResult {
-    let infId: string = Object.keys(infusion)[0];
-    let inf = Object.values(infusion)[0];
-    let result: WeaponResult = {
-        weaponName: weapon.name,
-        attackRatings: {},
-        max: 0,
-        arBreakdown: {
-            [infId]: {
-                baseDmg: {
-                    physical: 0,
-                    magic: 0,
-                    fire: 0,
-                    lightning: 0,
-                    holy: 0,
-                },
-                scalingDmg: {
-                    physical: 0,
-                    magic: 0,
-                    fire: 0,
-                    lightning: 0,
-                    holy: 0,
-                },
-            },
-        },
-        spellScaling: 0,
-    };
+    let inf = INFUSIONS[infId];
+    let result: WeaponResult = { ...DEFAULT_WEAPON_RESULT };
+    result.weaponName = weapon.name;
+    result.arBreakdown[infId] = { ...DEFAULT_ATTACK_RATING_BREAKDOWN };
 
     // initialize weapon infusion
     let weaponInfusion: WeaponInfusion = weapon.infusions[infId]!;
-    weaponInfusion.masks = {
-        ...weaponInfusion.masks,
-        blood: {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: true,
-        },
-        poison: {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: true,
-        },
-        sleep: {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: true,
-        },
-        madness: {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: true,
-        },
-        frost: {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: false,
-        },
-        "scarlet-rot": {
-            STR: false,
-            DEX: false,
-            INT: false,
-            FTH: false,
-            ARC: false,
-        },
-    };
 
     // initialize upgrade level
-    let upgLevel: number = upgraded ? (weapon.unique ? 10 : 25) : 0;
+    let upgLevel: number = upgraded ? (weapon.infusions.unique ? 10 : 25) : 0;
 
+    if (logWeapon) console.log("Upgrade Level: ", upgLevel);
+
+    // adjust stats for two handing
     const adjustedStats: StatMap<number> = adjustStatsForTwoHanding(
         twoHanded,
         weapon,
         stats
     );
-    const ineffectiveStats: StatMap<boolean> = {
-        STR: false,
-        DEX: false,
-        INT: false,
-        FTH: false,
-        ARC: false,
-    };
-    Object.entries(weapon.requirements)
-        .filter(([statId, requirement]) => {
-            adjustedStats[statId]! < (requirement as number)!;
-        })
-        .forEach(([statId, _]) => {
-            ineffectiveStats[statId] = true;
-        });
 
-    const ineffectiveAttackPowerTypes: AttackPowerTypeMap<boolean> = {
-        physical: false,
-        magic: false,
-        fire: false,
-        lightning: false,
-        holy: false,
+    if (logWeapon && twoHanded) console.log("Adjusted Stats: ", adjustedStats);
+
+    // calculate ineffective stats
+    const ineffectiveStats: StatMap<boolean> = calculateIneffectiveStats(
+        adjustedStats,
+        weapon.requirements
+    );
+
+    if (logWeapon) console.log("Ineffective Stats: ", ineffectiveStats);
+
+    // initialize ineffective attack power types
+    let ineffectiveAttackPowerTypes: AttackPowerTypeMap<boolean> = {
+        ...DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN,
     };
 
+    // initialize base attack rating
     let baseAttackRating: AttackPowerTypeMap<number> = {
-        physical: 0,
-        magic: 0,
-        fire: 0,
-        lightning: 0,
-        holy: 0,
-    };
-    let scalingAttackRating: AttackPowerTypeMap<number> = {
-        physical: 0,
-        magic: 0,
-        fire: 0,
-        lightning: 0,
-        holy: 0,
-    };
-    const spellScaling: AttackPowerTypeMap<number> = {
-        physical: 0,
-        magic: 0,
-        fire: 0,
-        lightning: 0,
-        holy: 0,
+        ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
     };
 
+    // initialize scaling attack rating
+    let scalingAttackRating: AttackPowerTypeMap<number> = {
+        ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
+    };
+
+    // initialize spell scaling
+    let spellScaling: AttackPowerTypeMap<number> = {
+        ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
+    };
+
+    // for each attack power type
     for (const attackPowerType of ATTACK_POWER_TYPE_IDS) {
+        // determine if this attack power type is damage
         const isDamageType: boolean = DAMAGE_IDS.includes(attackPowerType);
 
-        if (isDamageType) {
-            baseAttackRating[attackPowerType] =
-                (weaponInfusion.damage[attackPowerType] ?? 0) *
-                slopeInterceptGivenX(
-                    inf.damageUpgradeRate[attackPowerType]?.slope!,
-                    inf.damageUpgradeRate[attackPowerType]?.intercept!,
-                    upgLevel
-                );
-        } else if (weaponInfusion.aux?.[attackPowerType]) {
-            baseAttackRating[attackPowerType] =
-                weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0] ?? 0;
+        // calculate base attack rating
+        if (isDamageType || weaponInfusion.aux?.[attackPowerType]) {
+            baseAttackRating[attackPowerType] = calculateBaseAttackPowerRating(
+                isDamageType,
+                attackPowerType,
+                weaponInfusion,
+                weapon,
+                infId,
+                upgLevel,
+                upgraded
+            );
         }
 
         if (
@@ -338,9 +369,11 @@ function attackPower(
             weapon["glintstone-staff"] ||
             weapon["sacred-seal"]
         ) {
-            // This weapon's AttackElementCorrectParam determines what attributes each damage type scales with
+            // determine scaling stats
             const scalingStats: StatMap<boolean> =
                 weaponInfusion.masks[attackPowerType]!;
+
+            if (logWeapon) console.log("Scaling Stats: ", scalingStats);
 
             let totalScaling: number = 1;
 
@@ -361,6 +394,14 @@ function attackPower(
                     effectiveStats,
                     scalingStats
                 );
+                if (logWeapon)
+                    console.log(
+                        "CorrectionIndex: ",
+                        correctionIndex,
+                        "\n",
+                        "StatScaling: ",
+                        statScaling
+                    );
                 for (const statId of ATTACK_POWER_STAT_IDS) {
                     const statCorrect: boolean = scalingStats[statId] ?? false;
                     if (statCorrect) {
@@ -379,6 +420,16 @@ function attackPower(
                     baseAttackRating[attackPowerType] * totalScaling -
                     baseAttackRating[attackPowerType];
             }
+            if (logWeapon)
+                console.log(
+                    "Total Scaling: ",
+                    totalScaling,
+                    "\nScalingAttackRating: ",
+                    scalingAttackRating[attackPowerType],
+                    "\nAttackPower: ",
+                    baseAttackRating[attackPowerType]! +
+                        scalingAttackRating[attackPowerType]!
+                );
 
             if (
                 isDamageType &&
@@ -391,13 +442,7 @@ function attackPower(
 
     // if weapon is split damage and split damage is disallowed, set base damage to 0
     if (isSplitDamage(baseAttackRating) && !splitDamage) {
-        baseAttackRating = {
-            physical: 0,
-            magic: 0,
-            fire: 0,
-            lightning: 0,
-            holy: 0,
-        };
+        baseAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
     }
 
     let matchesDamageTypes: boolean =
@@ -421,13 +466,7 @@ function attackPower(
 
     // if weapon does not match damage types, set base damage to 0
     if (!matchesDamageTypes) {
-        baseAttackRating = {
-            physical: 0,
-            magic: 0,
-            fire: 0,
-            lightning: 0,
-            holy: 0,
-        };
+        baseAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
     }
 
     result.attackRatings = {
@@ -510,10 +549,10 @@ function filterWeapons(
             // and if the weapon is buffable or buffable is not required
             (!buffableOnly ||
                 Object.values(weapon.infusions).some((inf) => inf?.buffable)) &&
-            // and if the weapon is split damage (prefer for check to be done with Heavy infusion to catch cases where the Standard infusion is split but the physical infusions are not)
+            // // and if the weapon is split damage (a way to filter out some split damage weapons early is to check if the weapon's default infusion is split)
             (isSplitDamage(
-                weapon.infusions.heavy?.damage ??
-                    weapon.infusions.standard!.damage
+                weapon.infusions.standard?.damage ??
+                    weapon.infusions.unique!.damage
             )
                 ? // then defer to whether split damage is allowed
                   splitDamage
@@ -522,7 +561,8 @@ function filterWeapons(
             (weapon.infusions.heavy ??
                 (attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ANY
                     ? anyAttackPowerTypes(
-                          weapon.infusions.standard!.damage,
+                          weapon.infusions.standard?.damage ??
+                              weapon.infusions.unique!.damage,
                           attackPowerTypes,
                           attackPowerTypesInclude
                       )
@@ -548,12 +588,12 @@ export function mapWeapons(
     categories: CategoryMap<boolean>,
     infusions: InfusionMap<boolean>,
     buffableOnly: boolean,
-    splitDamage: boolean,
+    allowSplitDamage: boolean,
     attackPowerTypesInclude: boolean,
     attackPowerTypeMode: string,
     attackPowerTypes: AttackPowerTypeMap<boolean>,
     reinforced: boolean,
-    statusEffects: boolean
+    considerStatusEffects: boolean
 ): WeaponResult[] {
     return filterWeapons(
         stats,
@@ -562,22 +602,48 @@ export function mapWeapons(
         categories,
         infusions,
         buffableOnly,
-        splitDamage,
+        allowSplitDamage,
         attackPowerTypesInclude,
         attackPowerTypeMode,
         attackPowerTypes
     ).map((weapon) => {
         // calculate attack ratings for every allowed infusion as well as the maximum damage of any infusion
-        let result: WeaponResult = {
-            weaponName: weapon.name,
-            attackRatings: {},
-            max: 0,
-            arBreakdown: {},
-            spellScaling: 0,
-        };
-        Object.entries(INFUSIONS)
-            .filter(([infId, inf]) => infusions[infId])
-            .forEach(([infId, inf]) => {
+        let result: WeaponResult = { ...DEFAULT_WEAPON_RESULT };
+        result.weaponName = weapon.name;
+        Object.keys(INFUSIONS)
+            .filter((infId) => infusions[infId])
+            .forEach((infId) => {
+                if (weapon.name == "Antspur Rapier" && infId == "standard") {
+                    logWeapon = true;
+                } else {
+                    logWeapon = false;
+                }
+                if (logWeapon) console.clear();
+                if (logWeapon)
+                    console.log(
+                        "Weapon: ",
+                        infId,
+                        weapon.name,
+                        "\nReinforced: ",
+                        reinforced,
+                        "\nStats: ",
+                        stats,
+                        "\nTwo Handed: ",
+                        twoHanded,
+                        "\nAllow Split Damage: ",
+                        allowSplitDamage,
+                        "\nAttack Power Types Include: ",
+                        attackPowerTypesInclude,
+                        "\nAttack Power Type Mode: ",
+                        attackPowerTypeMode,
+                        "\nAttack Power Types: ",
+                        attackPowerTypes,
+                        "\nConsider Status Effects: ",
+                        considerStatusEffects,
+                        "\nBuffable Only: ",
+                        buffableOnly
+                    );
+
                 let temp: WeaponResult = {
                     weaponName: weapon.name,
                     attackRatings: {
@@ -585,22 +651,7 @@ export function mapWeapons(
                     },
                     max: 0,
                     arBreakdown: {
-                        [infId]: {
-                            baseDmg: {
-                                physical: 0,
-                                magic: 0,
-                                fire: 0,
-                                lightning: 0,
-                                holy: 0,
-                            },
-                            scalingDmg: {
-                                physical: 0,
-                                magic: 0,
-                                fire: 0,
-                                lightning: 0,
-                                holy: 0,
-                            },
-                        },
+                        [infId]: { ...DEFAULT_ATTACK_RATING_BREAKDOWN },
                     },
                     spellScaling: 0,
                 };
@@ -614,15 +665,15 @@ export function mapWeapons(
                 ) {
                     temp = attackPower(
                         weapon,
-                        { [infId]: inf },
+                        infId,
                         reinforced,
                         stats,
                         twoHanded,
-                        splitDamage,
+                        allowSplitDamage,
                         attackPowerTypesInclude,
                         attackPowerTypeMode,
                         attackPowerTypes,
-                        statusEffects
+                        considerStatusEffects
                     );
                 }
                 result = {
@@ -654,6 +705,12 @@ export function mapWeapons(
             0,
             ...(Object.values(result.attackRatings) as number[])
         );
+
+        if (result.attackRatings.unique) {
+            result.attackRatings = {
+                standard: result.attackRatings.unique,
+            };
+        }
 
         return result;
     });

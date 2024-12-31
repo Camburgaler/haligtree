@@ -1,22 +1,7 @@
 import InfusionMap from "@/app/util/interfaces/infusionMap";
+import { INFUSION_IDS } from "../../util/constants";
 import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
 import { TableDataWithHover } from "./TableDataWithHover";
-
-const INFUSION_IDS: string[] = [
-    "standard",
-    "heavy",
-    "keen",
-    "quality",
-    "magic",
-    "fire",
-    "flame-art",
-    "lightning",
-    "sacred",
-    "poison",
-    "blood",
-    "cold",
-    "occult",
-];
 
 const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
     standard: 0,
@@ -32,6 +17,7 @@ const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
     poison: 0,
     blood: 0,
     occult: 0,
+    unique: 0,
 };
 
 export function WeaponResultRow(props: {
@@ -57,7 +43,7 @@ export function WeaponResultRow(props: {
                 </a>
             </td>
             <td>{Math.floor(props.max).toString()}</td>
-            {INFUSION_IDS.map((infId) => (
+            {INFUSION_IDS.filter((i) => i != "unique").map((infId) => (
                 <TableDataWithHover
                     key={infId}
                     attackRating={props.attackRatings[infId]! ?? 0}

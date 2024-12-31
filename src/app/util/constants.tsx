@@ -1,9 +1,64 @@
+import { WeaponResult } from "../weapons/script";
+import AttackPowerTypeMap from "./interfaces/attackPowerTypeMap";
+import StatMap from "./interfaces/statMap";
 import Armor from "./types/armor";
 import Correction from "./types/correction";
 import Infusion from "./types/infusion";
 import Weapon from "./types/weapon";
 
 export const WEAPONS: Weapon[] = Object.values(require("../data/weapons.json"));
+WEAPONS.forEach((weapon) => {
+    Object.keys(weapon.infusions).forEach((weaponInfusion) => {
+        const masks: AttackPowerTypeMap<StatMap<boolean>> =
+            WEAPONS[WEAPONS.indexOf(weapon)].infusions[weaponInfusion]!.masks;
+        WEAPONS[WEAPONS.indexOf(weapon)].infusions[weaponInfusion]!.masks = {
+            ...masks,
+            blood: {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: true,
+            },
+            poison: {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: true,
+            },
+            sleep: {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: true,
+            },
+            madness: {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: true,
+            },
+            frost: {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: false,
+            },
+            "scarlet-rot": {
+                STR: false,
+                DEX: false,
+                INT: false,
+                FTH: false,
+                ARC: false,
+            },
+        };
+    });
+});
+
 export const INFUSIONS: Infusion = require("../data/infusions.json");
 export const CORRECTIONS: Correction = require("../data/damage.json");
 export const HELMETS: Armor[] = Object.values(require("../data/helmets.json"));
@@ -89,6 +144,7 @@ export const INFUSION_NAMES: string[] = [
     "Blood",
     "Cold",
     "Occult",
+    "Unique",
 ];
 
 export const INFUSION_ID_TO_NAME: { [key: string]: string } = {
@@ -105,6 +161,7 @@ export const INFUSION_ID_TO_NAME: { [key: string]: string } = {
     [INFUSION_IDS[10]]: INFUSION_NAMES[10],
     [INFUSION_IDS[11]]: INFUSION_NAMES[11],
     [INFUSION_IDS[12]]: INFUSION_NAMES[12],
+    [INFUSION_IDS[13]]: INFUSION_NAMES[13],
 };
 
 export const CATEGORY_NAMES: string[][] = [
@@ -151,3 +208,60 @@ export const INEFFECTIVE_STAT_PENALTY = 0.4;
 
 export const ATTACK_POWER_STAT_IDS = ["STR", "DEX", "INT", "FTH", "ARC"];
 export const STAT_IDS = ["VIG", "MND", "END", ...ATTACK_POWER_STAT_IDS];
+
+export const DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN: AttackPowerTypeMap<boolean> =
+    {
+        physical: false,
+        magic: false,
+        fire: false,
+        lightning: false,
+        holy: false,
+    };
+export const DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER: AttackPowerTypeMap<number> =
+    {
+        physical: 0,
+        magic: 0,
+        fire: 0,
+        lightning: 0,
+        holy: 0,
+    };
+
+export const DEFAULT_ATTACK_RATING_BREAKDOWN: {
+    baseDmg: AttackPowerTypeMap<number>;
+    scalingDmg: AttackPowerTypeMap<number>;
+} = {
+    baseDmg: { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER },
+    scalingDmg: { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER },
+};
+
+export const DEFAULT_WEAPON_RESULT: WeaponResult = {
+    weaponName: "",
+    attackRatings: {},
+    max: 0,
+    arBreakdown: {},
+    spellScaling: 0,
+};
+
+export const DEFAULT_STAT_MAP_BOOLEAN: StatMap<boolean> = {
+    STR: false,
+    DEX: false,
+    INT: false,
+    FTH: false,
+    ARC: false,
+};
+export const DEFAULT_STAT_MAP_NUMBER: StatMap<number> = {
+    STR: 0,
+    DEX: 0,
+    INT: 0,
+    FTH: 0,
+    ARC: 0,
+};
+
+export const SCALING_MULTIPLIERS = {
+    S: 1.5,
+    A: 1.2,
+    B: 1.0,
+    C: 0.8,
+    D: 0.5,
+    E: 0.3,
+};

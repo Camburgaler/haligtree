@@ -13,4 +13,5 @@ export default interface InfusionMap<T> {
     blood?: T;
     cold?: T;
     occult?: T;
+    unique?: T;
 }

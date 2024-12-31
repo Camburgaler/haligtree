@@ -21,11 +21,11 @@ export default function Weapons() {
     // STATES
     const [results, setResults] = useState<WeaponResult[]>([]);
     const [stats, setStats] = useState<StatMap<number>>({
-        STR: 10,
-        DEX: 10,
-        INT: 10,
-        FTH: 10,
-        ARC: 10,
+        STR: 50,
+        DEX: 50,
+        INT: 50,
+        FTH: 50,
+        ARC: 50,
     });
     const [reinforced, setReinforced] = useState(true);
     const [requireStats, setRequireStats] = useState(true);
@@ -47,6 +47,7 @@ export default function Weapons() {
         blood: true,
         cold: true,
         occult: true,
+        unique: true,
     });
     const [attackPowerTypeMode, setAttackPowerTypeMode] = useState<string>(
         ATTACK_POWER_TYPE_MODE_ANY
@@ -554,28 +555,30 @@ export default function Weapons() {
                                 </button>
                             </span>
                         </div>
-                        {Object.keys(infusions).map((key: string, i) => (
-                            <div key={key}>
-                                <span>
-                                    <input
-                                        id={key + "-infusion"}
-                                        value={key}
-                                        type="checkbox"
-                                        name="infusion"
-                                        onChange={(event) => {
-                                            updateInfusions(
-                                                key,
-                                                event.target.checked
-                                            );
-                                        }}
-                                        checked={infusions[key]}
-                                    />
-                                    <label htmlFor={key}>
-                                        {INFUSION_NAMES[i]}
-                                    </label>
-                                </span>
-                            </div>
-                        ))}
+                        {Object.keys(infusions)
+                            .filter((i) => i != "unique")
+                            .map((key: string, i) => (
+                                <div key={key}>
+                                    <span>
+                                        <input
+                                            id={key + "-infusion"}
+                                            value={key}
+                                            type="checkbox"
+                                            name="infusion"
+                                            onChange={(event) => {
+                                                updateInfusions(
+                                                    key,
+                                                    event.target.checked
+                                                );
+                                            }}
+                                            checked={infusions[key]}
+                                        />
+                                        <label htmlFor={key}>
+                                            {INFUSION_NAMES[i]}
+                                        </label>
+                                    </span>
+                                </div>
+                            ))}
                         <hr />
                         <div>
                             <b>Attack Power Types</b>
@@ -733,8 +736,9 @@ export default function Weapons() {
                                                 Max{" "}
                                             </b>
                                         </th>
-                                        {Object.entries(INFUSIONS).map(
-                                            ([key, value]) => (
+                                        {Object.entries(INFUSIONS)
+                                            .filter(([key]) => key != "unique")
+                                            .map(([key, value]) => (
                                                 <th key={key} id={key}>
                                                     <Image
                                                         src={
@@ -764,8 +768,7 @@ export default function Weapons() {
                                                         }}
                                                     />
                                                 </th>
-                                            )
-                                        )}
+                                            ))}
                                     </tr>
                                 </thead>
                                 <tbody id="weapons">
