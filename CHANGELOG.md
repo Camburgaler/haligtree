@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   added infusion to title of weapon attack rating hover-over breakdown
+-   updated for v1.16
 
 ### Removed
 

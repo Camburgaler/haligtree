@@ -37,8 +37,8 @@ export default function Home() {
                         <h3>News</h3>
                         <ul>
                             <li>
-                                Up to date for App Ver. 1.14, Calibrations Ver.
-                                1.13.2.
+                                Up to date for App Ver. 1.16, Calibrations Ver.
+                                1.16.
                             </li>
                         </ul>
                         <h3>Credits</h3>
