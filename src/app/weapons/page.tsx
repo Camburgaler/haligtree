@@ -21,11 +21,11 @@ export default function Weapons() {
     // STATES
     const [results, setResults] = useState<WeaponResult[]>([]);
     const [stats, setStats] = useState<StatMap<number>>({
-        STR: 50,
-        DEX: 50,
-        INT: 50,
-        FTH: 50,
-        ARC: 50,
+        STR: 10,
+        DEX: 10,
+        INT: 10,
+        FTH: 10,
+        ARC: 10,
     });
     const [reinforced, setReinforced] = useState(true);
     const [requireStats, setRequireStats] = useState(true);

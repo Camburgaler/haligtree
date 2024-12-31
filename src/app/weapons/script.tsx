@@ -25,7 +25,7 @@ import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
 import { WeaponResultRow } from "./components/WeaponResultRow";
 
-let logWeapon: boolean;
+// let logWeapon: boolean;
 
 // TYPES
 export type AttackRatingBreakdown = InfusionMap<{
@@ -234,34 +234,34 @@ function calculateBaseAttackPowerRating(
     upgLevel: number,
     upgraded: boolean
 ): number {
-    if (logWeapon)
-        console.log(
-            "base",
-            attackPowerType,
-            ":",
-            weaponInfusion.damage[attackPowerType],
-            "\nSlope: ",
-            INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope,
-            "\nIntercept: ",
-            INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept,
-            "Damage Upgrade Rate: ",
-            slopeInterceptGivenX(
-                INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope!,
-                INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept!,
-                upgLevel
-            ),
-            "\nBase Attack Rating: ",
-            (weaponInfusion.damage[attackPowerType] ?? 0) *
-                (weapon.id === "unarmed"
-                    ? 1
-                    : slopeInterceptGivenX(
-                          INFUSIONS[infId].damageUpgradeRate[attackPowerType]
-                              ?.slope!,
-                          INFUSIONS[infId].damageUpgradeRate[attackPowerType]
-                              ?.intercept!,
-                          upgLevel
-                      ))
-        );
+    // if (logWeapon)
+    //     console.log(
+    //         "base",
+    //         attackPowerType,
+    //         ":",
+    //         weaponInfusion.damage[attackPowerType],
+    //         "\nSlope: ",
+    //         INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope,
+    //         "\nIntercept: ",
+    //         INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept,
+    //         "Damage Upgrade Rate: ",
+    //         slopeInterceptGivenX(
+    //             INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.slope!,
+    //             INFUSIONS[infId].damageUpgradeRate[attackPowerType]?.intercept!,
+    //             upgLevel
+    //         ),
+    //         "\nBase Attack Rating: ",
+    //         (weaponInfusion.damage[attackPowerType] ?? 0) *
+    //             (weapon.id === "unarmed"
+    //                 ? 1
+    //                 : slopeInterceptGivenX(
+    //                       INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+    //                           ?.slope!,
+    //                       INFUSIONS[infId].damageUpgradeRate[attackPowerType]
+    //                           ?.intercept!,
+    //                       upgLevel
+    //                   ))
+    //     );
     if (isDamageType) {
         return (
             (weaponInfusion.damage[attackPowerType] ?? 0) *
@@ -307,7 +307,7 @@ function attackPower(
     // initialize upgrade level
     let upgLevel: number = upgraded ? (weapon.infusions.unique ? 10 : 25) : 0;
 
-    if (logWeapon) console.log("Upgrade Level: ", upgLevel);
+    // if (logWeapon) console.log("Upgrade Level: ", upgLevel);
 
     // adjust stats for two handing
     const adjustedStats: StatMap<number> = adjustStatsForTwoHanding(
@@ -316,7 +316,7 @@ function attackPower(
         stats
     );
 
-    if (logWeapon && twoHanded) console.log("Adjusted Stats: ", adjustedStats);
+    // if (logWeapon && twoHanded) console.log("Adjusted Stats: ", adjustedStats);
 
     // calculate ineffective stats
     const ineffectiveStats: StatMap<boolean> = calculateIneffectiveStats(
@@ -324,7 +324,7 @@ function attackPower(
         weapon.requirements
     );
 
-    if (logWeapon) console.log("Ineffective Stats: ", ineffectiveStats);
+    // if (logWeapon) console.log("Ineffective Stats: ", ineffectiveStats);
 
     // initialize ineffective attack power types
     let ineffectiveAttackPowerTypes: AttackPowerTypeMap<boolean> = {
@@ -373,7 +373,7 @@ function attackPower(
             const scalingStats: StatMap<boolean> =
                 weaponInfusion.masks[attackPowerType]!;
 
-            if (logWeapon) console.log("Scaling Stats: ", scalingStats);
+            // if (logWeapon) console.log("Scaling Stats: ", scalingStats);
 
             let totalScaling: number = 1;
 
@@ -394,14 +394,14 @@ function attackPower(
                     effectiveStats,
                     scalingStats
                 );
-                if (logWeapon)
-                    console.log(
-                        "CorrectionIndex: ",
-                        correctionIndex,
-                        "\n",
-                        "StatScaling: ",
-                        statScaling
-                    );
+                // if (logWeapon)
+                //     console.log(
+                //         "CorrectionIndex: ",
+                //         correctionIndex,
+                //         "\n",
+                //         "StatScaling: ",
+                //         statScaling
+                //     );
                 for (const statId of ATTACK_POWER_STAT_IDS) {
                     const statCorrect: boolean = scalingStats[statId] ?? false;
                     if (statCorrect) {
@@ -420,16 +420,16 @@ function attackPower(
                     baseAttackRating[attackPowerType] * totalScaling -
                     baseAttackRating[attackPowerType];
             }
-            if (logWeapon)
-                console.log(
-                    "Total Scaling: ",
-                    totalScaling,
-                    "\nScalingAttackRating: ",
-                    scalingAttackRating[attackPowerType],
-                    "\nAttackPower: ",
-                    baseAttackRating[attackPowerType]! +
-                        scalingAttackRating[attackPowerType]!
-                );
+            // if (logWeapon)
+            //     console.log(
+            //         "Total Scaling: ",
+            //         totalScaling,
+            //         "\nScalingAttackRating: ",
+            //         scalingAttackRating[attackPowerType],
+            //         "\nAttackPower: ",
+            //         baseAttackRating[attackPowerType]! +
+            //             scalingAttackRating[attackPowerType]!
+            //     );
 
             if (
                 isDamageType &&
@@ -613,36 +613,36 @@ export function mapWeapons(
         Object.keys(INFUSIONS)
             .filter((infId) => infusions[infId])
             .forEach((infId) => {
-                if (weapon.name == "Anvil Hammer" && infId == "unique") {
-                    logWeapon = true;
-                } else {
-                    logWeapon = false;
-                }
-                if (logWeapon) console.clear();
-                if (logWeapon)
-                    console.log(
-                        "Weapon: ",
-                        infId,
-                        weapon.name,
-                        "\nReinforced: ",
-                        reinforced,
-                        "\nStats: ",
-                        stats,
-                        "\nTwo Handed: ",
-                        twoHanded,
-                        "\nAllow Split Damage: ",
-                        allowSplitDamage,
-                        "\nAttack Power Types Include: ",
-                        attackPowerTypesInclude,
-                        "\nAttack Power Type Mode: ",
-                        attackPowerTypeMode,
-                        "\nAttack Power Types: ",
-                        attackPowerTypes,
-                        "\nConsider Status Effects: ",
-                        considerStatusEffects,
-                        "\nBuffable Only: ",
-                        buffableOnly
-                    );
+                // if (weapon.name == "Anvil Hammer" && infId == "unique") {
+                //     logWeapon = true;
+                // } else {
+                //     logWeapon = false;
+                // }
+                // if (logWeapon) console.clear();
+                // if (logWeapon)
+                //     console.log(
+                //         "Weapon: ",
+                //         infId,
+                //         weapon.name,
+                //         "\nReinforced: ",
+                //         reinforced,
+                //         "\nStats: ",
+                //         stats,
+                //         "\nTwo Handed: ",
+                //         twoHanded,
+                //         "\nAllow Split Damage: ",
+                //         allowSplitDamage,
+                //         "\nAttack Power Types Include: ",
+                //         attackPowerTypesInclude,
+                //         "\nAttack Power Type Mode: ",
+                //         attackPowerTypeMode,
+                //         "\nAttack Power Types: ",
+                //         attackPowerTypes,
+                //         "\nConsider Status Effects: ",
+                //         considerStatusEffects,
+                //         "\nBuffable Only: ",
+                //         buffableOnly
+                //     );
 
                 let temp: WeaponResult = {
                     weaponName: weapon.name,
