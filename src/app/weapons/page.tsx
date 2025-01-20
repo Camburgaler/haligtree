@@ -122,7 +122,7 @@ export default function Weapons() {
     function updateStats(id: string, value: number) {
         setStats({
             ...stats,
-            [id]: value < 0 ? 0 : value > 99 ? 99 : value,
+            [id]: value < 1 ? 1 : value > 99 ? 99 : value,
         });
     }
 
