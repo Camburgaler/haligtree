@@ -30,6 +30,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Remember page data between sessions
 -   Add character preview
 -   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
+-   Add hotkeys to quickly ignore any item in the results table
+
+## [2.5.0] - TBD
+
+### Added
+
+-   Remember armor page data between sessions
+
+### Fixed
+
+-   Weapon page reset will now disable Consider Status Effects
 
 ## [2.4.0] - 2025-01-19
 

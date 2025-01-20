@@ -61,7 +61,6 @@ export default function ArmorPage() {
     }
 
     // FUNCTIONS
-
     function resetAll(): void {
         [
             ...(document.getElementsByName(
@@ -439,6 +438,68 @@ export default function ArmorPage() {
     }, [equipLoadBudget, helmets, chestpieces, gauntlets, leggings, fitness]);
 
     // EFFECTS
+    // Load data from localStorage on component mount
+    useEffect(() => {
+        const localMaxEquipLoad = localStorage.getItem("localMaxEquipLoad");
+        if (localMaxEquipLoad) {
+            setMaxEquipLoad(JSON.parse(localMaxEquipLoad));
+        }
+
+        const localCurrentEquipLoad = localStorage.getItem(
+            "localCurrentEquipLoad"
+        );
+        if (localCurrentEquipLoad) {
+            setCurrentEquipLoad(JSON.parse(localCurrentEquipLoad));
+        }
+
+        const localBreakpoint = localStorage.getItem("localBreakpoint");
+        if (localBreakpoint) {
+            setBreakpoint(JSON.parse(localBreakpoint));
+        }
+
+        const localSortBy = localStorage.getItem("localSortBy");
+        if (localSortBy) {
+            setSortBy(JSON.parse(localSortBy));
+        }
+
+        const localLockedItems = localStorage.getItem("localLockedItems");
+        if (localLockedItems) {
+            setLockedItems(JSON.parse(localLockedItems));
+        }
+
+        const localIgnoredItems = localStorage.getItem("localIgnoredItems");
+        if (localIgnoredItems) {
+            setIgnoredItems(JSON.parse(localIgnoredItems));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("localMaxEquipLoad", JSON.stringify(maxEquipLoad));
+    }, [maxEquipLoad]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localCurrentEquipLoad",
+            JSON.stringify(currentEquipLoad)
+        );
+    }, [currentEquipLoad]);
+
+    useEffect(() => {
+        localStorage.setItem("localBreakpoint", JSON.stringify(breakpoint));
+    }, [breakpoint]);
+
+    useEffect(() => {
+        localStorage.setItem("localSortBy", JSON.stringify(sortBy));
+    }, [sortBy]);
+
+    useEffect(() => {
+        localStorage.setItem("localLockedItems", JSON.stringify(lockedItems));
+    }, [lockedItems]);
+
+    useEffect(() => {
+        localStorage.setItem("localIgnoredItems", JSON.stringify(ignoredItems));
+    }, [ignoredItems]);
+
     useEffect(() => {
         setBest(knapSack());
     }, [helmets, chestpieces, gauntlets, leggings, equipLoadBudget, knapSack]);
