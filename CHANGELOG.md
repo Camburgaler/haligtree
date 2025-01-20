@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
 -   Add hotkeys to quickly ignore any item in the results table
 
-## [2.6.0] - TBD
+## [2.6.0] - 2025-01-20
 
 ### Added
 
