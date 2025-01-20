@@ -7,6 +7,7 @@ function InputSelect(props: {
     name: string;
     onChange: ChangeEventHandler<HTMLSelectElement>;
     options: Armor[];
+    value?: string;
 }) {
     return (
         <div>
@@ -16,6 +17,7 @@ function InputSelect(props: {
                 id={props.id}
                 name={props.name}
                 onChange={props.onChange}
+                value={props.value}
             >
                 <option value="none">None</option>
                 {props.options.map((item: Armor) => (

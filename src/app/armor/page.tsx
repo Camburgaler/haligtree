@@ -9,7 +9,7 @@ import {
     LEGGINGS,
 } from "../util/constants";
 import Armor from "../util/types/armor";
-import Set from "../util/types/set";
+import ArmorSet from "../util/types/armorSet";
 import ArmorResultSet from "./components/ArmorResultSet";
 import InputNumber from "./components/InputNumber";
 import InputRadio from "./components/InputRadio";
@@ -17,13 +17,18 @@ import InputSelect from "./components/InputSelect";
 
 export default function ArmorPage() {
     // STATES
-    const [best, setBest] = useState(Array<Set>());
+    const [best, setBest] = useState(Array<ArmorSet>());
     const [maxEquipLoad, setMaxEquipLoad] = useState(30);
     const [currentEquipLoad, setCurrentEquipLoad] = useState(0);
     const [equipLoadBudget, setEquipLoadBudget] = useState(21);
     const [breakpoint, setBreakpoint] = useState(0.7);
     const [sortBy, setSortBy] = useState("sort-standard");
-    const [lockedItems, setLockedItems] = useState(Array<Armor>());
+    const [lockedItems, setLockedItems] = useState<ArmorSet>({
+        helmet: undefined,
+        chestpiece: undefined,
+        gauntlets: undefined,
+        leggings: undefined,
+    });
     const [ignoredItems, setIgnoredItems] = useState(Array<Armor>());
     const [helmets, setHelmets] = useState(Array<Armor>());
     const [chestpieces, setChestpieces] = useState(Array<Armor>());
@@ -31,8 +36,17 @@ export default function ArmorPage() {
     const [leggings, setLeggings] = useState(Array<Armor>());
 
     // STATE UPDATE FUNCTIONS
-    function updateLockedItems(newItem: Armor, oldItem?: Armor): void {
-        setLockedItems([...lockedItems.filter((i) => i !== oldItem), newItem]);
+    function updateLockedItems(itemType: string, newItem: Armor): void {
+        if (
+            itemType != "helmet" &&
+            itemType != "chestpiece" &&
+            itemType != "gauntlets" &&
+            itemType != "leggings"
+        ) {
+            throw new Error("Invalid item type");
+        }
+
+        setLockedItems({ ...lockedItems, [itemType]: newItem });
     }
 
     function updateMaxEquipLoad(value: number): void {
@@ -61,7 +75,6 @@ export default function ArmorPage() {
     }
 
     // FUNCTIONS
-
     function resetAll(): void {
         [
             ...(document.getElementsByName(
@@ -126,91 +139,98 @@ export default function ArmorPage() {
         ];
     }
 
-    function setStatsToString(set: Set): string[] {
+    function setStatsToString(set: ArmorSet): string[] {
         let imaginary: Armor = {
             id: "IMAGINARY",
             name: "IMAGINARY",
             weight:
-                set[0].weight + set[1].weight + set[2].weight + set[3].weight,
-            poise: set[0].poise + set[1].poise + set[2].poise + set[3].poise,
+                set.helmet?.weight! +
+                set.chestpiece?.weight! +
+                set.gauntlets?.weight! +
+                set.leggings?.weight!,
+            poise:
+                set.helmet?.poise! +
+                set.chestpiece?.poise! +
+                set.gauntlets?.poise! +
+                set.leggings?.poise!,
             defenses: {
                 physical:
-                    set[0].defenses.physical +
-                    set[1].defenses.physical +
-                    set[2].defenses.physical +
-                    set[3].defenses.physical,
+                    set.helmet?.defenses.physical! +
+                    set.chestpiece?.defenses.physical! +
+                    set.gauntlets?.defenses.physical! +
+                    set.leggings?.defenses.physical!,
                 strike:
-                    set[0].defenses.strike +
-                    set[1].defenses.strike +
-                    set[2].defenses.strike +
-                    set[3].defenses.strike,
+                    set.helmet?.defenses.strike! +
+                    set.chestpiece?.defenses.strike! +
+                    set.gauntlets?.defenses.strike! +
+                    set.leggings?.defenses.strike!,
                 slash:
-                    set[0].defenses.slash +
-                    set[1].defenses.slash +
-                    set[2].defenses.slash +
-                    set[3].defenses.slash,
+                    set.helmet?.defenses.slash! +
+                    set.chestpiece?.defenses.slash! +
+                    set.gauntlets?.defenses.slash! +
+                    set.leggings?.defenses.slash!,
                 pierce:
-                    set[0].defenses.pierce +
-                    set[1].defenses.pierce +
-                    set[2].defenses.pierce +
-                    set[3].defenses.pierce,
+                    set.helmet?.defenses.pierce! +
+                    set.chestpiece?.defenses.pierce! +
+                    set.gauntlets?.defenses.pierce! +
+                    set.leggings?.defenses.pierce!,
                 magic:
-                    set[0].defenses.magic +
-                    set[1].defenses.magic +
-                    set[2].defenses.magic +
-                    set[3].defenses.magic,
+                    set.helmet?.defenses.magic! +
+                    set.chestpiece?.defenses.magic! +
+                    set.gauntlets?.defenses.magic! +
+                    set.leggings?.defenses.magic!,
                 fire:
-                    set[0].defenses.fire +
-                    set[1].defenses.fire +
-                    set[2].defenses.fire +
-                    set[3].defenses.fire,
+                    set.helmet?.defenses.fire! +
+                    set.chestpiece?.defenses.fire! +
+                    set.gauntlets?.defenses.fire! +
+                    set.leggings?.defenses.fire!,
                 lightning:
-                    set[0].defenses.lightning +
-                    set[1].defenses.lightning +
-                    set[2].defenses.lightning +
-                    set[3].defenses.lightning,
+                    set.helmet?.defenses.lightning! +
+                    set.chestpiece?.defenses.lightning! +
+                    set.gauntlets?.defenses.lightning! +
+                    set.leggings?.defenses.lightning!,
                 holy:
-                    set[0].defenses.holy +
-                    set[1].defenses.holy +
-                    set[2].defenses.holy +
-                    set[3].defenses.holy,
+                    set.helmet?.defenses.holy! +
+                    set.chestpiece?.defenses.holy! +
+                    set.gauntlets?.defenses.holy! +
+                    set.leggings?.defenses.holy!,
             },
             resistances: {
                 scarletRot:
-                    set[0].resistances.scarletRot +
-                    set[1].resistances.scarletRot +
-                    set[2].resistances.scarletRot +
-                    set[3].resistances.scarletRot,
+                    set.helmet?.resistances.scarletRot! +
+                    set.chestpiece?.resistances.scarletRot! +
+                    set.gauntlets?.resistances.scarletRot! +
+                    set.leggings?.resistances.scarletRot!,
                 poison:
-                    set[0].resistances.poison +
-                    set[1].resistances.poison +
-                    set[2].resistances.poison +
-                    set[3].resistances.poison,
+                    set.helmet?.resistances.poison! +
+                    set.chestpiece?.resistances.poison! +
+                    set.gauntlets?.resistances.poison! +
+                    set.leggings?.resistances.poison!,
                 hemorrhage:
-                    set[0].resistances.hemorrhage +
-                    set[1].resistances.hemorrhage +
-                    set[2].resistances.hemorrhage +
-                    set[3].resistances.hemorrhage,
+                    set.helmet?.resistances.hemorrhage! +
+                    set.chestpiece?.resistances.hemorrhage! +
+                    set.gauntlets?.resistances.hemorrhage! +
+                    set.leggings?.resistances.hemorrhage!,
                 frostbite:
-                    set[0].resistances.frostbite +
-                    set[1].resistances.frostbite +
-                    set[2].resistances.frostbite +
-                    set[3].resistances.frostbite,
+                    set.helmet?.resistances.frostbite! +
+                    set.chestpiece?.resistances.frostbite! +
+                    set.gauntlets?.resistances.frostbite! +
+                    set.leggings?.resistances.frostbite!,
                 sleep:
-                    set[0].resistances.sleep +
-                    set[1].resistances.sleep +
-                    set[2].resistances.sleep +
-                    set[3].resistances.sleep,
+                    set.helmet?.resistances.sleep! +
+                    set.chestpiece?.resistances.sleep! +
+                    set.gauntlets?.resistances.sleep! +
+                    set.leggings?.resistances.sleep!,
                 madness:
-                    set[0].resistances.madness +
-                    set[1].resistances.madness +
-                    set[2].resistances.madness +
-                    set[3].resistances.madness,
+                    set.helmet?.resistances.madness! +
+                    set.chestpiece?.resistances.madness! +
+                    set.gauntlets?.resistances.madness! +
+                    set.leggings?.resistances.madness!,
                 deathBlight:
-                    set[0].resistances.deathBlight +
-                    set[1].resistances.deathBlight +
-                    set[2].resistances.deathBlight +
-                    set[3].resistances.deathBlight,
+                    set.helmet?.resistances.deathBlight! +
+                    set.chestpiece?.resistances.deathBlight! +
+                    set.gauntlets?.resistances.deathBlight! +
+                    set.leggings?.resistances.deathBlight!,
             },
         };
 
@@ -299,17 +319,30 @@ export default function ArmorPage() {
         [sortBy]
     );
 
+    const lockedItemsContains = useCallback(
+        (item: Armor): boolean => {
+            return (
+                lockedItems.helmet?.id === item.id ||
+                lockedItems.chestpiece?.id === item.id ||
+                lockedItems.gauntlets?.id === item.id ||
+                lockedItems.leggings?.id === item.id
+            );
+        },
+        [lockedItems]
+    );
+
     const dominated = useCallback(
         (itemList: Armor[]): Armor[] => {
-            if (lockedItems.some((item: Armor) => itemList.includes(item))) {
+            if (itemList.some((item: Armor) => lockedItemsContains(item))) {
                 return [
-                    itemList.find((item: any) => lockedItems.includes(item))!,
+                    itemList.find((item: any) => lockedItemsContains(item))!,
                 ];
             }
 
             // remove ignored items from itemList
             itemList = itemList.filter(
-                (item: Armor) => !ignoredItems.includes(item)
+                // (item: Armor) => !ignoredItems.includes(item)
+                (item: Armor) => !ignoredItems.some((i) => i.id === item.id)
             );
 
             let sorted = [...itemList];
@@ -326,21 +359,21 @@ export default function ArmorPage() {
 
             return approved;
         },
-        [lockedItems, ignoredItems, fitness]
+        [ignoredItems, fitness, lockedItemsContains]
     );
 
-    const knapSack = useCallback((): Set[] => {
+    const knapSack = useCallback((): ArmorSet[] => {
         // Convert max equip load to integer by multiplying by 10
         const equipLoadBudgetInt = Math.round(equipLoadBudget * 10);
 
         // Initialize DP table
-        const dp: Set[][] = Array(5)
+        const dp: ArmorSet[][] = Array(5)
             .fill(0)
             .map(() =>
                 Array(equipLoadBudgetInt + 1)
                     .fill(null)
                     .map(() => {
-                        let set: Set = [];
+                        let set: ArmorSet = {};
                         set.weight = 0;
                         set.fitness = 0;
                         return set;
@@ -371,28 +404,28 @@ export default function ArmorPage() {
                             dp[i][wInt - pieceWeightInt].fitness! + pieceStat;
                         if (newFitness > dp[i + 1][wInt].fitness!) {
                             // helmet
-                            dp[i + 1][wInt][0] =
+                            dp[i + 1][wInt].helmet =
                                 i === 0
                                     ? piece
-                                    : dp[i][wInt - pieceWeightInt][0] ??
+                                    : dp[i][wInt - pieceWeightInt].helmet ??
                                       HELMETS[0];
                             // chestpiece
-                            dp[i + 1][wInt][1] =
+                            dp[i + 1][wInt].chestpiece =
                                 i === 1
                                     ? piece
-                                    : dp[i][wInt - pieceWeightInt][1] ??
+                                    : dp[i][wInt - pieceWeightInt].chestpiece ??
                                       CHESTPIECES[0];
                             // gauntlets
-                            dp[i + 1][wInt][2] =
+                            dp[i + 1][wInt].gauntlets =
                                 i === 2
                                     ? piece
-                                    : dp[i][wInt - pieceWeightInt][2] ??
+                                    : dp[i][wInt - pieceWeightInt].gauntlets ??
                                       GAUNTLETS[0];
                             // leggings
-                            dp[i + 1][wInt][3] =
+                            dp[i + 1][wInt].leggings =
                                 i === 3
                                     ? piece
-                                    : dp[i][wInt - pieceWeightInt][3] ??
+                                    : dp[i][wInt - pieceWeightInt].leggings ??
                                       LEGGINGS[0];
                             // fitness
                             dp[i + 1][wInt].fitness = newFitness;
@@ -414,16 +447,16 @@ export default function ArmorPage() {
         }
 
         // Extract top 3 sets
-        const topSets: Set[] = [];
+        const topSets: ArmorSet[] = [];
         for (let wInt = equipLoadBudgetInt; wInt >= 0; wInt--) {
             if (dp[4][wInt].fitness! > 0) {
                 let duplicate = false;
                 for (const set of topSets) {
                     if (
-                        dp[4][wInt][0] === set[0] &&
-                        dp[4][wInt][1] === set[1] &&
-                        dp[4][wInt][2] === set[2] &&
-                        dp[4][wInt][3] === set[3]
+                        dp[4][wInt].helmet === set.helmet &&
+                        dp[4][wInt].chestpiece === set.chestpiece &&
+                        dp[4][wInt].gauntlets === set.gauntlets &&
+                        dp[4][wInt].leggings === set.leggings
                     ) {
                         duplicate = true;
                         break;
@@ -439,6 +472,68 @@ export default function ArmorPage() {
     }, [equipLoadBudget, helmets, chestpieces, gauntlets, leggings, fitness]);
 
     // EFFECTS
+    // Load data from localStorage on component mount
+    useEffect(() => {
+        const localMaxEquipLoad = localStorage.getItem("localMaxEquipLoad");
+        if (localMaxEquipLoad) {
+            setMaxEquipLoad(JSON.parse(localMaxEquipLoad));
+        }
+
+        const localCurrentEquipLoad = localStorage.getItem(
+            "localCurrentEquipLoad"
+        );
+        if (localCurrentEquipLoad) {
+            setCurrentEquipLoad(JSON.parse(localCurrentEquipLoad));
+        }
+
+        const localBreakpoint = localStorage.getItem("localBreakpoint");
+        if (localBreakpoint) {
+            setBreakpoint(JSON.parse(localBreakpoint));
+        }
+
+        const localSortBy = localStorage.getItem("localSortBy");
+        if (localSortBy) {
+            setSortBy(JSON.parse(localSortBy));
+        }
+
+        const localLockedItems = localStorage.getItem("localLockedItems");
+        if (localLockedItems) {
+            setLockedItems(JSON.parse(localLockedItems));
+        }
+
+        const localIgnoredItems = localStorage.getItem("localIgnoredItems");
+        if (localIgnoredItems) {
+            setIgnoredItems(JSON.parse(localIgnoredItems));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("localMaxEquipLoad", JSON.stringify(maxEquipLoad));
+    }, [maxEquipLoad]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localCurrentEquipLoad",
+            JSON.stringify(currentEquipLoad)
+        );
+    }, [currentEquipLoad]);
+
+    useEffect(() => {
+        localStorage.setItem("localBreakpoint", JSON.stringify(breakpoint));
+    }, [breakpoint]);
+
+    useEffect(() => {
+        localStorage.setItem("localSortBy", JSON.stringify(sortBy));
+    }, [sortBy]);
+
+    useEffect(() => {
+        localStorage.setItem("localLockedItems", JSON.stringify(lockedItems));
+    }, [lockedItems]);
+
+    useEffect(() => {
+        localStorage.setItem("localIgnoredItems", JSON.stringify(ignoredItems));
+    }, [ignoredItems]);
+
     useEffect(() => {
         setBest(knapSack());
     }, [helmets, chestpieces, gauntlets, leggings, equipLoadBudget, knapSack]);
@@ -448,7 +543,7 @@ export default function ArmorPage() {
         setChestpieces(dominated(CHESTPIECES));
         setGauntlets(dominated(GAUNTLETS));
         setLeggings(dominated(LEGGINGS));
-    }, [lockedItems, ignoredItems, sortBy, dominated]);
+    }, [dominated]);
 
     useEffect(() => {
         setEquipLoadBudget(
@@ -679,22 +774,26 @@ export default function ArmorPage() {
                             checked={sortBy === "sort-custom"}
                         /> */}
                         <hr />
-                        <b>Locked Armor</b>
+                        <div>
+                            <b>Locked Armor</b>
+                            <button id="clear-equipment" onClick={resetAll}>
+                                Reset All
+                            </button>
+                        </div>
                         <InputSelect
                             label="Helmet"
                             id="locked-helmet"
                             name="locked-items"
                             onChange={(event) => {
                                 updateLockedItems(
+                                    "helmet",
                                     HELMETS.find(
                                         (item) => item.id === event.target.value
-                                    )!,
-                                    lockedItems.find((item) =>
-                                        HELMETS.includes(item)
-                                    )
+                                    )!
                                 );
                             }}
                             options={HELMETS}
+                            value={lockedItems.helmet?.id}
                         />
                         <InputSelect
                             label="Chestpiece"
@@ -702,15 +801,14 @@ export default function ArmorPage() {
                             name="locked-items"
                             onChange={(event) => {
                                 updateLockedItems(
+                                    "chestpiece",
                                     CHESTPIECES.find(
                                         (item) => item.id === event.target.value
-                                    )!,
-                                    lockedItems.find((item) =>
-                                        CHESTPIECES.includes(item)
-                                    )
+                                    )!
                                 );
                             }}
                             options={CHESTPIECES}
+                            value={lockedItems.chestpiece?.id}
                         />
                         <InputSelect
                             label="Gauntlets"
@@ -718,15 +816,14 @@ export default function ArmorPage() {
                             name="locked-items"
                             onChange={(event) => {
                                 updateLockedItems(
+                                    "gauntlets",
                                     GAUNTLETS.find(
                                         (item) => item.id === event.target.value
-                                    )!,
-                                    lockedItems.find((item) =>
-                                        GAUNTLETS.includes(item)
-                                    )
+                                    )!
                                 );
                             }}
                             options={GAUNTLETS}
+                            value={lockedItems.gauntlets?.id}
                         />
                         <InputSelect
                             label="Leggings"
@@ -734,21 +831,15 @@ export default function ArmorPage() {
                             name="locked-items"
                             onChange={(event) => {
                                 updateLockedItems(
+                                    "leggings",
                                     LEGGINGS.find(
                                         (item) => item.id === event.target.value
-                                    )!,
-                                    lockedItems.find((item) =>
-                                        LEGGINGS.includes(item)
-                                    )
+                                    )!
                                 );
                             }}
                             options={LEGGINGS}
+                            value={lockedItems.leggings?.id}
                         />
-                        <div>
-                            <button id="clear-equipment" onClick={resetAll}>
-                                Reset All
-                            </button>
-                        </div>
                         <hr />
                         <b>Ignored Armor</b>
                         <div>
@@ -778,25 +869,52 @@ export default function ArmorPage() {
                         <b>Results</b>
                         <div>
                             <table id="results">
-                                {best.map((set: Set, i) => {
+                                {best.map((set: ArmorSet, i) => {
                                     return (
                                         <ArmorResultSet
                                             key={i}
                                             id={ARMOR_RESULTS_SET_IDS[i]}
-                                            armorIds={set.map(
-                                                (item: Armor) => item.id
-                                            )}
-                                            armorNames={set.map(
-                                                (item: Armor) => item.name
-                                            )}
-                                            itemStats={set.map((item: Armor) =>
-                                                itemStatsToString(item)
-                                            )}
+                                            armorIds={[
+                                                set.helmet?.id!,
+                                                set.chestpiece?.id!,
+                                                set.gauntlets?.id!,
+                                                set.leggings?.id!,
+                                            ]}
+                                            armorNames={[
+                                                set.helmet?.name!,
+                                                set.chestpiece?.name!,
+                                                set.gauntlets?.name!,
+                                                set.leggings?.name!,
+                                            ]}
+                                            itemStats={[
+                                                itemStatsToString(set.helmet!),
+                                                itemStatsToString(
+                                                    set.chestpiece!
+                                                ),
+                                                itemStatsToString(
+                                                    set.gauntlets!
+                                                ),
+                                                itemStatsToString(
+                                                    set.leggings!
+                                                ),
+                                            ]}
                                             setStats={setStatsToString(set)}
-                                            addIgnoredItem={set.map((item) => {
-                                                return () =>
-                                                    addIgnoredItem(item);
-                                            })}
+                                            addIgnoredItem={[
+                                                () =>
+                                                    addIgnoredItem(set.helmet!),
+                                                () =>
+                                                    addIgnoredItem(
+                                                        set.chestpiece!
+                                                    ),
+                                                () =>
+                                                    addIgnoredItem(
+                                                        set.gauntlets!
+                                                    ),
+                                                () =>
+                                                    addIgnoredItem(
+                                                        set.leggings!
+                                                    ),
+                                            ]}
                                         />
                                     );
                                 })}
