@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StatMap from "../util/interfaces/statMap";
 import Armor from "../util/types/armor";
 import Class from "../util/types/class";
@@ -36,8 +36,6 @@ const MUTUALLY_EXCLUSIVE_TALISMANS = [
 ];
 
 export default function ClassPage() {
-    // STATES
-    const [best, setBest] = useState<Class>(CLASSES[0]);
     const [desiredStats, setDesiredStats] = useState<StatMap<number>>({
         VIG: 0,
         END: 0,
@@ -48,6 +46,28 @@ export default function ClassPage() {
         FTH: 0,
         ARC: 0,
     });
+
+    const delta = useCallback(
+        (classStats: StatMap<number>): number => {
+            return Object.keys(classStats)
+                .map((statId: string) =>
+                    classStats[statId]! < desiredStats[statId]!
+                        ? desiredStats[statId]! - classStats[statId]!
+                        : 0
+                )
+                .reduce((total: number, n: number) => total + n);
+        },
+        [desiredStats]
+    );
+
+    const sortClasses = useCallback((): Class[] => {
+        return CLASSES.map((c: Class) => {
+            c.total = c.level + delta(c.stats);
+            return c;
+        }).sort((a: Class, b: Class) => a.total! - b.total!);
+    }, [delta]);
+
+    const [best, setBest] = useState<Class>(CLASSES[0]);
     const [finalStats, setFinalStats] = useState<StatMap<number>>({
         VIG: 0,
         END: 0,
@@ -123,23 +143,6 @@ export default function ClassPage() {
         );
     }
 
-    function delta(classStats: StatMap<number>): number {
-        return Object.keys(classStats)
-            .map((statId: string) =>
-                classStats[statId]! < desiredStats[statId]!
-                    ? desiredStats[statId]! - classStats[statId]!
-                    : 0
-            )
-            .reduce((total: number, n: number) => total + n);
-    }
-
-    function sortClasses(): Class[] {
-        return CLASSES.map((c: Class) => {
-            c.total = c.level + delta(c.stats);
-            return c;
-        }).sort((a: Class, b: Class) => a.total! - b.total!);
-    }
-
     function isMutuallyExcluded(talismanId: string): boolean {
         return MUTUALLY_EXCLUSIVE_TALISMANS.some((idGroup) =>
             equippedTalismans.some(
@@ -176,7 +179,7 @@ export default function ClassPage() {
     useEffect(() => {
         // sort classes
         setSorted(sortClasses());
-    }, [finalStats]);
+    }, [finalStats, sortClasses]);
 
     useEffect(() => {
         // calculate final stats
