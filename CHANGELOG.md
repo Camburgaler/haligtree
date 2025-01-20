@@ -7,7 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Planned
 
--   Add spell scaling to weapon page
+### General
+
+-   Add login
+-   Add the ability to save builds
+
+### Weapon Page
+
+-   Add spell scaling
+-   Add ignored weapons
+-   Add full range of upgrade levels
+-   Add inventory mode
+    -   Instead of being given the whole list of weapons, user starts with an empty list and adds weapons as they pick them up
+    -   User gives each weapon its current upgrade level and infusion
+    -   Will tell the user if there's a more effective infusion for their stats
+    -   Will tell the user what weapons in their inventory are best
+    -   Will rank the weapons in the user's inventory by potential (i.e. by their damage when upgraded fully and with the most effective infusion)
+
+### Armor Page
+
+-   Add button to ignore all armor
+-   Remember page data between sessions
+-   Add character preview
+-   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
+
+## [2.4.0] - 2025-01-19
+
+### Added
+
+-   Remember weapon page data between sessions
 
 ## [2.3.0] - 2024-12-31
 
