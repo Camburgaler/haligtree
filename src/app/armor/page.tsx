@@ -572,9 +572,15 @@ export default function ArmorPage() {
                             </button>
                         </div>
                         <div>
-                            <ul id="ignored-items">
+                            <ul
+                                id="ignored-items"
+                                style={{ listStyle: "none" }}
+                            >
                                 {ignoredItems.map((item: Armor) => (
-                                    <li key={item.id}>
+                                    <li
+                                        key={item.id}
+                                        style={{ display: "flex" }}
+                                    >
                                         {item.name}
                                         <button
                                             onClick={() =>

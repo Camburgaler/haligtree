@@ -246,9 +246,12 @@ export default function ClassPage() {
                     </div>
                     <hr />
                     <div>
-                        <ul id="classes">
+                        <ul
+                            id="classes"
+                            style={{ listStyleType: "none", padding: 0 }}
+                        >
                             {sorted.map((cls: any) => (
-                                <li key={cls.id}>
+                                <li key={cls.id} style={{ display: "flex" }}>
                                     <span>{cls.name}</span>
                                     <aside>lvl. {cls.total}</aside>
                                 </li>
@@ -402,9 +405,12 @@ export default function ClassPage() {
                         <b>Talismans</b>
                     </div>
                     <div>
-                        <ul id="talismans">
+                        <ul
+                            id="talismans"
+                            style={{ listStyle: "none", padding: 0 }}
+                        >
                             {TALISMANS.map((item: Talisman) => (
-                                <li key={item.id}>
+                                <li key={item.id} style={{ display: "flex" }}>
                                     <div>
                                         <input
                                             name="talisman"
