@@ -41,6 +41,13 @@ export default function ArmorPage() {
     const [chestpieces, setChestpieces] = useState(Array<Armor>());
     const [gauntlets, setGauntlets] = useState(Array<Armor>());
     const [leggings, setLeggings] = useState(Array<Armor>());
+    const [pressedKeys, setPressedKeys] = useState(new Set());
+
+    const hotkeyGroups = [
+        ["`", "1", "2", "3"],
+        ["4", "5", "6", "7"],
+        ["8", "9", "0", "-"],
+    ];
 
     // STATE UPDATE FUNCTIONS
     function updateLockedItems(itemType: string, newItem: Armor): void {
@@ -81,7 +88,7 @@ export default function ArmorPage() {
         setIgnoredItems([...ignoredItems.filter((i) => i !== oldItem)]);
     }
 
-    // CALLBACKS
+    // HELPER FUNCTIONS
     const ignoreAll = (): void => {
         // filter out No Helmet, No Chestpiece, No Gauntlets, No Leggings
         var completeList = [
@@ -97,9 +104,65 @@ export default function ArmorPage() {
         setIgnoredItems([]);
     };
 
+    const handleKeyDown = (event: KeyboardEvent): void => {
+        event.preventDefault();
+        setPressedKeys((prevKeys) => new Set(prevKeys).add(event.key));
+
+        if (pressedKeys.has("Control") && pressedKeys.has("i")) {
+            switch (event.key) {
+                case hotkeyGroups[0][0]:
+                    addIgnoredItem(best[0].helmet!);
+                    break;
+                case hotkeyGroups[0][1]:
+                    addIgnoredItem(best[0].chestpiece!);
+                    break;
+                case hotkeyGroups[0][2]:
+                    addIgnoredItem(best[0].gauntlets!);
+                    break;
+                case hotkeyGroups[0][3]:
+                    addIgnoredItem(best[0].leggings!);
+                    break;
+                case hotkeyGroups[1][0]:
+                    addIgnoredItem(best[1].helmet!);
+                    break;
+                case hotkeyGroups[1][1]:
+                    addIgnoredItem(best[1].chestpiece!);
+                    break;
+                case hotkeyGroups[1][2]:
+                    addIgnoredItem(best[1].gauntlets!);
+                    break;
+                case hotkeyGroups[1][3]:
+                    addIgnoredItem(best[1].leggings!);
+                    break;
+                case hotkeyGroups[2][0]:
+                    addIgnoredItem(best[2].helmet!);
+                    break;
+                case hotkeyGroups[2][1]:
+                    addIgnoredItem(best[2].chestpiece!);
+                    break;
+                case hotkeyGroups[2][2]:
+                    addIgnoredItem(best[2].gauntlets!);
+                    break;
+                case hotkeyGroups[2][3]:
+                    addIgnoredItem(best[2].leggings!);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    const handleKeyUp = (event: KeyboardEvent): void => {
+        setPressedKeys((prevKeys) => {
+            const newKeys = new Set(prevKeys);
+            newKeys.delete(event.key);
+            return newKeys;
+        });
+    };
+
     // EFFECTS
-    // Load data from localStorage on component mount
     useEffect(() => {
+        // Load data from localStorage on component mount
         const localMaxEquipLoad = localStorage.getItem("localMaxEquipLoad");
         if (localMaxEquipLoad) {
             setMaxEquipLoad(JSON.parse(localMaxEquipLoad));
@@ -132,6 +195,17 @@ export default function ArmorPage() {
             setIgnoredItems(JSON.parse(localIgnoredItems));
         }
     }, []);
+
+    useEffect(() => {
+        // Add event listeners for hotkeys
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, [pressedKeys]);
 
     useEffect(() => {
         localStorage.setItem("localMaxEquipLoad", JSON.stringify(maxEquipLoad));
@@ -560,12 +634,34 @@ export default function ArmorPage() {
                                                         set.leggings!
                                                     ),
                                             ]}
+                                            hotkeys={hotkeyGroups[i]}
                                         />
                                     );
                                 })}
                             </table>
                         </div>
                     </article>
+                    <div>
+                        <h2 style={{ textAlign: "center" }}>Ignoring Armor</h2>
+                        <p>
+                            Click the red "X" next to any armor piece to remove
+                            it from the pool of armor being considered for
+                            optimization. Some reasons you might do this
+                            include:
+                        </p>
+                        <ul>
+                            <li>You don't currently have the armor.</li>
+                            <li>You don't like the way the armor looks.</li>
+                            <li>You don't like the armor's stats.</li>
+                        </ul>
+                        <p>
+                            Alternatively, each armor piece has a hotkey
+                            associated with ignoring it. The hotkeys are the
+                            keys on the top row of your QWERTY keyboard, from
+                            backtick (`) to hyphen (-). Hover over any of the
+                            red "X"s to see what its hotkey is.
+                        </p>
+                    </div>
                 </div>
             </main>
         </div>

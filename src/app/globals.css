@@ -318,14 +318,10 @@ select option {
 
 .app ul {
     width: 100%;
-    padding: 0;
     margin: 0;
-    list-style: none;
-    list-style-type: none;
 }
 
 .app li {
-    display: flex;
     justify-content: space-between;
     word-wrap: break-word;
 }
