@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     ARMOR_RESULTS_SET_IDS,
     CHESTPIECES,
@@ -61,215 +61,6 @@ export default function ArmorPage() {
     }
 
     // FUNCTIONS
-    function dominated(itemList: Armor[]): Armor[] {
-        if (lockedItems.some((item: Armor) => itemList.includes(item))) {
-            return [itemList.find((item: any) => lockedItems.includes(item))!];
-        }
-
-        // remove ignored items from itemList
-        itemList = itemList.filter(
-            (item: Armor) => !ignoredItems.includes(item)
-        );
-
-        let sorted = [...itemList];
-        sorted.sort((a, b) => a.weight - b.weight);
-
-        let approved: Armor[] = [];
-        sorted.forEach((item) => {
-            if (!approved.some((other) => fitness(item) <= fitness(other))) {
-                approved.push(item);
-            }
-        });
-
-        return approved;
-    }
-
-    function fitness(item: Armor): number {
-        switch (sortBy) {
-            case "sort-average":
-                return (
-                    Object.values(item.defenses).reduce(
-                        (total: any, n) => total + n,
-                        0
-                    ) ?? 0
-                );
-            case "sort-standard":
-                return (
-                    [
-                        item.defenses.physical,
-                        item.defenses.strike,
-                        item.defenses.slash,
-                        item.defenses.pierce,
-                    ].reduce((total, n) => total + n, 0) ?? 0
-                );
-            case "sort-physical":
-                return item.defenses.physical ?? 0;
-            case "sort-strike":
-                return item.defenses.strike ?? 0;
-            case "sort-slash":
-                return item.defenses.slash ?? 0;
-            case "sort-pierce":
-                return item.defenses.pierce ?? 0;
-            case "sort-elemental":
-                return (
-                    [
-                        item.defenses.magic,
-                        item.defenses.fire,
-                        item.defenses.lightning,
-                        item.defenses.holy,
-                    ].reduce((total, n) => total + n, 0) ?? 0
-                );
-            case "sort-magic":
-                return item.defenses.magic ?? 0;
-            case "sort-fire":
-                return item.defenses.fire ?? 0;
-            case "sort-lightning":
-                return item.defenses.lightning ?? 0;
-            case "sort-holy":
-                return item.defenses.holy ?? 0;
-            case "sort-resistances":
-                return (
-                    Object.values(item.resistances).reduce(
-                        (total, n) => total + n,
-                        0
-                    ) ?? 0
-                );
-            case "sort-scarlet-rot":
-                return item.resistances.scarletRot ?? 0;
-            case "sort-poison":
-                return item.resistances.poison ?? 0;
-            case "sort-hemorrhage":
-                return item.resistances.hemorrhage ?? 0;
-            case "sort-frostbite":
-                return item.resistances.frostbite ?? 0;
-            case "sort-sleep":
-                return item.resistances.sleep ?? 0;
-            case "sort-madness":
-                return item.resistances.madness ?? 0;
-            case "sort-death":
-                return item.resistances.deathBlight ?? 0;
-            case "sort-poise":
-                return item.poise ?? 0;
-            // case "sort-custom":
-            //     return (
-            //         [item.defenses.physical * 0.5, item.defenses.holy].reduce(
-            //             (total, n) => total + n,
-            //             0
-            //         ) ?? 0
-            //     );
-            default:
-                return -1;
-        }
-    }
-
-    function knapSack(): Set[] {
-        // Convert max equip load to integer by multiplying by 10
-        const equipLoadBudgetInt = Math.round(equipLoadBudget * 10);
-
-        // Initialize DP table
-        const dp: Set[][] = Array(5)
-            .fill(0)
-            .map(() =>
-                Array(equipLoadBudgetInt + 1)
-                    .fill(null)
-                    .map(() => {
-                        let set: Set = [];
-                        set.weight = 0;
-                        set.fitness = 0;
-                        return set;
-                    })
-            );
-
-        const equipment = [helmets, chestpieces, gauntlets, leggings];
-        // Fill DP table
-        for (let i = 0; i < 4; i++) {
-            const pieces = equipment[i];
-
-            for (const piece of pieces) {
-                // Convert piece weight to integer
-                const pieceWeight = piece.weight;
-                const pieceWeightInt = Math.round(pieceWeight * 10);
-                const pieceStat = fitness(piece);
-
-                for (
-                    let wInt = equipLoadBudgetInt;
-                    wInt >= pieceWeightInt;
-                    wInt--
-                ) {
-                    if (
-                        dp[i][wInt - pieceWeightInt].weight! + pieceWeight <=
-                        equipLoadBudgetInt
-                    ) {
-                        const newFitness =
-                            dp[i][wInt - pieceWeightInt].fitness! + pieceStat;
-                        if (newFitness > dp[i + 1][wInt].fitness!) {
-                            // helmet
-                            dp[i + 1][wInt][0] =
-                                i === 0
-                                    ? piece
-                                    : dp[i][wInt - pieceWeightInt][0] ??
-                                      HELMETS[0];
-                            // chestpiece
-                            dp[i + 1][wInt][1] =
-                                i === 1
-                                    ? piece
-                                    : dp[i][wInt - pieceWeightInt][1] ??
-                                      CHESTPIECES[0];
-                            // gauntlets
-                            dp[i + 1][wInt][2] =
-                                i === 2
-                                    ? piece
-                                    : dp[i][wInt - pieceWeightInt][2] ??
-                                      GAUNTLETS[0];
-                            // leggings
-                            dp[i + 1][wInt][3] =
-                                i === 3
-                                    ? piece
-                                    : dp[i][wInt - pieceWeightInt][3] ??
-                                      LEGGINGS[0];
-                            // fitness
-                            dp[i + 1][wInt].fitness = newFitness;
-                            // weight
-                            dp[i + 1][wInt].weight =
-                                dp[i][wInt - pieceWeightInt].weight! +
-                                pieceWeight;
-                        }
-                    }
-                }
-            }
-
-            // Carry forward the best set from the previous category without adding a new piece
-            for (let w = 0; w <= equipLoadBudgetInt; w++) {
-                if (dp[i + 1][w].fitness! < dp[i][w].fitness!) {
-                    dp[i + 1][w] = dp[i][w];
-                }
-            }
-        }
-
-        // Extract top 3 sets
-        const topSets: Set[] = [];
-        for (let wInt = equipLoadBudgetInt; wInt >= 0; wInt--) {
-            if (dp[4][wInt].fitness! > 0) {
-                let duplicate = false;
-                for (const set of topSets) {
-                    if (
-                        dp[4][wInt][0] === set[0] &&
-                        dp[4][wInt][1] === set[1] &&
-                        dp[4][wInt][2] === set[2] &&
-                        dp[4][wInt][3] === set[3]
-                    ) {
-                        duplicate = true;
-                        break;
-                    }
-                }
-                if (duplicate) continue;
-                topSets.push(dp[4][wInt]);
-                if (topSets.length === 3) break;
-            }
-        }
-
-        return topSets;
-    }
 
     function resetAll(): void {
         [
@@ -426,17 +217,238 @@ export default function ArmorPage() {
         return itemStatsToString(imaginary);
     }
 
+    // CALLBACKS
+    const fitness = useCallback(
+        (item: Armor): number => {
+            switch (sortBy) {
+                case "sort-average":
+                    return (
+                        Object.values(item.defenses).reduce(
+                            (total: any, n) => total + n,
+                            0
+                        ) ?? 0
+                    );
+                case "sort-standard":
+                    return (
+                        [
+                            item.defenses.physical,
+                            item.defenses.strike,
+                            item.defenses.slash,
+                            item.defenses.pierce,
+                        ].reduce((total, n) => total + n, 0) ?? 0
+                    );
+                case "sort-physical":
+                    return item.defenses.physical ?? 0;
+                case "sort-strike":
+                    return item.defenses.strike ?? 0;
+                case "sort-slash":
+                    return item.defenses.slash ?? 0;
+                case "sort-pierce":
+                    return item.defenses.pierce ?? 0;
+                case "sort-elemental":
+                    return (
+                        [
+                            item.defenses.magic,
+                            item.defenses.fire,
+                            item.defenses.lightning,
+                            item.defenses.holy,
+                        ].reduce((total, n) => total + n, 0) ?? 0
+                    );
+                case "sort-magic":
+                    return item.defenses.magic ?? 0;
+                case "sort-fire":
+                    return item.defenses.fire ?? 0;
+                case "sort-lightning":
+                    return item.defenses.lightning ?? 0;
+                case "sort-holy":
+                    return item.defenses.holy ?? 0;
+                case "sort-resistances":
+                    return (
+                        Object.values(item.resistances).reduce(
+                            (total, n) => total + n,
+                            0
+                        ) ?? 0
+                    );
+                case "sort-scarlet-rot":
+                    return item.resistances.scarletRot ?? 0;
+                case "sort-poison":
+                    return item.resistances.poison ?? 0;
+                case "sort-hemorrhage":
+                    return item.resistances.hemorrhage ?? 0;
+                case "sort-frostbite":
+                    return item.resistances.frostbite ?? 0;
+                case "sort-sleep":
+                    return item.resistances.sleep ?? 0;
+                case "sort-madness":
+                    return item.resistances.madness ?? 0;
+                case "sort-death":
+                    return item.resistances.deathBlight ?? 0;
+                case "sort-poise":
+                    return item.poise ?? 0;
+                // case "sort-custom":
+                //     return (
+                //         [item.defenses.physical * 0.5, item.defenses.holy].reduce(
+                //             (total, n) => total + n,
+                //             0
+                //         ) ?? 0
+                //     );
+                default:
+                    return -1;
+            }
+        },
+        [sortBy]
+    );
+
+    const dominated = useCallback(
+        (itemList: Armor[]): Armor[] => {
+            if (lockedItems.some((item: Armor) => itemList.includes(item))) {
+                return [
+                    itemList.find((item: any) => lockedItems.includes(item))!,
+                ];
+            }
+
+            // remove ignored items from itemList
+            itemList = itemList.filter(
+                (item: Armor) => !ignoredItems.includes(item)
+            );
+
+            let sorted = [...itemList];
+            sorted.sort((a, b) => a.weight - b.weight);
+
+            let approved: Armor[] = [];
+            sorted.forEach((item) => {
+                if (
+                    !approved.some((other) => fitness(item) <= fitness(other))
+                ) {
+                    approved.push(item);
+                }
+            });
+
+            return approved;
+        },
+        [lockedItems, ignoredItems, fitness]
+    );
+
+    const knapSack = useCallback((): Set[] => {
+        // Convert max equip load to integer by multiplying by 10
+        const equipLoadBudgetInt = Math.round(equipLoadBudget * 10);
+
+        // Initialize DP table
+        const dp: Set[][] = Array(5)
+            .fill(0)
+            .map(() =>
+                Array(equipLoadBudgetInt + 1)
+                    .fill(null)
+                    .map(() => {
+                        let set: Set = [];
+                        set.weight = 0;
+                        set.fitness = 0;
+                        return set;
+                    })
+            );
+
+        const equipment = [helmets, chestpieces, gauntlets, leggings];
+        // Fill DP table
+        for (let i = 0; i < 4; i++) {
+            const pieces = equipment[i];
+
+            for (const piece of pieces) {
+                // Convert piece weight to integer
+                const pieceWeight = piece.weight;
+                const pieceWeightInt = Math.round(pieceWeight * 10);
+                const pieceStat = fitness(piece);
+
+                for (
+                    let wInt = equipLoadBudgetInt;
+                    wInt >= pieceWeightInt;
+                    wInt--
+                ) {
+                    if (
+                        dp[i][wInt - pieceWeightInt].weight! + pieceWeight <=
+                        equipLoadBudgetInt
+                    ) {
+                        const newFitness =
+                            dp[i][wInt - pieceWeightInt].fitness! + pieceStat;
+                        if (newFitness > dp[i + 1][wInt].fitness!) {
+                            // helmet
+                            dp[i + 1][wInt][0] =
+                                i === 0
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][0] ??
+                                      HELMETS[0];
+                            // chestpiece
+                            dp[i + 1][wInt][1] =
+                                i === 1
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][1] ??
+                                      CHESTPIECES[0];
+                            // gauntlets
+                            dp[i + 1][wInt][2] =
+                                i === 2
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][2] ??
+                                      GAUNTLETS[0];
+                            // leggings
+                            dp[i + 1][wInt][3] =
+                                i === 3
+                                    ? piece
+                                    : dp[i][wInt - pieceWeightInt][3] ??
+                                      LEGGINGS[0];
+                            // fitness
+                            dp[i + 1][wInt].fitness = newFitness;
+                            // weight
+                            dp[i + 1][wInt].weight =
+                                dp[i][wInt - pieceWeightInt].weight! +
+                                pieceWeight;
+                        }
+                    }
+                }
+            }
+
+            // Carry forward the best set from the previous category without adding a new piece
+            for (let w = 0; w <= equipLoadBudgetInt; w++) {
+                if (dp[i + 1][w].fitness! < dp[i][w].fitness!) {
+                    dp[i + 1][w] = dp[i][w];
+                }
+            }
+        }
+
+        // Extract top 3 sets
+        const topSets: Set[] = [];
+        for (let wInt = equipLoadBudgetInt; wInt >= 0; wInt--) {
+            if (dp[4][wInt].fitness! > 0) {
+                let duplicate = false;
+                for (const set of topSets) {
+                    if (
+                        dp[4][wInt][0] === set[0] &&
+                        dp[4][wInt][1] === set[1] &&
+                        dp[4][wInt][2] === set[2] &&
+                        dp[4][wInt][3] === set[3]
+                    ) {
+                        duplicate = true;
+                        break;
+                    }
+                }
+                if (duplicate) continue;
+                topSets.push(dp[4][wInt]);
+                if (topSets.length === 3) break;
+            }
+        }
+
+        return topSets;
+    }, [equipLoadBudget, helmets, chestpieces, gauntlets, leggings, fitness]);
+
     // EFFECTS
     useEffect(() => {
         setBest(knapSack());
-    }, [helmets, chestpieces, gauntlets, leggings, equipLoadBudget]);
+    }, [helmets, chestpieces, gauntlets, leggings, equipLoadBudget, knapSack]);
 
     useEffect(() => {
         setHelmets(dominated(HELMETS));
         setChestpieces(dominated(CHESTPIECES));
         setGauntlets(dominated(GAUNTLETS));
         setLeggings(dominated(LEGGINGS));
-    }, [lockedItems, ignoredItems, sortBy]);
+    }, [lockedItems, ignoredItems, sortBy, dominated]);
 
     useEffect(() => {
         setEquipLoadBudget(

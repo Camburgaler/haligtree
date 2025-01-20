@@ -122,7 +122,7 @@ export default function Weapons() {
     function updateStats(id: string, value: number) {
         setStats({
             ...stats,
-            [id]: value < 0 ? 0 : value > 99 ? 99 : value,
+            [id]: value < 1 ? 1 : value > 99 ? 99 : value,
         });
     }
 
@@ -342,6 +342,137 @@ export default function Weapons() {
             </div>
         );
     }
+
+    // Load data from localStorage on component mount
+    useEffect(() => {
+        const localStats = localStorage.getItem("localStats");
+        if (localStats) {
+            setStats(JSON.parse(localStats));
+        }
+
+        const localReinforced = localStorage.getItem("localReinforced");
+        if (localReinforced) {
+            setReinforced(JSON.parse(localReinforced));
+        }
+
+        const localRequireStats = localStorage.getItem("localRequireStats");
+        if (localRequireStats) {
+            setRequireStats(JSON.parse(localRequireStats));
+        }
+
+        const localBuffableOnly = localStorage.getItem("localBuffableOnly");
+        if (localBuffableOnly) {
+            setBuffableOnly(JSON.parse(localBuffableOnly));
+        }
+
+        const localSplitDamage = localStorage.getItem("localSplitDamage");
+        if (localSplitDamage) {
+            setSplitDamage(JSON.parse(localSplitDamage));
+        }
+
+        const localStatusEffects = localStorage.getItem("localStatusEffects");
+        if (localStatusEffects) {
+            setStatusEffects(JSON.parse(localStatusEffects));
+        }
+
+        const localTwoHanded = localStorage.getItem("localTwoHanded");
+        if (localTwoHanded) {
+            setTwoHanded(JSON.parse(localTwoHanded));
+        }
+
+        const localInfusions = localStorage.getItem("localInfusions");
+        if (localInfusions) {
+            setInfusions(JSON.parse(localInfusions));
+        }
+
+        const localAttackPowerTypeMode = localStorage.getItem(
+            "localAttackPowerTypeMode"
+        );
+        if (localAttackPowerTypeMode) {
+            setAttackPowerTypeMode(JSON.parse(localAttackPowerTypeMode));
+        }
+
+        const localAttackPowerTypesInclude = localStorage.getItem(
+            "localAttackPowerTypesInclude"
+        );
+        if (localAttackPowerTypesInclude) {
+            setAttackPowerTypesInclude(
+                JSON.parse(localAttackPowerTypesInclude)
+            );
+        }
+
+        const localAttackPowerTypes = localStorage.getItem(
+            "localAttackPowerTypes"
+        );
+        if (localAttackPowerTypes) {
+            setAttackPowerTypes(JSON.parse(localAttackPowerTypes));
+        }
+
+        const localCategories = localStorage.getItem("localCategories");
+        if (localCategories) {
+            setCategories(JSON.parse(localCategories));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("localStats", JSON.stringify(stats));
+    }, [stats]);
+
+    useEffect(() => {
+        localStorage.setItem("localReinforced", JSON.stringify(reinforced));
+    }, [reinforced]);
+
+    useEffect(() => {
+        localStorage.setItem("localRequireStats", JSON.stringify(requireStats));
+    }, [requireStats]);
+
+    useEffect(() => {
+        localStorage.setItem("localBuffableOnly", JSON.stringify(buffableOnly));
+    }, [buffableOnly]);
+
+    useEffect(() => {
+        localStorage.setItem("localSplitDamage", JSON.stringify(splitDamage));
+    }, [splitDamage]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localStatusEffects",
+            JSON.stringify(statusEffects)
+        );
+    }, [statusEffects]);
+
+    useEffect(() => {
+        localStorage.setItem("localTwoHanded", JSON.stringify(twoHanded));
+    }, [twoHanded]);
+
+    useEffect(() => {
+        localStorage.setItem("localInfusions", JSON.stringify(infusions));
+    }, [infusions]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypeMode",
+            JSON.stringify(attackPowerTypeMode)
+        );
+    }, [attackPowerTypeMode]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypesInclude",
+            JSON.stringify(attackPowerTypesInclude)
+        );
+    }, [attackPowerTypesInclude]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypes",
+            JSON.stringify(attackPowerTypes)
+        );
+    }, [attackPowerTypes]);
+
+    useEffect(() => {
+        localStorage.setItem("localCategories", JSON.stringify(categories));
+    }, [categories]);
 
     // EFFECTS
     useEffect(() => {
