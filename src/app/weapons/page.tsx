@@ -31,7 +31,8 @@ export default function Weapons() {
     const [requireStats, setRequireStats] = useState(true);
     const [buffableOnly, setBuffableOnly] = useState(false);
     const [splitDamage, setSplitDamage] = useState(true);
-    const [statusEffects, setStatusEffects] = useState<boolean>(false);
+    const [considerStatusEffects, setConsiderStatusEffects] =
+        useState<boolean>(false);
     const [twoHanded, setTwoHanded] = useState(false);
     const [infusions, setInfusions] = useState<InfusionMap<boolean>>({
         standard: true,
@@ -283,6 +284,7 @@ export default function Weapons() {
         setAttackPowerTypeMode(ATTACK_POWER_TYPE_MODE_ANY);
         setAllAttackPowerTypes(true);
         setAttackPowerTypesInclude(true);
+        setConsiderStatusEffects(false);
     }
 
     function createCategoryCheckbox(
@@ -372,7 +374,7 @@ export default function Weapons() {
 
         const localStatusEffects = localStorage.getItem("localStatusEffects");
         if (localStatusEffects) {
-            setStatusEffects(JSON.parse(localStatusEffects));
+            setConsiderStatusEffects(JSON.parse(localStatusEffects));
         }
 
         const localTwoHanded = localStorage.getItem("localTwoHanded");
@@ -437,9 +439,9 @@ export default function Weapons() {
     useEffect(() => {
         localStorage.setItem(
             "localStatusEffects",
-            JSON.stringify(statusEffects)
+            JSON.stringify(considerStatusEffects)
         );
-    }, [statusEffects]);
+    }, [considerStatusEffects]);
 
     useEffect(() => {
         localStorage.setItem("localTwoHanded", JSON.stringify(twoHanded));
@@ -488,7 +490,7 @@ export default function Weapons() {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            statusEffects
+            considerStatusEffects
         );
         filtered.forEach((weapon) => {
             if (weapon.max == 0) {
@@ -509,7 +511,7 @@ export default function Weapons() {
         attackPowerTypesInclude,
         attackPowerTypeMode,
         attackPowerTypes,
-        statusEffects,
+        considerStatusEffects,
     ]);
 
     // RENDER
@@ -635,9 +637,11 @@ export default function Weapons() {
                                     type="checkbox"
                                     id="status-effects"
                                     onChange={(event) => {
-                                        setStatusEffects(event.target.checked);
+                                        setConsiderStatusEffects(
+                                            event.target.checked
+                                        );
                                     }}
-                                    checked={statusEffects}
+                                    checked={considerStatusEffects}
                                 />
                                 <label htmlFor="status-effects">
                                     Consider Status Effects
