@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Remember weapon page data between sessions
 
+### Fixed
+
+-   Weapon page stat minimum is now 1 instead of 0
+
 ## [2.3.0] - 2024-12-31
 
 ### Changed
