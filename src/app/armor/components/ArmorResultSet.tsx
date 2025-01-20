@@ -7,6 +7,7 @@ function ArmorResultSet(props: {
     itemStats: string[][];
     setStats: string[];
     addIgnoredItem: Function[];
+    hotkeys: string[];
 }) {
     return (
         <>
@@ -33,6 +34,7 @@ function ArmorResultSet(props: {
                     armorId={props.armorIds[0]}
                     stats={props.itemStats[0]}
                     addIgnoredItem={props.addIgnoredItem[0]}
+                    hotkey={props.hotkeys[0]}
                 />
                 <ArmorResultRow
                     name={props.armorNames[1]}
@@ -40,6 +42,7 @@ function ArmorResultSet(props: {
                     armorId={props.armorIds[1]}
                     stats={props.itemStats[1]}
                     addIgnoredItem={props.addIgnoredItem[1]}
+                    hotkey={props.hotkeys[1]}
                 />
                 <ArmorResultRow
                     name={props.armorNames[2]}
@@ -47,6 +50,7 @@ function ArmorResultSet(props: {
                     armorId={props.armorIds[2]}
                     stats={props.itemStats[2]}
                     addIgnoredItem={props.addIgnoredItem[2]}
+                    hotkey={props.hotkeys[2]}
                 />
                 <ArmorResultRow
                     name={props.armorNames[3]}
@@ -54,6 +58,7 @@ function ArmorResultSet(props: {
                     armorId={props.armorIds[3]}
                     stats={props.itemStats[3]}
                     addIgnoredItem={props.addIgnoredItem[3]}
+                    hotkey={props.hotkeys[3]}
                 />
             </tbody>
         </>

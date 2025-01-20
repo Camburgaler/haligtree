@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add login
 -   Add the ability to save builds
+-   Add about page with changelog
 
 ### Weapon Page
 
@@ -28,7 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add character preview
 -   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
--   Add hotkeys to quickly ignore any item in the results table
+
+## [2.7.0] - 2025-01-20
+
+### Added
+
+-   Added hotkeys to quickly ignore any item in the results table
 
 ## [2.6.0] - 2025-01-20
 

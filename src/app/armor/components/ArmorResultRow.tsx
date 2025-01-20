@@ -4,6 +4,7 @@ function ArmorResultRow(props: {
     armorId?: string;
     stats: string[];
     addIgnoredItem: Function;
+    hotkey?: string;
 }) {
     let ignoreButton;
     let name;
@@ -26,6 +27,8 @@ function ArmorResultRow(props: {
         ignoreButton = (
             <button
                 onClick={() => props.addIgnoredItem(props.armorId)}
+                // add hint on hover
+                title={"Ignore this armor (CTRL+i+" + props.hotkey + ")"}
                 style={{
                     marginLeft: "5px",
                     backgroundColor: "transparent",
