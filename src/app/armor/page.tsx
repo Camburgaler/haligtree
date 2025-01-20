@@ -81,6 +81,22 @@ export default function ArmorPage() {
         setIgnoredItems([...ignoredItems.filter((i) => i !== oldItem)]);
     }
 
+    // CALLBACKS
+    const ignoreAll = (): void => {
+        // filter out No Helmet, No Chestpiece, No Gauntlets, No Leggings
+        var completeList = [
+            ...HELMETS.slice(1),
+            ...CHESTPIECES.slice(1),
+            ...GAUNTLETS.slice(1),
+            ...LEGGINGS.slice(1),
+        ];
+        setIgnoredItems(completeList);
+    };
+
+    const restoreAll = (): void => {
+        setIgnoredItems([]);
+    };
+
     // EFFECTS
     // Load data from localStorage on component mount
     useEffect(() => {
@@ -462,7 +478,15 @@ export default function ArmorPage() {
                             value={lockedItems.leggings?.id}
                         />
                         <hr />
-                        <b>Ignored Armor</b>
+                        <div>
+                            <b>Ignored Armor</b>
+                            <button id="ignore-all" onClick={ignoreAll}>
+                                Ignore All
+                            </button>
+                            <button id="restore-all" onClick={restoreAll}>
+                                Restore All
+                            </button>
+                        </div>
                         <div>
                             <ul id="ignored-items">
                                 {ignoredItems.map((item: Armor) => (

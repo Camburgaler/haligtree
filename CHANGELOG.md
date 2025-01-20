@@ -26,10 +26,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Armor Page
 
--   Add button to ignore all armor
 -   Add character preview
 -   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
 -   Add hotkeys to quickly ignore any item in the results table
+
+## [2.6.0] - TBD
+
+### Added
+
+-   Added button to ignore all armor
 
 ## [2.5.0] - 2025-01-20
 
