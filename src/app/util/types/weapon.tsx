@@ -3,10 +3,6 @@ import StatMap from "../interfaces/statMap";
 import Equippable from "./equippable";
 import WeaponInfusion from "./weaponInfusion";
 
-interface Aux {
-    [key: string]: { effect: [number, number] };
-}
-
 type Weapon = Equippable & {
     requirements: StatMap<number>;
     category: string;
