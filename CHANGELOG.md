@@ -28,7 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Armor Page
 
 -   Add character preview
--   Fix armor weight filtering (sometimes recommended armor sets will be 0.1 over the limit)
+
+## [2.7.2] - 2025-01-23
+
+### Fixed
+
+-   Fixed armor weight filtering
 
 ## [2.7.1] - 2025-01-23
 
