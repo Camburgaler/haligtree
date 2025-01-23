@@ -163,6 +163,7 @@ export function setStatsToString(set: ArmorSet): string[] {
 
     return itemStatsToString(imaginary);
 }
+
 function fitness(item: Armor, sortBy: string): number {
     switch (sortBy) {
         case "sort-average":
@@ -264,7 +265,6 @@ export function dominated(
 
     // remove ignored items from itemList
     itemList = itemList.filter(
-        // (item: Armor) => !ignoredItems.includes(item)
         (item: Armor) => !ignoredItems.some((i) => i.id === item.id)
     );
 
@@ -294,9 +294,9 @@ export function knapSack(
     sortBy: string
 ): ArmorSet[] {
     // Convert max equip load to integer by multiplying by 10
-    const equipLoadBudgetInt = Math.round(equipLoadBudget * 10);
+    const equipLoadBudgetInt = Math.floor(equipLoadBudget * 10);
 
-    // Initialize DP table
+    // Initialize Dynamic Programming table
     const dp: ArmorSet[][] = Array(5)
         .fill(0)
         .map(() =>
@@ -313,55 +313,55 @@ export function knapSack(
     const equipment = [helmets, chestpieces, gauntlets, leggings];
     // Fill DP table
     for (let i = 0; i < 4; i++) {
-        const pieces = equipment[i];
+        const armorArr = equipment[i];
 
-        for (const piece of pieces) {
+        for (const armor of armorArr) {
             // Convert piece weight to integer
-            const pieceWeight = piece.weight;
-            const pieceWeightInt = Math.round(pieceWeight * 10);
-            const pieceStat = fitness(piece, sortBy);
+            const armorWeight = armor.weight;
+            const armorWeightInt = Math.round(armorWeight * 10);
+            const armorStat = fitness(armor, sortBy);
 
             for (
                 let wInt = equipLoadBudgetInt;
-                wInt >= pieceWeightInt;
+                wInt >= armorWeightInt;
                 wInt--
             ) {
                 if (
-                    dp[i][wInt - pieceWeightInt].weight! + pieceWeight <=
+                    dp[i][wInt - armorWeightInt].weight! + armorWeight <=
                     equipLoadBudgetInt
                 ) {
                     const newFitness =
-                        dp[i][wInt - pieceWeightInt].fitness! + pieceStat;
+                        dp[i][wInt - armorWeightInt].fitness! + armorStat;
                     if (newFitness > dp[i + 1][wInt].fitness!) {
                         // helmet
                         dp[i + 1][wInt].helmet =
                             i === 0
-                                ? piece
-                                : dp[i][wInt - pieceWeightInt].helmet ??
+                                ? armor
+                                : dp[i][wInt - armorWeightInt].helmet ??
                                   HELMETS[0];
                         // chestpiece
                         dp[i + 1][wInt].chestpiece =
                             i === 1
-                                ? piece
-                                : dp[i][wInt - pieceWeightInt].chestpiece ??
+                                ? armor
+                                : dp[i][wInt - armorWeightInt].chestpiece ??
                                   CHESTPIECES[0];
                         // gauntlets
                         dp[i + 1][wInt].gauntlets =
                             i === 2
-                                ? piece
-                                : dp[i][wInt - pieceWeightInt].gauntlets ??
+                                ? armor
+                                : dp[i][wInt - armorWeightInt].gauntlets ??
                                   GAUNTLETS[0];
                         // leggings
                         dp[i + 1][wInt].leggings =
                             i === 3
-                                ? piece
-                                : dp[i][wInt - pieceWeightInt].leggings ??
+                                ? armor
+                                : dp[i][wInt - armorWeightInt].leggings ??
                                   LEGGINGS[0];
                         // fitness
                         dp[i + 1][wInt].fitness = newFitness;
                         // weight
                         dp[i + 1][wInt].weight =
-                            dp[i][wInt - pieceWeightInt].weight! + pieceWeight;
+                            dp[i][wInt - armorWeightInt].weight! + armorWeight;
                     }
                 }
             }
