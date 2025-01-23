@@ -843,6 +843,11 @@ export default function Weapons() {
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>
+                                            <b style={{ userSelect: "none" }}>
+                                                Rank
+                                            </b>
+                                        </th>
                                         <th style={{ minWidth: "2rem" }}>
                                             <b style={{ userSelect: "none" }}>
                                                 Weapon
