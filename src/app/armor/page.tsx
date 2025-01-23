@@ -113,7 +113,6 @@ export default function ArmorPage() {
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent): void => {
-            event.preventDefault();
             setPressedKeys((prevKeys) => new Set(prevKeys).add(event.key));
 
             if (pressedKeys.has("Control") && pressedKeys.has("i")) {
