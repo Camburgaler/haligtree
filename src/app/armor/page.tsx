@@ -113,10 +113,10 @@ export default function ArmorPage() {
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent): void => {
-            event.preventDefault();
             setPressedKeys((prevKeys) => new Set(prevKeys).add(event.key));
 
             if (pressedKeys.has("Control") && pressedKeys.has("i")) {
+                event.preventDefault();
                 switch (event.key) {
                     case hotkeyGroups[0][0]:
                         addIgnoredItem(best[0].helmet!);
