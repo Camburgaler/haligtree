@@ -33,6 +33,8 @@ export default function Weapons() {
     const [splitDamage, setSplitDamage] = useState(true);
     const [considerStatusEffects, setConsiderStatusEffects] =
         useState<boolean>(false);
+    const [considerSpellScaling, setConsiderSpellScaling] =
+        useState<boolean>(false);
     const [twoHanded, setTwoHanded] = useState(false);
     const [infusions, setInfusions] = useState<InfusionMap<boolean>>({
         standard: true,
@@ -478,26 +480,23 @@ export default function Weapons() {
 
     // EFFECTS
     useEffect(() => {
-        let filtered = mapWeapons(
-            stats,
-            twoHanded,
-            requireStats,
-            categories,
-            infusions,
-            buffableOnly,
-            splitDamage,
-            attackPowerTypesInclude,
-            attackPowerTypeMode,
-            attackPowerTypes,
-            reinforced,
-            considerStatusEffects
+        setResults(
+            mapWeapons(
+                stats,
+                twoHanded,
+                requireStats,
+                categories,
+                infusions,
+                buffableOnly,
+                splitDamage,
+                attackPowerTypesInclude,
+                attackPowerTypeMode,
+                attackPowerTypes,
+                reinforced,
+                considerStatusEffects,
+                considerSpellScaling
+            )
         );
-        filtered.forEach((weapon) => {
-            if (weapon.max == 0) {
-                filtered = filtered.filter((w) => w != weapon);
-            }
-        });
-        setResults(filtered);
     }, [
         stats,
         reinforced,
@@ -512,6 +511,7 @@ export default function Weapons() {
         attackPowerTypeMode,
         attackPowerTypes,
         considerStatusEffects,
+        considerSpellScaling,
     ]);
 
     // RENDER
@@ -645,6 +645,23 @@ export default function Weapons() {
                                 />
                                 <label htmlFor="status-effects">
                                     Consider Status Effects
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input
+                                    type="checkbox"
+                                    id="spell-scaling"
+                                    onChange={(event) => {
+                                        setConsiderSpellScaling(
+                                            event.target.checked
+                                        );
+                                    }}
+                                    checked={considerSpellScaling}
+                                />
+                                <label htmlFor="status-effects">
+                                    Consider Spell Scaling
                                 </label>
                             </span>
                         </div>
@@ -867,8 +884,31 @@ export default function Weapons() {
                                                 }
                                                 style={{ userSelect: "none" }}
                                             >
-                                                {" "}
-                                                Max{" "}
+                                                Max
+                                            </b>
+                                        </th>
+                                        <th>
+                                            <b
+                                                onClick={() => {
+                                                    sortBy.dmgType ==
+                                                    "spellScaling"
+                                                        ? setSortBy({
+                                                              ...sortBy,
+                                                              desc: !sortBy.desc,
+                                                          })
+                                                        : setSortBy({
+                                                              dmgType:
+                                                                  "spellScaling",
+                                                              desc: true,
+                                                          });
+                                                }}
+                                                onMouseOver={(event) =>
+                                                    (event.currentTarget.style.cursor =
+                                                        "pointer")
+                                                }
+                                                style={{ userSelect: "none" }}
+                                            >
+                                                Spell Scaling
                                             </b>
                                         </th>
                                         {Object.entries(INFUSIONS)

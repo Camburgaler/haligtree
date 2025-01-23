@@ -25,7 +25,7 @@ import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
 import { WeaponResultRow } from "./components/WeaponResultRow";
 
-// let logWeapon: boolean;
+let logWeapon: boolean;
 
 // TYPES
 export type AttackRatingBreakdown = InfusionMap<{
@@ -294,7 +294,8 @@ function attackPower(
     attackPowerTypesInclude: boolean,
     attackPowerTypeMode: string,
     attackPowerTypes: AttackPowerTypeMap<boolean>,
-    statusEffects: boolean
+    considerStatusEffects: boolean,
+    considerSpellScaling: boolean
 ): WeaponResult {
     let inf = INFUSIONS[infId];
     let result: WeaponResult = { ...DEFAULT_WEAPON_RESULT };
@@ -341,10 +342,10 @@ function attackPower(
         ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
     };
 
-    // initialize spell scaling
-    let spellScaling: AttackPowerTypeMap<number> = {
-        ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
-    };
+    // // initialize spell scaling
+    // let spellScaling: AttackPowerTypeMap<number> = {
+    //     ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER,
+    // };
 
     // for each attack power type
     for (const attackPowerType of ATTACK_POWER_TYPE_IDS) {
@@ -433,9 +434,18 @@ function attackPower(
 
             if (
                 isDamageType &&
-                (weapon["glintstone-staff"] || weapon["sacred-seal"])
+                (weapon["glintstone-staff"] || weapon["sacred-seal"]) &&
+                !result.spellScaling
             ) {
-                spellScaling[attackPowerType] = 100 * totalScaling;
+                result.spellScaling = 100 * totalScaling;
+            }
+            if (logWeapon) {
+                console.log(
+                    weapon.name,
+                    weaponInfusion.id,
+                    "spell scaling: ",
+                    result.spellScaling
+                );
             }
         }
     }
@@ -473,7 +483,7 @@ function attackPower(
         [infId]: Math.floor(
             (Object.entries(baseAttackRating) as [string, number][]).reduce(
                 (sum: [string, number], n: [string, number]) =>
-                    statusEffects ||
+                    considerStatusEffects ||
                     (n[0] != "blood" &&
                         n[0] != "poison" &&
                         n[0] != "frost" &&
@@ -486,7 +496,7 @@ function attackPower(
                 (
                     Object.entries(scalingAttackRating) as [string, number][]
                 ).reduce((sum: [string, number], n: [string, number]) =>
-                    statusEffects ||
+                    considerStatusEffects ||
                     (n[0] != "blood" &&
                         n[0] != "poison" &&
                         n[0] != "frost" &&
@@ -500,11 +510,9 @@ function attackPower(
     };
     result.arBreakdown[infId]!.baseDmg = baseAttackRating;
     result.arBreakdown[infId]!.scalingDmg = scalingAttackRating;
-    result.spellScaling =
-        Object.values(spellScaling).reduce(
-            (sum: number | undefined, n: number | undefined) => sum! + n!,
-            0
-        ) ?? 0;
+    // result.spellScaling = Math.max(
+    //     ...(Object.values(spellScaling) as number[])
+    // );
 
     return result;
 }
@@ -593,9 +601,10 @@ export function mapWeapons(
     attackPowerTypeMode: string,
     attackPowerTypes: AttackPowerTypeMap<boolean>,
     reinforced: boolean,
-    considerStatusEffects: boolean
+    considerStatusEffects: boolean,
+    considerSpellScaling: boolean
 ): WeaponResult[] {
-    return filterWeapons(
+    var filtered: WeaponResult[] = filterWeapons(
         stats,
         twoHanded,
         requireStats,
@@ -613,11 +622,11 @@ export function mapWeapons(
         Object.keys(INFUSIONS)
             .filter((infId) => infusions[infId])
             .forEach((infId) => {
-                // if (weapon.name == "Anvil Hammer" && infId == "unique") {
-                //     logWeapon = true;
-                // } else {
-                //     logWeapon = false;
-                // }
+                if (weapon["glintstone-staff"] || weapon["sacred-seal"]) {
+                    logWeapon = true;
+                } else {
+                    logWeapon = false;
+                }
                 // if (logWeapon) console.clear();
                 // if (logWeapon)
                 //     console.log(
@@ -673,9 +682,12 @@ export function mapWeapons(
                         attackPowerTypesInclude,
                         attackPowerTypeMode,
                         attackPowerTypes,
-                        considerStatusEffects
+                        considerStatusEffects,
+                        considerSpellScaling
                     );
+                    // if (logWeapon) console.log("temp:", temp);
                 }
+                if (!temp.spellScaling) temp.spellScaling = result.spellScaling;
                 result = {
                     ...result,
                     arBreakdown: {
@@ -699,11 +711,13 @@ export function mapWeapons(
                     },
                     spellScaling: temp.spellScaling,
                 };
+                // if (logWeapon) console.log("result:", result);
             });
 
         result.max = Math.max(
             0,
-            ...(Object.values(result.attackRatings) as number[])
+            ...(Object.values(result.attackRatings) as number[]),
+            considerSpellScaling ? result.spellScaling : 0
         );
 
         if (result.attackRatings.unique) {
@@ -717,6 +731,14 @@ export function mapWeapons(
 
         return result;
     });
+
+    filtered.forEach((weapon) => {
+        if (weapon.max == 0) {
+            filtered = filtered.filter((w) => w != weapon);
+        }
+    });
+
+    return filtered;
 }
 
 function sortResults(results: WeaponResult[], sortBy: SortBy): WeaponResult[] {
@@ -746,6 +768,7 @@ export function mapResults(
             attackRatings={weaponResult.attackRatings}
             max={weaponResult.max}
             arBreakdown={weaponResult.arBreakdown}
+            spellScaling={weaponResult.spellScaling}
         />
     ));
 }

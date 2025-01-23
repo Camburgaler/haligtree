@@ -28,7 +28,9 @@ export function WeaponResultRow(props: {
         baseDmg: AttackPowerTypeMap<number>;
         scalingDmg: AttackPowerTypeMap<number>;
     }>;
+    spellScaling: number;
 }) {
+    // console.log(props);
     return (
         <tr>
             <td>
@@ -43,6 +45,16 @@ export function WeaponResultRow(props: {
                 </a>
             </td>
             <td>{Math.floor(props.max).toString()}</td>
+            <td
+                style={
+                    props.spellScaling == props.max &&
+                    props.spellScaling != undefined
+                        ? { fontWeight: 900 }
+                        : {}
+                }
+            >
+                {props.spellScaling > 0 ? Math.floor(props.spellScaling) : "-"}
+            </td>
             {INFUSION_IDS.filter((i) => i != "unique").map((infId) => (
                 <TableDataWithHover
                     key={infId}
