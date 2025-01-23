@@ -739,13 +739,14 @@ export function mapResults(
     results: WeaponResult[],
     sortBy: SortBy
 ): JSX.Element[] {
-    return sortResults(results, sortBy).map((weaponResult) => (
+    return sortResults(results, sortBy).map((weaponResult, i) => (
         <WeaponResultRow
             key={weaponResult.weaponName.replaceAll(" ", "-")}
             weaponName={weaponResult.weaponName}
             attackRatings={weaponResult.attackRatings}
             max={weaponResult.max}
             arBreakdown={weaponResult.arBreakdown}
+            rank={i + 1}
         />
     ));
 }

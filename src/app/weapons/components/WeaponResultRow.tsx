@@ -28,9 +28,11 @@ export function WeaponResultRow(props: {
         baseDmg: AttackPowerTypeMap<number>;
         scalingDmg: AttackPowerTypeMap<number>;
     }>;
+    rank: number;
 }) {
     return (
         <tr>
+            <td>{props.rank}</td>
             <td>
                 <a
                     target="_blank"

@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add character preview
 
+## [2.8.0] - 2025-01-23
+
+### Added
+
+-   Added weapon ranking
+
 ## [2.7.2] - 2025-01-23
 
 ### Fixed
