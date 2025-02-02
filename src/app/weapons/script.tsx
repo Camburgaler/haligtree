@@ -1,8 +1,9 @@
 import {
     ATTACK_POWER_STAT_IDS,
     ATTACK_POWER_TYPE_IDS,
-    ATTACK_POWER_TYPE_MODE_All,
+    ATTACK_POWER_TYPE_MODE_ALL,
     ATTACK_POWER_TYPE_MODE_ANY,
+    ATTACK_POWER_TYPE_MODE_EXACTLY,
     CATEGORY_NAMES,
     CORRECTIONS,
     DAMAGE_IDS,
@@ -452,7 +453,7 @@ function attackPower(
                   attackPowerTypes,
                   attackPowerTypesInclude
               )
-            : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_All
+            : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ALL
             ? allAttackPowerTypes(
                   baseAttackRating,
                   attackPowerTypes,
@@ -509,14 +510,107 @@ function attackPower(
     return result;
 }
 
+function checkStatRequirementsMet(
+    weapon: Weapon,
+    stats: StatMap<number>,
+    twoHanded: boolean,
+    requireStats: boolean
+): boolean {
+    // check all stats except for STR
+    return (
+        Object.keys(weapon.requirements).every((statName: string) =>
+            // if the stat is STR
+            statName == "STR"
+                ? // and if the weapon is using two handed damage
+                  twoHanded
+                    ? // then use the two handing formula for STR
+                      stats["STR"] * 1.5 >= weapon.requirements["STR"]
+                    : // else use the one handed formula for STR
+                      stats["STR"] >= weapon.requirements["STR"]
+                : stats[statName]! >= weapon.requirements[statName]!
+        ) ||
+        // or ignore stats if not required
+        !requireStats
+    );
+}
+
+function checkInfusionIsAllowed(
+    weapon: Weapon,
+    allowedInfusions: InfusionMap<boolean>
+): boolean {
+    // if the weapon has an infusion that is allowed
+    return Object.entries(weapon.infusions).some(
+        ([infId, infusion]) =>
+            allowedInfusions[infId] &&
+            Object.values(infusion?.damage!).some((d) => d! > 0)
+    );
+}
+
+function getDefaultDamage(weapon: Weapon): AttackPowerTypeMap<number> {
+    // if the weapon is unique, return the unique damage
+    // otherwise return the standard damage
+    return weapon.infusions.unique
+        ? weapon.infusions.unique!.damage
+        : weapon.infusions.standard!.damage;
+}
+
+function checkSplitDamageIsAllowed(
+    weapon: Weapon,
+    allowSplitDamage: boolean
+): boolean {
+    var result: boolean = true;
+    // if the weapon is split damage (a way to filter out some split damage weapons early is to check if the weapon's default infusion is split)
+    if (isSplitDamage(getDefaultDamage(weapon))) {
+        // then defer to whether split damage is allowed
+        result = allowSplitDamage;
+    }
+
+    return result;
+}
+
+function checkDamageTypesAreAllowed(
+    weapon: Weapon,
+    attackPowerTypeMode: string,
+    attackPowerTypes: AttackPowerTypeMap<boolean>,
+    attackPowerTypesInclude: boolean
+): boolean {
+    var damage: AttackPowerTypeMap<number> = getDefaultDamage(weapon);
+    var result: boolean = true;
+
+    switch (attackPowerTypeMode) {
+        case ATTACK_POWER_TYPE_MODE_ANY:
+            result = anyAttackPowerTypes(
+                damage,
+                attackPowerTypes,
+                attackPowerTypesInclude
+            );
+            break;
+        case ATTACK_POWER_TYPE_MODE_ALL:
+            result = allAttackPowerTypes(
+                damage,
+                attackPowerTypes,
+                attackPowerTypesInclude
+            );
+            break;
+        case ATTACK_POWER_TYPE_MODE_EXACTLY:
+            result = exactlyAttackPowerTypes(
+                damage,
+                attackPowerTypes,
+                attackPowerTypesInclude
+            );
+    }
+
+    return result;
+}
+
 function filterWeapons(
     stats: StatMap<number>,
     twoHanded: boolean,
     requireStats: boolean,
     categories: CategoryMap<boolean>,
-    infusions: InfusionMap<boolean>,
+    allowedInfusions: InfusionMap<boolean>,
     buffableOnly: boolean,
-    splitDamage: boolean,
+    allowSplitDamage: boolean,
     attackPowerTypesInclude: boolean,
     attackPowerTypeMode: string,
     attackPowerTypes: AttackPowerTypeMap<boolean>
@@ -524,59 +618,23 @@ function filterWeapons(
     return WEAPONS.filter((weapon) => {
         // filter out weapons that don't fit the current parameters
         return (
-            // check all stats except for STR
-            ((Object.keys(weapon.requirements).every((statName: string) =>
-                statName == "STR"
-                    ? true
-                    : stats[statName]! >= weapon.requirements[statName]!
-            ) &&
-                // and if the weapon is using two handed damage
-                (twoHanded
-                    ? // then use the two handing formula for STR
-                      stats["STR"] * 1.5 >= weapon.requirements["STR"]
-                    : // else use the one handed formula for STR
-                      stats["STR"] >= weapon.requirements["STR"])) ||
-                // or ignore stats if not required
-                !requireStats) &&
+            checkStatRequirementsMet(weapon, stats, twoHanded, requireStats) &&
             // and if the weapon's category is allowed
             categories[weapon.category] &&
             // and if the weapon's infusion is allowed
-            Object.entries(weapon.infusions).some(
-                ([infId, infusion]) =>
-                    infusions[infId] &&
-                    Object.values(infusion?.damage!).some((d) => d! > 0)
-            ) &&
+            checkInfusionIsAllowed(weapon, allowedInfusions) &&
             // and if the weapon is buffable or buffable is not required
             (!buffableOnly ||
                 Object.values(weapon.infusions).some((inf) => inf?.buffable)) &&
-            // // and if the weapon is split damage (a way to filter out some split damage weapons early is to check if the weapon's default infusion is split)
-            (isSplitDamage(
-                weapon.infusions.standard?.damage ??
-                    weapon.infusions.unique!.damage
+            // and if the weapon is split damage (a way to filter out some split damage weapons early is to check if the weapon's default infusion is split)
+            checkSplitDamageIsAllowed(weapon, allowSplitDamage) &&
+            // and if the weapon's default damage contains selected damage types
+            checkDamageTypesAreAllowed(
+                weapon,
+                attackPowerTypeMode,
+                attackPowerTypes,
+                attackPowerTypesInclude
             )
-                ? // then defer to whether split damage is allowed
-                  splitDamage
-                : true) &&
-            // and if the weapon has only Standard infusion and contains selected damage type
-            (weapon.infusions.heavy ??
-                (attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ANY
-                    ? anyAttackPowerTypes(
-                          weapon.infusions.standard?.damage ??
-                              weapon.infusions.unique!.damage,
-                          attackPowerTypes,
-                          attackPowerTypesInclude
-                      )
-                    : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_All
-                    ? allAttackPowerTypes(
-                          weapon.infusions.standard!.damage,
-                          attackPowerTypes,
-                          attackPowerTypesInclude
-                      )
-                    : exactlyAttackPowerTypes(
-                          weapon.infusions.standard!.damage,
-                          attackPowerTypes,
-                          attackPowerTypesInclude
-                      )))
         );
     });
 }

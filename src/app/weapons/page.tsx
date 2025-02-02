@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
-    ATTACK_POWER_TYPE_MODE_All,
+    ATTACK_POWER_TYPE_MODE_ALL,
     ATTACK_POWER_TYPE_MODE_ANY,
     ATTACK_POWER_TYPE_MODE_EXACTLY,
     ATTACK_POWER_TYPE_NAMES,
@@ -779,12 +779,12 @@ export default function Weapons() {
                                     name="attack-power-type-mode"
                                     onChange={() => {
                                         setAttackPowerTypeMode(
-                                            ATTACK_POWER_TYPE_MODE_All
+                                            ATTACK_POWER_TYPE_MODE_ALL
                                         );
                                     }}
                                     checked={
                                         attackPowerTypeMode ===
-                                        ATTACK_POWER_TYPE_MODE_All
+                                        ATTACK_POWER_TYPE_MODE_ALL
                                     }
                                 />
                                 <label htmlFor="attack-power-type-all">

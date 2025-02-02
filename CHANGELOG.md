@@ -24,10 +24,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     -   Will tell the user if there's a more effective infusion for their stats
     -   Will tell the user what weapons in their inventory are best
     -   Will rank the weapons in the user's inventory by potential (i.e. by their damage when upgraded fully and with the most effective infusion)
+-   Add collapsible section under navlinks for toggling features
+    -   Rank column
+    -   Spell scaling
+    -   Inventory mode
+    -   Add button to load cached data
+    -   Add view for cached data
+-   Fix damage calculation for weapons that don't meet their requirements
+
+### Class Page
 
 ### Armor Page
 
 -   Add character preview
+-   Add collapsible section under navlinks for settings
+    -   How many results to show
+    -   Toggle character preview
+    -   Add button to load cached data
+    -   Add view for cached data
+-   Fix armor weight filter
+
+## [2.8.1] - 2025-02-02
+
+### Fixed
+
+-   Fixed error with the weapon damage type check that made the page crash
 
 ## [2.8.0] - 2025-01-23
 

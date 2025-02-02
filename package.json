@@ -1,6 +1,6 @@
 {
     "name": "erdtree",
-    "version": "2.8.0",
+    "version": "2.8.1",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -11,7 +11,7 @@
     "dependencies": {
         "@vercel/analytics": "^1.3.1",
         "@vercel/speed-insights": "^1.0.12",
-        "next": "14.2.22",
+        "next": "^15.1.6",
         "react": "^18",
         "react-dom": "^18",
         "sharp": "^0.33.5"
