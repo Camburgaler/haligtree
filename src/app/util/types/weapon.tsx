@@ -10,7 +10,6 @@ interface Aux {
 type Weapon = Equippable & {
     requirements: StatMap<number>;
     category: string;
-    unique: boolean;
     paired: boolean;
     "glintstone-staff": boolean;
     "sacred-seal": boolean;
