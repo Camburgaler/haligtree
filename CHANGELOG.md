@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add login
 -   Add the ability to save builds
--   Add about page with changelog
+-   Add graceful error handling that directs the user to the Github issues page
 
 ### Weapon Page
 
@@ -24,10 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     -   Will tell the user if there's a more effective infusion for their stats
     -   Will tell the user what weapons in their inventory are best
     -   Will rank the weapons in the user's inventory by potential (i.e. by their damage when upgraded fully and with the most effective infusion)
--   Add collapsible section under navlinks for toggling features
-    -   Rank column
-    -   Spell scaling
-    -   Inventory mode
+-   Defer cache updates in a way that allows users to undo unintended destructive changes
+-   Add collapsible section under navlinks for settings
+    -   Toggle rank column
+    -   Toggle spell scaling
+    -   Toggle inventory mode
     -   Add button to load cached data
     -   Add view for cached data
 -   Fix damage calculation for weapons that don't meet their requirements
@@ -37,12 +38,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Armor Page
 
 -   Add character preview
+-   Defer cache updates in a way that allows users to undo unintended destructive changes
 -   Add collapsible section under navlinks for settings
     -   How many results to show
     -   Toggle character preview
     -   Add button to load cached data
     -   Add view for cached data
 -   Fix armor weight filter
+
+## [2.9.0] - 2025-02-02
+
+### Added
+
+-   Added about page with changelog
+
+### Changed
+
+-   Updated copyright in the footer
 
 ## [2.8.1] - 2025-02-02
 

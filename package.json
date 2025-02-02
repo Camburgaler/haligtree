@@ -1,6 +1,6 @@
 {
     "name": "erdtree",
-    "version": "2.8.1",
+    "version": "2.9.0",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -14,6 +14,8 @@
         "next": "^15.1.6",
         "react": "^18",
         "react-dom": "^18",
+        "remark": "^15.0.1",
+        "remark-html": "^16.0.1",
         "sharp": "^0.33.5"
     },
     "devDependencies": {

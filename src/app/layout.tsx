@@ -56,7 +56,7 @@ export default function RootLayout({
                         }}
                     >
                         <h5>
-                            © 2024{" "}
+                            © 2024-2025{" "}
                             <a href="https://github.com/Camburgaler">
                                 Camburgaler
                             </a>
