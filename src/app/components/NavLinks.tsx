@@ -37,6 +37,14 @@ export function NavLinks() {
                     Weapon Finder
                 </Link>
             </h3>
+            <h3>
+                <Link
+                    href="/about"
+                    className={pathname === "/about" ? "current" : ""}
+                >
+                    About
+                </Link>
+            </h3>
         </nav>
     );
 }
