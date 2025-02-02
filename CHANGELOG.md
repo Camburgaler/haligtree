@@ -52,6 +52,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added about page with changelog
 
+### Changed
+
+-   Updated copyright in the footer
+
 ## [2.8.1] - 2025-02-02
 
 ### Fixed
