@@ -26,7 +26,7 @@ import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
 import { WeaponResultRow } from "./components/WeaponResultRow";
 
-// let logWeapon: boolean;
+let logWeapon: boolean;
 
 // TYPES
 export type AttackRatingBreakdown = InfusionMap<{
@@ -215,14 +215,14 @@ function calculateIneffectiveStats(
     requirements: StatMap<number>
 ): StatMap<boolean> {
     let results: StatMap<boolean> = { ...DEFAULT_STAT_MAP_BOOLEAN };
-    Object.entries(requirements)
-        .filter(([statId, requirement]) => {
-            stats[statId]! < (requirement as number)!;
-        })
-        .forEach(([statId, _]) => {
+    // if (logWeapon) console.log("Requirements: ", requirements);
+    Object.entries(stats).forEach(([statId, statVal]) => {
+        if (requirements[statId]! > statVal!) {
             results[statId] = true;
-        });
+        }
+    });
 
+    // if (logWeapon) console.log("Results: ", results);
     return results;
 }
 
@@ -317,7 +317,7 @@ function attackPower(
         stats
     );
 
-    // if (logWeapon && twoHanded) console.log("Adjusted Stats: ", adjustedStats);
+    // if (logWeapon) console.log("Adjusted Stats: ", adjustedStats);
 
     // calculate ineffective stats
     const ineffectiveStats: StatMap<boolean> = calculateIneffectiveStats(
@@ -444,6 +444,7 @@ function attackPower(
     // if weapon is split damage and split damage is disallowed, set base damage to 0
     if (isSplitDamage(baseAttackRating) && !splitDamage) {
         baseAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
+        scalingAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
     }
 
     let matchesDamageTypes: boolean =
@@ -468,6 +469,7 @@ function attackPower(
     // if weapon does not match damage types, set base damage to 0
     if (!matchesDamageTypes) {
         baseAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
+        scalingAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
     }
 
     result.attackRatings = {
@@ -671,7 +673,7 @@ export function mapWeapons(
         Object.keys(INFUSIONS)
             .filter((infId) => infusions[infId])
             .forEach((infId) => {
-                // if (weapon.name == "Anvil Hammer" && infId == "unique") {
+                // if (weapon.name == "Duelist Greataxe" && infId == "standard") {
                 //     logWeapon = true;
                 // } else {
                 //     logWeapon = false;

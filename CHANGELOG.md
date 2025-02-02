@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Add spell scaling
 -   Add ignored weapons
--   Add full range of upgrade levels
+-   ~~Add full range of upgrade levels~~
 -   Add inventory mode
     -   Instead of being given the whole list of weapons, user starts with an empty list and adds weapons as they pick them up
     -   User gives each weapon its current upgrade level and infusion
@@ -45,6 +45,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     -   Add button to load cached data
     -   Add view for cached data
 -   Fix armor weight filter
+
+## [2.9.1] - 2025-02-02
+
+### Fixed
+
+-   Fixed ineffective stat scaling calculation
 
 ## [2.9.0] - 2025-02-02
 
