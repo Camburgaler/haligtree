@@ -1,6 +1,247 @@
 import { CHESTPIECES, GAUNTLETS, HELMETS, LEGGINGS } from "../util/constants";
 import Armor from "../util/types/armor";
 import ArmorSet from "../util/types/armorSet";
+import DefensesMap from "../util/types/defensesMap";
+import ResistancesMap from "../util/types/resistancesMap";
+import { SortByGeneric } from "../util/types/sortBy";
+
+enum SortByKeys {
+    average = "average",
+    total = "total",
+    "average-absorption" = "average-absorption",
+    "total-absorption" = "total-absorption",
+    standard = "standard",
+    physical = "physical",
+    strike = "strike",
+    slash = "slash",
+    pierce = "pierce",
+    "average-elemental" = "average-elemental",
+    "total-elemental" = "total-elemental",
+    magic = "magic",
+    fire = "fire",
+    lightning = "lightning",
+    holy = "holy",
+    "average-resistance" = "average-resistance",
+    "total-resistance" = "total-resistance",
+    poison = "poison",
+    "scarlet-rot" = "scarlet-rot",
+    hemorrhage = "hemorrhage",
+    frostbite = "frostbite",
+    sleep = "sleep",
+    madness = "madness",
+    "death-blight" = "death-blight",
+    poise = "poise",
+    custom = "custom",
+}
+
+type SortBy = SortByGeneric &
+    DefensesMap<boolean> &
+    ResistancesMap<boolean> & {
+        poise: boolean;
+    };
+
+const DEFENSES_COUNT = 8;
+const RESISTANCES_COUNT = 7;
+const DEFAULT_SORTBY: SortBy = {
+    children: [],
+    average: false,
+    sum: false,
+    coefficient: 1,
+    addend: 0,
+    physical: false,
+    strike: false,
+    slash: false,
+    pierce: false,
+    magic: false,
+    fire: false,
+    lightning: false,
+    holy: false,
+    poison: false,
+    "scarlet-rot": false,
+    hemorrhage: false,
+    frostbite: false,
+    sleep: false,
+    madness: false,
+    "death-blight": false,
+    poise: false,
+};
+export const SORTBY_MODES: { [K in SortByKeys]: SortBy } = {
+    average: {
+        ...DEFAULT_SORTBY,
+        average: true,
+        physical: true,
+        strike: true,
+        slash: true,
+        pierce: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+        poison: true,
+        "scarlet-rot": true,
+        hemorrhage: true,
+        frostbite: true,
+        sleep: true,
+        madness: true,
+        "death-blight": true,
+    },
+    total: {
+        ...DEFAULT_SORTBY,
+        sum: true,
+        physical: true,
+        strike: true,
+        slash: true,
+        pierce: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+        poison: true,
+        "scarlet-rot": true,
+        hemorrhage: true,
+        frostbite: true,
+        sleep: true,
+        madness: true,
+        "death-blight": true,
+    },
+    "average-absorption": {
+        ...DEFAULT_SORTBY,
+        average: true,
+        physical: true,
+        strike: true,
+        slash: true,
+        pierce: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+    },
+    "total-absorption": {
+        ...DEFAULT_SORTBY,
+        sum: true,
+        physical: true,
+        strike: true,
+        slash: true,
+        pierce: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+    },
+    standard: {
+        ...DEFAULT_SORTBY,
+        sum: true,
+        physical: true,
+        strike: true,
+        slash: true,
+        pierce: true,
+    },
+    physical: {
+        ...DEFAULT_SORTBY,
+        physical: true,
+    },
+    strike: {
+        ...DEFAULT_SORTBY,
+        strike: true,
+    },
+    slash: {
+        ...DEFAULT_SORTBY,
+        slash: true,
+    },
+    pierce: {
+        ...DEFAULT_SORTBY,
+        pierce: true,
+    },
+    "average-elemental": {
+        ...DEFAULT_SORTBY,
+        average: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+    },
+    "total-elemental": {
+        ...DEFAULT_SORTBY,
+        sum: true,
+        magic: true,
+        fire: true,
+        lightning: true,
+        holy: true,
+    },
+    magic: {
+        ...DEFAULT_SORTBY,
+        magic: true,
+    },
+    fire: {
+        ...DEFAULT_SORTBY,
+        fire: true,
+    },
+    lightning: {
+        ...DEFAULT_SORTBY,
+        lightning: true,
+    },
+    holy: {
+        ...DEFAULT_SORTBY,
+        holy: true,
+    },
+    "average-resistance": {
+        ...DEFAULT_SORTBY,
+        average: true,
+        poison: true,
+        "scarlet-rot": true,
+        hemorrhage: true,
+        frostbite: true,
+        sleep: true,
+        madness: true,
+        "death-blight": true,
+    },
+    "total-resistance": {
+        ...DEFAULT_SORTBY,
+        sum: true,
+        poison: true,
+        "scarlet-rot": true,
+        hemorrhage: true,
+        frostbite: true,
+        sleep: true,
+        madness: true,
+        "death-blight": true,
+    },
+    poison: {
+        ...DEFAULT_SORTBY,
+        poison: true,
+    },
+    "scarlet-rot": {
+        ...DEFAULT_SORTBY,
+        "scarlet-rot": true,
+    },
+    hemorrhage: {
+        ...DEFAULT_SORTBY,
+        hemorrhage: true,
+    },
+    frostbite: {
+        ...DEFAULT_SORTBY,
+        frostbite: true,
+    },
+    sleep: {
+        ...DEFAULT_SORTBY,
+        sleep: true,
+    },
+    madness: {
+        ...DEFAULT_SORTBY,
+        madness: true,
+    },
+    "death-blight": {
+        ...DEFAULT_SORTBY,
+        "death-blight": true,
+    },
+    poise: {
+        ...DEFAULT_SORTBY,
+        poise: true,
+    },
+    custom: {
+        ...DEFAULT_SORTBY,
+    },
+};
 
 export function resetAll(): void {
     [
@@ -123,11 +364,11 @@ export function setStatsToString(set: ArmorSet): string[] {
                 set.leggings?.defenses.holy!,
         },
         resistances: {
-            scarletRot:
-                set.helmet?.resistances.scarletRot! +
-                set.chestpiece?.resistances.scarletRot! +
-                set.gauntlets?.resistances.scarletRot! +
-                set.leggings?.resistances.scarletRot!,
+            "scarlet-rot":
+                set.helmet?.resistances["scarlet-rot"]! +
+                set.chestpiece?.resistances["scarlet-rot"]! +
+                set.gauntlets?.resistances["scarlet-rot"]! +
+                set.leggings?.resistances["scarlet-rot"]!,
             poison:
                 set.helmet?.resistances.poison! +
                 set.chestpiece?.resistances.poison! +
@@ -153,11 +394,11 @@ export function setStatsToString(set: ArmorSet): string[] {
                 set.chestpiece?.resistances.madness! +
                 set.gauntlets?.resistances.madness! +
                 set.leggings?.resistances.madness!,
-            deathBlight:
-                set.helmet?.resistances.deathBlight! +
-                set.chestpiece?.resistances.deathBlight! +
-                set.gauntlets?.resistances.deathBlight! +
-                set.leggings?.resistances.deathBlight!,
+            "death-blight":
+                set.helmet?.resistances["death-blight"]! +
+                set.chestpiece?.resistances["death-blight"]! +
+                set.gauntlets?.resistances["death-blight"]! +
+                set.leggings?.resistances["death-blight"]!,
         },
     };
 
@@ -166,14 +407,21 @@ export function setStatsToString(set: ArmorSet): string[] {
 
 function fitness(item: Armor, sortBy: string): number {
     switch (sortBy) {
-        case "sort-average":
+        case "average-absorption":
+            return (
+                Object.values(item.defenses).reduce(
+                    (total: any, n) => total + n,
+                    0
+                ) / DEFENSES_COUNT
+            );
+        case "total-absorption":
             return (
                 Object.values(item.defenses).reduce(
                     (total: any, n) => total + n,
                     0
                 ) ?? 0
             );
-        case "sort-standard":
+        case "standard":
             return (
                 [
                     item.defenses.physical,
@@ -215,7 +463,7 @@ function fitness(item: Armor, sortBy: string): number {
                 ) ?? 0
             );
         case "sort-scarlet-rot":
-            return item.resistances.scarletRot ?? 0;
+            return item.resistances["scarlet-rot"] ?? 0;
         case "sort-poison":
             return item.resistances.poison ?? 0;
         case "sort-hemorrhage":
@@ -227,7 +475,7 @@ function fitness(item: Armor, sortBy: string): number {
         case "sort-madness":
             return item.resistances.madness ?? 0;
         case "sort-death":
-            return item.resistances.deathBlight ?? 0;
+            return item.resistances["death-blight"] ?? 0;
         case "sort-poise":
             return item.poise ?? 0;
         // case "sort-custom":
