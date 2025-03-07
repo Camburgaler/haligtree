@@ -1,7 +1,4 @@
 export type SortByGeneric = {
-    children: SortByGeneric[];
-    average: boolean;
-    sum: boolean;
-    coefficient: number;
-    addend: number;
+    children: (number | SortByGeneric)[];
+    operation: "value" | "sum" | "average" | "multiply";
 };

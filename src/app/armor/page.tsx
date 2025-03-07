@@ -1,27 +1,32 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import ArmorResultSet from "@/app/armor/components/armorResult/ArmorResultSet";
 import {
-    ARMOR_RESULTS_SET_IDS,
-    CHESTPIECES,
-    GAUNTLETS,
-    HELMETS,
-    LEGGINGS,
-} from "../util/constants";
-import Armor from "../util/types/armor";
-import ArmorSet from "../util/types/armorSet";
-import ArmorResultSet from "./components/ArmorResultSet";
-import InputNumber from "./components/InputNumber";
-import InputRadio from "./components/InputRadio";
-import InputSelect from "./components/InputSelect";
+    DEFAULT_SORTBYARMOR,
+    SortByArmor,
+    SORTBYARMOR_MODES,
+} from "@/app/armor/components/customSortBy/sorting";
 import {
     dominated,
     itemStatsToString,
     knapSack,
     resetAll,
     setStatsToString,
-} from "./script";
-import { SORTBY_MODES } from "./sorting";
+} from "@/app/armor/script";
+import {
+    ARMOR_RESULTS_SET_IDS,
+    CHESTPIECES,
+    GAUNTLETS,
+    HELMETS,
+    LEGGINGS,
+} from "@/app/util/constants";
+import InputNumber from "@/app/util/input/InputNumber";
+import InputRadio from "@/app/util/input/InputRadio";
+import InputSelect from "@/app/util/input/InputSelect";
+import Armor from "@/app/util/types/armor";
+import ArmorSet from "@/app/util/types/armorSet";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { CustomizeSortBy } from "./components/customSortBy/CustomizeSortBy";
 
 export default function ArmorPage() {
     // STATES
@@ -43,6 +48,10 @@ export default function ArmorPage() {
     const [gauntlets, setGauntlets] = useState(Array<Armor>());
     const [leggings, setLeggings] = useState(Array<Armor>());
     const [pressedKeys, setPressedKeys] = useState(new Set());
+    const [customizeSortBy, setCustomizeSortBy] = useState(false);
+    const [customSortBy, setCustomSortBy] = useState<SortByArmor>({
+        ...DEFAULT_SORTBYARMOR,
+    });
 
     const hotkeyGroups = useMemo(
         () => [
@@ -192,7 +201,10 @@ export default function ArmorPage() {
         }
 
         const localSortBy = localStorage.getItem("localSortBy");
-        if (localSortBy) {
+        if (
+            localSortBy &&
+            SORTBYARMOR_MODES[localSortBy as keyof typeof SORTBYARMOR_MODES]
+        ) {
             setSortBy(JSON.parse(localSortBy));
         }
 
@@ -276,6 +288,16 @@ export default function ArmorPage() {
     // RENDER
     return (
         <div>
+            {customizeSortBy && (
+                <CustomizeSortBy
+                    closePopUp={() => {
+                        setCustomizeSortBy(false);
+                    }}
+                    setCustomSortBy={(newSortBy: SortByArmor) => {
+                        setCustomSortBy(newSortBy);
+                    }}
+                />
+            )}
             <header>
                 <h1>Armor Optimizer</h1>
             </header>
@@ -348,16 +370,25 @@ export default function ArmorPage() {
                         />
                         <hr />
                         <b>Sort by</b>
-                        {Object.entries(SORTBY_MODES).map(([key, value]) => (
-                            <InputRadio
-                                key={key}
-                                label={value.label}
-                                id={key}
-                                onClick={() => updateSortBy(key)}
-                                name="sorting-order"
-                                checked={sortBy === key}
-                            />
-                        ))}
+                        {Object.entries(SORTBYARMOR_MODES).map(
+                            ([key, value]) => {
+                                return (
+                                    <div key={key}>
+                                        <InputRadio
+                                            key={key}
+                                            label={value.label}
+                                            id={key}
+                                            onClick={() => updateSortBy(key)}
+                                            name="sorting-order"
+                                            checked={sortBy === key}
+                                            customizeFn={() =>
+                                                setCustomizeSortBy(true)
+                                            }
+                                        />
+                                    </div>
+                                );
+                            }
+                        )}
                         <hr />
                         <div>
                             <b>Locked Armor</b>

@@ -1,7 +1,10 @@
 import { CHESTPIECES, GAUNTLETS, HELMETS, LEGGINGS } from "../util/constants";
 import Armor from "../util/types/armor";
 import ArmorSet from "../util/types/armorSet";
-import { evaluateSortBy, SORTBY_MODES } from "./sorting";
+import {
+    evaluateSortBy,
+    SORTBYARMOR_MODES,
+} from "./components/customSortBy/sorting";
 
 export function resetAll(): void {
     [
@@ -167,7 +170,7 @@ export function setStatsToString(set: ArmorSet): string[] {
 
 function fitness(item: Armor, sortBy: string): number {
     return evaluateSortBy(
-        SORTBY_MODES[sortBy as keyof typeof SORTBY_MODES],
+        SORTBYARMOR_MODES[sortBy as keyof typeof SORTBYARMOR_MODES],
         item!
     );
 }

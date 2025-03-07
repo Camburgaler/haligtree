@@ -1,12 +1,11 @@
-import "@/app/globals.css";
-import { useState } from "react";
 import {
     ATTACK_POWER_TYPE_ID_TO_NAME,
     INFUSION_ID_TO_NAME,
-} from "../../util/constants";
+} from "@/app/util/constants";
 import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
-} from "../../util/types/attackPowerTypeMap";
+} from "@/app/util/types/attackPowerTypeMap";
+import { useState } from "react";
 
 export function TableDataWithHover(props: {
     attackRating: number;

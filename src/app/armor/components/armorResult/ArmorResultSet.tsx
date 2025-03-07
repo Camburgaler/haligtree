@@ -8,7 +8,7 @@ function ArmorResultSet(props: {
     setStats: string[];
     addIgnoredItem: Function[];
     hotkeys: string[];
-}) {
+}): JSX.Element {
     return (
         <>
             <thead>

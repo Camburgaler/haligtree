@@ -11,6 +11,7 @@ import {
     INFUSION_NAMES,
     INFUSIONS,
 } from "../util/constants";
+import InputRadio from "../util/input/InputRadio";
 import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
 } from "../util/types/attackPowerTypeMap";
@@ -562,34 +563,28 @@ export default function Weapons() {
                         <b>Reinforcement</b>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="max-upgrade"
                                     name="upgrade-level"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setReinforced(true);
                                     }}
                                     checked={reinforced}
+                                    label="Reinforced (+10 or +25)"
                                 />
-                                <label htmlFor="max-upgrade">
-                                    Reinforced (+10 or +25)
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="min-upgrade"
                                     name="upgrade-level"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setReinforced(false);
                                     }}
                                     checked={!reinforced}
+                                    label="Not Reinforced (+0)"
                                 />
-                                <label htmlFor="min-upgrade">
-                                    Not Reinforced (+0)
-                                </label>
                             </span>
                         </div>
                         <hr />
@@ -657,30 +652,28 @@ export default function Weapons() {
                         <b>Handedness</b>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="2h-never"
                                     name="handedness"
-                                    onChange={(event) => {
+                                    onClick={(event) => {
                                         setTwoHanded(!event.target.checked);
                                     }}
                                     checked={!twoHanded}
+                                    label="One-handing"
                                 />
-                                <label htmlFor="2h-never">One-handing</label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
+                                <InputRadio
                                     id="2h-always"
-                                    type="radio"
                                     name="handedness"
-                                    onChange={(event) => {
+                                    onClick={(event) => {
                                         setTwoHanded(event.target.checked);
                                     }}
                                     checked={twoHanded}
+                                    label="Two-handing"
                                 />
-                                <label htmlFor="2h-always">Two-handing</label>
                             </span>
                         </div>
                         <hr />
@@ -757,11 +750,10 @@ export default function Weapons() {
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-any"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
                                             ATTACK_POWER_TYPE_MODE_ANY
                                         );
@@ -770,19 +762,16 @@ export default function Weapons() {
                                         attackPowerTypeMode ===
                                         ATTACK_POWER_TYPE_MODE_ANY
                                     }
+                                    label="ANY of the following"
                                 />
-                                <label htmlFor="attack-power-type-any">
-                                    ANY of the following
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-all"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
                                             ATTACK_POWER_TYPE_MODE_ALL
                                         );
@@ -791,19 +780,16 @@ export default function Weapons() {
                                         attackPowerTypeMode ===
                                         ATTACK_POWER_TYPE_MODE_ALL
                                     }
+                                    label="ALL of the following"
                                 />
-                                <label htmlFor="attack-power-type-all">
-                                    ALL of the following
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-exactly"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
                                             ATTACK_POWER_TYPE_MODE_EXACTLY
                                         );
@@ -812,10 +798,8 @@ export default function Weapons() {
                                         attackPowerTypeMode ===
                                         ATTACK_POWER_TYPE_MODE_EXACTLY
                                     }
+                                    label="EXACTLY the following"
                                 />
-                                <label htmlFor="attack-power-type-exactly">
-                                    EXACTLY the following
-                                </label>
                             </span>
                         </div>
                         {(
