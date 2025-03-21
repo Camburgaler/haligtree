@@ -712,8 +712,61 @@ function processUnmarshallTokens(tokens: string[]): SortByArmor {
     return result;
 }
 
+function validateTokens(tokens: string[]): void {
+    const VALIDATETOKENS_LOGGING = SORTING_LOGGING && false;
+
+    if (VALIDATETOKENS_LOGGING) console.log("validating tokens: ", tokens);
+
+    const tokenGroups: string[][] = getChildTokenGroups(tokens);
+
+    // errors
+    const SELECTED_FIELDS_COUNT = tokenGroups.filter(
+        (group) =>
+            group.length === 1 &&
+            !group[0].includes("(") &&
+            !group[0].includes(")")
+    ).length;
+    const CHILDREN_COUNT = tokenGroups.filter(
+        (group) => group.length > 1
+    ).length;
+    if (VALIDATETOKENS_LOGGING)
+        console.log(
+            "selected fields: ",
+            SELECTED_FIELDS_COUNT,
+            "\nchildren: ",
+            CHILDREN_COUNT
+        );
+
+    // if sum, average, or multiply is true, assert at least 2 values
+    if (SELECTED_FIELDS_COUNT + CHILDREN_COUNT < 2) {
+        if (tokens[0].includes("SUM")) {
+            throw new Error("Cannot have sum without at least 2 values");
+        }
+        if (tokens[0].includes("AVG")) {
+            throw new Error("Cannot have average without at least 2 values");
+        }
+        if (tokens[0].includes("MULT")) {
+            throw new Error("Cannot multiply without at least 2 values");
+        }
+    }
+
+    // if operation is value, assert at most 1 value
+    if (tokens[0] === "(" && SELECTED_FIELDS_COUNT + CHILDREN_COUNT > 1) {
+        throw new Error("Cannot have more than 1 value without average or sum");
+    }
+
+    for (const group of tokenGroups) {
+        if (group.length > 1) {
+            validateTokens(group);
+        }
+    }
+}
+
 export function unmarshallSortBy(sortBy: string): SortByArmor {
     const UNMARSHALLSORTBY_LOGGING = SORTING_LOGGING && false;
+
+    if (UNMARSHALLSORTBY_LOGGING)
+        console.log("unmarshalling sortBy: \n", sortBy);
 
     // tokenize the string
     const tokens: string[] = sortBy
@@ -735,6 +788,9 @@ export function unmarshallSortBy(sortBy: string): SortByArmor {
     }
 
     if (UNMARSHALLSORTBY_LOGGING) console.log("tokens: ", tokens);
+
+    // validate
+    validateTokens(tokens);
 
     return processUnmarshallTokens(tokens);
 }

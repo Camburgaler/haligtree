@@ -66,13 +66,17 @@ export function CustomizeSortBy(props: {
                 (document.getElementById("formula") as HTMLTextAreaElement)
                     .value
             );
-        const formula: SortByArmor = deepCloneAndMap(
-            unmarshallSortBy(
+        let formula: SortByArmor;
+        try {
+            formula = unmarshallSortBy(
                 (document.getElementById("formula") as HTMLTextAreaElement)
                     .value
-            ),
-            [{ label: "Custom" }]
-        );
+            );
+        } catch (error) {
+            console.error("error: ", error);
+            return;
+        }
+        formula.label = "Custom";
         if (SUBMITFORMULA_LOGGING) console.log("formula: ", formula);
         props.setCustomSortBy(formula);
         props.closePopUp();
