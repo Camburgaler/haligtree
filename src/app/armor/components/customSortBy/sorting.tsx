@@ -776,9 +776,9 @@ export function unmarshallSortBy(sortBy: string): SortByArmor {
     // remove any returns and tabs
     for (let i = 0; i < tokens.length; i++) {
         tokens[i] = tokens[i]
-            .replace("\n", "")
-            .replace("\r", "")
-            .replace("\t", "")
+            .replace(/\n/g, "")
+            .replace(/\r/g, "")
+            .replace(/\t/g, "")
             .trim();
     }
 
