@@ -1,9 +1,13 @@
+import { LOGGING } from "@/app/util/constants";
+import { deepCloneAndMap, deepFreeze } from "@/app/util/script";
 import Armor from "../../../util/types/armor";
 import DefensesMap, { DefensesMapKey } from "../../../util/types/defensesMap";
 import ResistancesMap, {
     ResistancesMapKey,
 } from "../../../util/types/resistancesMap";
 import { SortByGeneric } from "../../../util/types/sortBy";
+
+const SORTING_LOGGING: boolean = LOGGING && true;
 
 type SortByArmorModeKey =
     | "total"
@@ -28,7 +32,7 @@ export type SortByArmor = SortByGeneric &
         label: string;
     };
 
-export const DEFAULT_SORTBYARMOR: SortByArmor = {
+export const DEFAULT_SORTBYARMOR: SortByArmor = deepFreeze({
     label: "Default",
     children: [],
     operation: "value",
@@ -48,7 +52,7 @@ export const DEFAULT_SORTBYARMOR: SortByArmor = {
     madness: false,
     "death-blight": false,
     poise: false,
-};
+});
 export const SELECTABLE_SORTING_FIELDS_ARRAY: string[] = [
     "physical",
     "strike",
@@ -69,159 +73,135 @@ export const SELECTABLE_SORTING_FIELDS_ARRAY: string[] = [
 ] as const;
 const SELECTABLE_SORTING_FIELDS_SET = new Set(SELECTABLE_SORTING_FIELDS_ARRAY);
 export const SORTBYARMOR_MODES: { [K in SortByArmorModeKey]: SortByArmor } = {
-    total: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Total of All Absorptions and Resistances",
-        operation: "sum",
-        physical: true,
-        strike: true,
-        slash: true,
-        pierce: true,
-        magic: true,
-        fire: true,
-        lightning: true,
-        holy: true,
-        poison: true,
-        "scarlet-rot": true,
-        hemorrhage: true,
-        frostbite: true,
-        sleep: true,
-        madness: true,
-        "death-blight": true,
-    },
-    "total-absorption": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Total of All Absorptions",
-        operation: "sum",
-        physical: true,
-        strike: true,
-        slash: true,
-        pierce: true,
-        magic: true,
-        fire: true,
-        lightning: true,
-        holy: true,
-    },
-    "total-standard": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Total of All Standard Absorptions",
-        operation: "sum",
-        physical: true,
-        strike: true,
-        slash: true,
-        pierce: true,
-    },
-    physical: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Physical Absorption",
-        physical: true,
-    },
-    strike: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Strike Absorption",
-        strike: true,
-    },
-    slash: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Slash Absorption",
-        slash: true,
-    },
-    pierce: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Pierce Absorption",
-        pierce: true,
-    },
-    "total-elemental": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Total of All Elemental Absorptions",
-        operation: "sum",
-        magic: true,
-        fire: true,
-        lightning: true,
-        holy: true,
-    },
-    magic: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Magic Absorption",
-        magic: true,
-    },
-    fire: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Fire Absorption",
-        fire: true,
-    },
-    lightning: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Lightning Absorption",
-        lightning: true,
-    },
-    holy: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Holy Absorption",
-        holy: true,
-    },
-    "total-resistance": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Total of All Resistances",
-        operation: "sum",
-        poison: true,
-        "scarlet-rot": true,
-        hemorrhage: true,
-        frostbite: true,
-        sleep: true,
-        madness: true,
-        "death-blight": true,
-    },
-    poison: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Poison Resistance",
-        poison: true,
-    },
-    "scarlet-rot": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Scarlet Rot Resistance",
-        "scarlet-rot": true,
-    },
-    hemorrhage: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Hemorrhage Resistance",
-        hemorrhage: true,
-    },
-    frostbite: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Frostbite Resistance",
-        frostbite: true,
-    },
-    sleep: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Sleep Resistance",
-        sleep: true,
-    },
-    madness: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Madness Resistance",
-        madness: true,
-    },
-    "death-blight": {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Death Blight Resistance",
-        "death-blight": true,
-    },
-    poise: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Poise",
-        poise: true,
-    },
-    custom: {
-        ...DEFAULT_SORTBYARMOR,
-        label: "Custom",
-    },
+    total: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Total of All Absorptions and Resistances" },
+        { operation: "sum" },
+        { physical: true },
+        { strike: true },
+        { slash: true },
+        { pierce: true },
+        { magic: true },
+        { fire: true },
+        { lightning: true },
+        { holy: true },
+        { poison: true },
+        { "scarlet-rot": true },
+        { hemorrhage: true },
+        { frostbite: true },
+        { sleep: true },
+        { madness: true },
+        { "death-blight": true },
+    ]),
+    "total-absorption": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Total of All Absorptions" },
+        { operation: "sum" },
+        { physical: true },
+        { strike: true },
+        { slash: true },
+        { pierce: true },
+        { magic: true },
+        { fire: true },
+        { lightning: true },
+        { holy: true },
+    ]),
+    "total-standard": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Total of All Standard Absorptions" },
+        { operation: "sum" },
+        { physical: true },
+        { strike: true },
+        { slash: true },
+        { pierce: true },
+    ]),
+    physical: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Physical Absorption" },
+        { physical: true },
+    ]),
+    strike: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Strike Absorption" },
+        { strike: true },
+    ]),
+    slash: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Slash Absorption" },
+        { slash: true },
+    ]),
+    pierce: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Pierce Absorption" },
+        { pierce: true },
+    ]),
+    "total-elemental": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Total of All Elemental Absorptions" },
+        { operation: "sum" },
+        { magic: true },
+        { fire: true },
+        { lightning: true },
+        { holy: true },
+    ]),
+    magic: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Magic Absorption" },
+        { magic: true },
+    ]),
+    fire: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Fire Absorption" },
+        { fire: true },
+    ]),
+    lightning: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Lightning Absorption" },
+        { lightning: true },
+    ]),
+    holy: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Holy Absorption" },
+        { holy: true },
+    ]),
+    "total-resistance": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Total of All Resistances" },
+        { operation: "sum" },
+        { poison: true },
+        { "scarlet-rot": true },
+        { hemorrhage: true },
+        { frostbite: true },
+        { sleep: true },
+        { madness: true },
+        { "death-blight": true },
+    ]),
+    poison: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Poison Resistance" },
+        { poison: true },
+    ]),
+    "scarlet-rot": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Scarlet Rot Resistance" },
+        { "scarlet-rot": true },
+    ]),
+    hemorrhage: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Hemorrhage Resistance" },
+        { hemorrhage: true },
+    ]),
+    frostbite: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Frostbite Resistance" },
+        { frostbite: true },
+    ]),
+    sleep: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Sleep Resistance" },
+        { sleep: true },
+    ]),
+    madness: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Madness Resistance" },
+        { madness: true },
+    ]),
+    "death-blight": deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Death Blight Resistance" },
+        { "death-blight": true },
+    ]),
+    poise: deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { label: "Poise" },
+        { poise: true },
+    ]),
+    custom: deepCloneAndMap(DEFAULT_SORTBYARMOR, [{ label: "Custom" }]),
 };
 const VALID_TOKENS: string[] = [
     ...SELECTABLE_SORTING_FIELDS_ARRAY.map((f) => f.toUpperCase()),
     "SUM(",
-    "AVERAGE(",
-    "MULTIPLY(",
+    "AVG(",
+    "MULT(",
     "(",
     ")",
 ];
@@ -243,14 +223,21 @@ export function evaluateSortBy(
     sortBy: number | SortByArmor,
     armor: Armor
 ): number {
+    const EVALUATESORTBY_LOGGING = SORTING_LOGGING && false;
+
+    if (EVALUATESORTBY_LOGGING) console.log("evaluateSortBy");
+
+    if (EVALUATESORTBY_LOGGING) console.log("sortBy: ", sortBy);
+    if (EVALUATESORTBY_LOGGING) console.log("armor: ", armor);
+
+    if (EVALUATESORTBY_LOGGING) console.log("typeof sortBy: ", typeof sortBy);
+
     if (typeof sortBy === "number") return sortBy;
 
     // errors
-    const LOGGING: boolean = false;
-
     const SELECTED_FIELDS_COUNT = countSelectedSortingFields(sortBy);
     const CHILDREN_COUNT = sortBy.children.length;
-    if (LOGGING)
+    if (EVALUATESORTBY_LOGGING)
         console.log(
             "selected fields: ",
             SELECTED_FIELDS_COUNT,
@@ -280,14 +267,14 @@ export function evaluateSortBy(
         }
     }
 
-    if (LOGGING) console.log("no errors!");
-
     // evaluate children
-    if (LOGGING) console.log("children: ", sortBy.children);
+    if (EVALUATESORTBY_LOGGING) console.log("children: ", sortBy.children);
     let childrenValues: number[] = [];
     for (const child of sortBy.children as SortByArmor[]) {
         childrenValues.push(evaluateSortBy(child, armor));
     }
+
+    if (EVALUATESORTBY_LOGGING) console.log("operation: ", sortBy.operation);
 
     // if average is selected
     // average the children and every selected field
@@ -301,21 +288,11 @@ export function evaluateSortBy(
             numerator += value;
         }
 
+        if (EVALUATESORTBY_LOGGING && childrenValues.length > 0)
+            console.log("sum of children: ", result);
+
         // add selected field values to the numerator
         for (const key in sortBy) {
-            if (LOGGING)
-                console.log(
-                    "key: ",
-                    key,
-                    "\nis selectable: ",
-                    isSelectableSortingField(key),
-                    "\nis defense: ",
-                    armor.defenses[key as DefensesMapKey],
-                    "\nis resistance: ",
-                    armor.resistances[key as ResistancesMapKey],
-                    "\nvalue: ",
-                    sortBy[key as SortByArmorKey]
-                );
             if (
                 isSelectableSortingField(key) &&
                 sortBy[key as SortByArmorKey]
@@ -332,11 +309,32 @@ export function evaluateSortBy(
                 if (key === "poise") {
                     numerator += armor.poise!;
                 }
+
+                if (EVALUATESORTBY_LOGGING)
+                    console.log(
+                        "selected key: ",
+                        key,
+                        armor.defenses[key as DefensesMapKey]
+                            ? "\ndefense: " +
+                                  armor.defenses[key as DefensesMapKey]
+                            : armor.resistances[key as ResistancesMapKey]
+                            ? "\nresistance: " +
+                              armor.resistances[key as ResistancesMapKey]
+                            : "\npoise: " + armor.poise,
+                        "\nnumerator: ",
+                        numerator,
+                        "\ndenominator: ",
+                        denominator,
+                        "\naverage: ",
+                        numerator / denominator,
+                        "\nresult: ",
+                        result + numerator / denominator
+                    );
             }
         }
 
         result += numerator / denominator;
-        if (LOGGING) console.log("average: ", result);
+        if (EVALUATESORTBY_LOGGING) console.log("average: ", result);
     }
 
     // else if sum is selected
@@ -347,21 +345,11 @@ export function evaluateSortBy(
             result += value;
         }
 
+        if (EVALUATESORTBY_LOGGING && childrenValues.length > 0)
+            console.log("sum of children: ", result);
+
         // add selected field values
         for (const key in sortBy) {
-            if (LOGGING)
-                console.log(
-                    "key: ",
-                    key,
-                    "\nis selectable: ",
-                    isSelectableSortingField(key),
-                    "\nis defense: ",
-                    armor.defenses[key as DefensesMapKey],
-                    "\nis resistance: ",
-                    armor.resistances[key as ResistancesMapKey],
-                    "\nvalue: ",
-                    sortBy[key as SortByArmorKey]
-                );
             if (
                 isSelectableSortingField(key) &&
                 sortBy[key as SortByArmorKey]
@@ -378,16 +366,39 @@ export function evaluateSortBy(
                 if (key === "poise") {
                     result += armor.poise!;
                 }
+
+                if (EVALUATESORTBY_LOGGING)
+                    console.log(
+                        "selected key: ",
+                        key,
+                        armor.defenses[key as DefensesMapKey]
+                            ? "\ndefense: " +
+                                  armor.defenses[key as DefensesMapKey]
+                            : armor.resistances[key as ResistancesMapKey]
+                            ? "\nresistance: " +
+                              armor.resistances[key as ResistancesMapKey]
+                            : "\npoise: " + armor.poise,
+                        "\nresult: ",
+                        result
+                    );
             }
         }
 
-        if (LOGGING) console.log("sum: ", result);
+        if (EVALUATESORTBY_LOGGING) console.log("sum: ", result);
     }
 
     // if neither average nor sum is selected
     // get the value of the selected field or child
     else {
         for (const key in sortBy) {
+            // add children values
+            for (const value of childrenValues) {
+                result += value;
+            }
+
+            if (EVALUATESORTBY_LOGGING && childrenValues.length > 0)
+                console.log("sum of children: ", result);
+
             if (
                 isSelectableSortingField(key) &&
                 sortBy[key as SortByArmorKey]
@@ -404,22 +415,27 @@ export function evaluateSortBy(
                 if (key === "poise") {
                     result += armor.poise!;
                 }
+
+                if (EVALUATESORTBY_LOGGING)
+                    console.log(
+                        "selected key: ",
+                        key,
+                        armor.defenses[key as DefensesMapKey]
+                            ? "\ndefense: " +
+                                  armor.defenses[key as DefensesMapKey]
+                            : armor.resistances[key as ResistancesMapKey]
+                            ? "\nresistance: " +
+                              armor.resistances[key as ResistancesMapKey]
+                            : "\npoise: " + armor.poise,
+                        "result: ",
+                        result
+                    );
             }
         }
-
-        if (LOGGING) console.log("value: ", result);
     }
 
-    // // multiply coefficient
-    // if (LOGGING) console.log("coefficient: ", sortBy.coefficient);
-    // result *= sortBy.coefficient;
-    // if (LOGGING) console.log("result: ", result);
-
-    // // add addend
-    // if (LOGGING) console.log("addend: ", sortBy.addend);
-    // result += sortBy.addend;
-    // if (LOGGING) console.log("result: ", result);
-
+    if (EVALUATESORTBY_LOGGING)
+        console.log("evalutaion complete for sortBy: ", sortBy);
     return result;
 }
 
@@ -433,9 +449,11 @@ export function getChildTokenGroups(tokens: string[]): string[][] {
 }
 
 export function marshallSortByToTokens(sortBy: SortByArmor): string[] {
+    const MARSHALLSORTBYTOTOKENS_LOGGING = SORTING_LOGGING && false;
+
     let result: string[] = [];
 
-    console.log("sortBy: ", sortBy);
+    if (MARSHALLSORTBYTOTOKENS_LOGGING) console.log("sortBy: ", sortBy);
     switch (sortBy.operation) {
         case "average":
             result.push("AVG(");
@@ -455,7 +473,7 @@ export function marshallSortByToTokens(sortBy: SortByArmor): string[] {
         if (typeof child === "number") {
             result.push(child.toString());
         } else {
-            result.push(marshallSortByToString(child));
+            result.push(...marshallSortByToTokens(child));
         }
     }
 
@@ -465,11 +483,20 @@ export function marshallSortByToTokens(sortBy: SortByArmor): string[] {
         }
     }
 
-    // remove the last comma and add a closing parenthesis
-    // result[result.length - 1] = result[result.length - 1].slice(0, -1);
     result.push(")");
 
     return result;
+}
+
+export function marshallSortByToTokenGroups(sortBy: SortByArmor): string[][] {
+    const MARSHALLSORTBYTOTOKENGROUPS_LOGGING = SORTING_LOGGING && false;
+
+    if (MARSHALLSORTBYTOTOKENGROUPS_LOGGING)
+        console.log("marshallSortByToTokenGroups");
+    if (MARSHALLSORTBYTOTOKENGROUPS_LOGGING) console.log("sortBy: ", sortBy);
+    if (MARSHALLSORTBYTOTOKENGROUPS_LOGGING)
+        console.log("marshallSortByToTokens: ", marshallSortByToTokens(sortBy));
+    return getChildTokenGroups(marshallSortByToTokens(sortBy));
 }
 
 export function marshallSortByToString(sortBy: SortByArmor): string {
@@ -499,21 +526,24 @@ export function analyzeTokens(tokens: string[]): {
     tempTokenTypes: ("number" | "string" | "SortByArmor")[];
     tempChildrenTokenGroups: string[][];
 } {
-    // console.log("analyzing tokens: ", tokens);
+    const ANALYZETOKENS_LOGGING = SORTING_LOGGING && false;
+
+    if (ANALYZETOKENS_LOGGING) console.log("analyzing tokens: ", tokens);
     let tokenTypes: ("number" | "string" | "SortByArmor")[] = [];
     let parenthesisDepth: number = 0;
     let childrenTokenGroups: string[][] = [];
     let currentGroup: string[] = [];
 
     for (const token of tokens) {
-        // console.log("token: ", token);
+        if (ANALYZETOKENS_LOGGING) console.log("token: ", token);
         if (token.includes("(")) {
             parenthesisDepth++;
         } else if (token.includes(")")) {
             parenthesisDepth--;
         }
 
-        // console.log("parenthesis depth: ", parenthesisDepth);
+        if (ANALYZETOKENS_LOGGING)
+            console.log("parenthesis depth: ", parenthesisDepth);
         if (parenthesisDepth === 0) {
             tokenTypes.push("string");
             currentGroup.push(token);
@@ -543,8 +573,9 @@ export function analyzeTokens(tokens: string[]): {
         }
     }
 
-    // console.log("token types: ", tokenTypes);
-    // console.log("children token groups: ", childrenTokenGroups);
+    if (ANALYZETOKENS_LOGGING) console.log("token types: ", tokenTypes);
+    if (ANALYZETOKENS_LOGGING)
+        console.log("children token groups: ", childrenTokenGroups);
     return {
         tempTokenTypes: tokenTypes,
         tempChildrenTokenGroups: childrenTokenGroups,
@@ -573,6 +604,12 @@ function getSelectedFields(
     fields: (DefensesMapKey | ResistancesMapKey | "poise")[];
     numbers: number[];
 } {
+    const GETSELECTEDFIELDS_LOGGING = SORTING_LOGGING && false;
+
+    if (GETSELECTEDFIELDS_LOGGING) console.log("getSelectedFields");
+
+    if (GETSELECTEDFIELDS_LOGGING)
+        console.log("tokens: ", tokens, "\n", "tokenTypes: ", tokenTypes);
     let fields: (DefensesMapKey | ResistancesMapKey | "poise")[] = [];
     let numbers: number[] = [];
     for (let i = 1; i < tokens.length - 1; i++) {
@@ -588,30 +625,32 @@ function getSelectedFields(
         }
     }
 
-    return { fields: fields, numbers: numbers };
+    const result = { fields: fields, numbers: numbers };
+
+    if (GETSELECTEDFIELDS_LOGGING) console.log("result: ", result);
+
+    return result;
 }
 
 function processUnmarshallTokens(tokens: string[]): SortByArmor {
-    let result: SortByArmor = { ...DEFAULT_SORTBYARMOR };
+    const PROCESSUNMARSHALLTOKENS_LOGGING = SORTING_LOGGING && false;
 
-    console.log(
-        "first token is:",
-        tokens[0],
-        "contains parenthesis:",
-        tokens[0].includes("(")
-    );
-    console.log(
-        "last token is:",
-        tokens[tokens.length - 1],
-        "contains parenthesis:",
-        tokens[tokens.length - 1].includes(")")
-    );
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("processing unmarshall tokens: ", tokens);
+
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("default sortbyarmor: ", DEFAULT_SORTBYARMOR);
+
+    let result: SortByArmor = structuredClone(DEFAULT_SORTBYARMOR);
+
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("initial result: ", result);
+
     // if the first token is not an opening parenthesis, or the last token is not a closing parenthesis, throw an error
     if (!tokens[0].includes("(") || !tokens[tokens.length - 1].includes(")")) {
         throw new Error("Missing opening and/or closing parenthesis");
     }
 
-    console.log("parentheses match: ", parenthesesMatch(tokens));
     // if the number of opening and closing parentheses do not match, throw an error
     if (!parenthesesMatch(tokens)) {
         throw new Error("Parentheses do not match");
@@ -619,7 +658,6 @@ function processUnmarshallTokens(tokens: string[]): SortByArmor {
 
     // if any token is not valid, throw an error
     for (const token of tokens) {
-        console.log("token", token, "is valid: ", tokenIsValid(token));
         if (!tokenIsValid(token)) {
             throw new Error("Invalid token: " + token);
         }
@@ -632,37 +670,71 @@ function processUnmarshallTokens(tokens: string[]): SortByArmor {
         tempChildrenTokenGroups: childTokenGroups,
     } = analyzeTokens(tokens);
 
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("token types: ", tokenTypes);
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("child token groups: ", childTokenGroups);
+
     // determine the operation
     result.operation = getOperation(tokens[0]);
 
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("operation: ", result.operation);
+
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("result after operation: ", result);
+
     // determine which fields are selected
     const { fields, numbers } = getSelectedFields(tokens, tokenTypes);
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("fields: ", fields, "\n", "numbers: ", numbers);
     for (const field of fields) {
         result[field] = true;
     }
     result.children.push(...numbers);
 
-    // if there are no children, break the loop
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("result after numbers: ", result);
+
+    // if there are children, process them recursively
     for (const group of childTokenGroups) {
-        if (group.length === 1) {
-            return result;
+        if (group.length > 1) {
+            const child = processUnmarshallTokens(group);
+            if (PROCESSUNMARSHALLTOKENS_LOGGING)
+                console.log("group", group, "\n", "child: ", child);
+            result.children.push(child);
         }
-        result.children.push(processUnmarshallTokens(group));
     }
+
+    if (PROCESSUNMARSHALLTOKENS_LOGGING)
+        console.log("result after children: ", result);
 
     return result;
 }
 
 export function unmarshallSortBy(sortBy: string): SortByArmor {
+    const UNMARSHALLSORTBY_LOGGING = SORTING_LOGGING && false;
+
     // tokenize the string
-    const tokens: string[] = sortBy.split(" ");
+    const tokens: string[] = sortBy
+        .split(RegExp("[\n\r ]"))
+        .filter((token) => token !== "");
+
+    // remove any returns and tabs
+    for (let i = 0; i < tokens.length; i++) {
+        tokens[i] = tokens[i]
+            .replace("\n", "")
+            .replace("\r", "")
+            .replace("\t", "")
+            .trim();
+    }
 
     // remove any commas
     for (let i = 0; i < tokens.length; i++) {
         tokens[i] = tokens[i].replace(",", "");
     }
 
-    console.log("tokens: ", tokens);
+    if (UNMARSHALLSORTBY_LOGGING) console.log("tokens: ", tokens);
 
     return processUnmarshallTokens(tokens);
 }

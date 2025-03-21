@@ -3,8 +3,10 @@
 import ArmorResultSet from "@/app/armor/components/armorResult/ArmorResultSet";
 import {
     DEFAULT_SORTBYARMOR,
+    marshallSortByToString,
     SortByArmor,
     SORTBYARMOR_MODES,
+    unmarshallSortBy,
 } from "@/app/armor/components/customSortBy/sorting";
 import {
     dominated,
@@ -26,6 +28,7 @@ import InputSelect from "@/app/util/input/InputSelect";
 import Armor from "@/app/util/types/armor";
 import ArmorSet from "@/app/util/types/armorSet";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { deepCloneAndMap } from "../util/script";
 import { CustomizeSortBy } from "./components/customSortBy/CustomizeSortBy";
 
 export default function ArmorPage() {
@@ -49,9 +52,9 @@ export default function ArmorPage() {
     const [leggings, setLeggings] = useState(Array<Armor>());
     const [pressedKeys, setPressedKeys] = useState(new Set());
     const [customizeSortBy, setCustomizeSortBy] = useState(false);
-    const [customSortBy, setCustomSortBy] = useState<SortByArmor>({
-        ...DEFAULT_SORTBYARMOR,
-    });
+    const [customSortBy, setCustomSortBy] = useState<SortByArmor>(
+        deepCloneAndMap(DEFAULT_SORTBYARMOR, [{ label: "Custom" }])
+    );
 
     const hotkeyGroups = useMemo(
         () => [
@@ -200,6 +203,15 @@ export default function ArmorPage() {
             setBreakpoint(JSON.parse(localBreakpoint));
         }
 
+        const localCustomSortBy = localStorage.getItem("localCustomSortBy");
+        if (localCustomSortBy) {
+            setCustomSortBy(
+                deepCloneAndMap(unmarshallSortBy(localCustomSortBy), [
+                    { label: "Custom" },
+                ])
+            );
+        }
+
         const localSortBy = localStorage.getItem("localSortBy");
         if (
             localSortBy &&
@@ -250,6 +262,13 @@ export default function ArmorPage() {
     }, [sortBy]);
 
     useEffect(() => {
+        localStorage.setItem(
+            "localCustomSortBy",
+            marshallSortByToString(customSortBy)
+        );
+    }, [customSortBy]);
+
+    useEffect(() => {
         localStorage.setItem("localLockedItems", JSON.stringify(lockedItems));
     }, [lockedItems]);
 
@@ -265,19 +284,73 @@ export default function ArmorPage() {
                 chestpieces,
                 gauntlets,
                 leggings,
-                sortBy
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
             )
         );
-    }, [equipLoadBudget, helmets, chestpieces, gauntlets, leggings, sortBy]);
+    }, [
+        equipLoadBudget,
+        helmets,
+        chestpieces,
+        gauntlets,
+        leggings,
+        sortBy,
+        customSortBy,
+    ]);
 
     useEffect(() => {
-        setHelmets(dominated(HELMETS, lockedItems, ignoredItems, sortBy));
-        setChestpieces(
-            dominated(CHESTPIECES, lockedItems, ignoredItems, sortBy)
+        setHelmets(
+            dominated(
+                HELMETS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
         );
-        setGauntlets(dominated(GAUNTLETS, lockedItems, ignoredItems, sortBy));
-        setLeggings(dominated(LEGGINGS, lockedItems, ignoredItems, sortBy));
-    }, [lockedItems, ignoredItems, sortBy]);
+        setChestpieces(
+            dominated(
+                CHESTPIECES,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+        setGauntlets(
+            dominated(
+                GAUNTLETS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+        setLeggings(
+            dominated(
+                LEGGINGS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+    }, [lockedItems, ignoredItems, sortBy, customSortBy]);
 
     useEffect(() => {
         setEquipLoadBudget(
@@ -293,9 +366,14 @@ export default function ArmorPage() {
                     closePopUp={() => {
                         setCustomizeSortBy(false);
                     }}
-                    setCustomSortBy={(newSortBy: SortByArmor) => {
-                        setCustomSortBy(newSortBy);
-                    }}
+                    setCustomSortBy={setCustomSortBy}
+                    sortBy={
+                        sortBy == "custom"
+                            ? customSortBy
+                            : SORTBYARMOR_MODES[
+                                  sortBy as keyof typeof SORTBYARMOR_MODES
+                              ]
+                    }
                 />
             )}
             <header>
@@ -370,25 +448,27 @@ export default function ArmorPage() {
                         />
                         <hr />
                         <b>Sort by</b>
-                        {Object.entries(SORTBYARMOR_MODES).map(
-                            ([key, value]) => {
-                                return (
-                                    <div key={key}>
-                                        <InputRadio
-                                            key={key}
-                                            label={value.label}
-                                            id={key}
-                                            onClick={() => updateSortBy(key)}
-                                            name="sorting-order"
-                                            checked={sortBy === key}
-                                            customizeFn={() =>
-                                                setCustomizeSortBy(true)
-                                            }
-                                        />
-                                    </div>
-                                );
-                            }
-                        )}
+                        {Object.entries(
+                            deepCloneAndMap(SORTBYARMOR_MODES, [
+                                { custom: customSortBy },
+                            ])
+                        ).map(([key, value]) => {
+                            return (
+                                <div key={key}>
+                                    <InputRadio
+                                        key={key}
+                                        label={value.label}
+                                        id={key}
+                                        onClick={() => updateSortBy(key)}
+                                        name="sorting-order"
+                                        checked={sortBy === key}
+                                        customizeFn={() =>
+                                            setCustomizeSortBy(true)
+                                        }
+                                    />
+                                </div>
+                            );
+                        })}
                         <hr />
                         <div>
                             <b>Locked Armor</b>
@@ -553,10 +633,35 @@ export default function ArmorPage() {
                         </div>
                     </article>
                     <div>
+                        <h2 style={{ textAlign: "center" }}>
+                            Custom Armor Sorting
+                        </h2>
+                        <p>
+                            You can sort the armor pieces in the order you want
+                            them to be considered for optimization.
+                        </p>
+                        <p>
+                            By clicking the &quot;Customize&quot; button to the
+                            right of the &quot;Custom&quot; sorting option, you
+                            will see the sorting algorithm for the currently
+                            selected sorting option.
+                        </p>
+                        <p>
+                            From here, you can customize the sorting algorithm.
+                            When you&apos;re done, click the &quot;Submit&quot;
+                            button to save your new custom sorting algorithm to
+                            the &quot;Custom&quot; sorting option.
+                        </p>
+                        <p>
+                            If you&apos;re stuck on a boss, go take a look at
+                            that boss&apos;s page on a wiki, and customize the
+                            sorting algorithm to optimize for the damage types
+                            they deal!
+                        </p>
                         <h2 style={{ textAlign: "center" }}>Ignoring Armor</h2>
                         <p>
-                            Click the red &quot;X&quot; next to any armor piece
-                            to remove it from the pool of armor being considered
+                            Click the &quot;❌&quot; next to any armor piece to
+                            remove it from the pool of armor being considered
                             for optimization. Some reasons you might do this
                             include:
                         </p>
@@ -572,7 +677,7 @@ export default function ArmorPage() {
                             associated with ignoring it. The hotkeys are the
                             keys on the top row of your QWERTY keyboard, from
                             backtick (`) to hyphen (-). Hover over any of the
-                            red &quot;X&quot;s to see what its hotkey is.
+                            red &quot;❌&quot;s to see what its hotkey is.
                         </p>
                     </div>
                 </div>

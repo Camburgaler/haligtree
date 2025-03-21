@@ -8,77 +8,79 @@ It will have a button to cancel the custom sorting algorithm.
 It will have a paragraph to explain the custom sorting algorithm.
 */
 
+import { LOGGING } from "@/app/util/constants";
+import { deepCloneAndMap } from "@/app/util/script";
 import { useState } from "react";
-import {
-    DEFAULT_SORTBYARMOR,
-    marshallSortByToString,
-    SortByArmor,
-    SORTBYARMOR_MODES,
-    SortByArmorKey,
-    unmarshallSortBy,
-} from "./sorting";
+import FormulaField from "./FormulaField";
+import { DEFAULT_SORTBYARMOR, SortByArmor, unmarshallSortBy } from "./sorting";
+
+const CUSTOMIZESORTBY_LOGGING = LOGGING && true;
 
 export function CustomizeSortBy(props: {
     closePopUp: () => void;
     setCustomSortBy: (newSortBy: SortByArmor) => void;
+    sortBy: SortByArmor;
 }) {
     const [isExpanded, setIsExpanded] = useState<boolean>(true);
-    const [formula, setFormula] = useState<SortByArmor>({
-        ...DEFAULT_SORTBYARMOR,
-    });
-
-    const updateFormula = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let key: string;
-        let value: string | boolean;
-
-        switch (e.target.value) {
-            case "value":
-            case "sum":
-            case "average":
-            case "multiply":
-                key = "operation";
-                value = e.target.value;
-                break;
-            default:
-                key = e.target.value;
-                value = !formula[key as SortByArmorKey];
-                break;
-        }
-
-        setFormula({ ...formula, [key]: value });
-    };
+    const testSortBy: SortByArmor = deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+        { operation: "sum" },
+        {
+            children: [
+                deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+                    { operation: "multiply" },
+                    {
+                        children: [
+                            deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+                                { operation: "sum" },
+                                { physical: true },
+                                { slash: true },
+                            ]),
+                            0.3,
+                        ],
+                    },
+                ]),
+                deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+                    { operation: "multiply" },
+                    {
+                        children: [
+                            deepCloneAndMap(DEFAULT_SORTBYARMOR, [
+                                { operation: "sum" },
+                                { magic: true },
+                                { holy: true },
+                                { hemorrhage: true },
+                            ]),
+                            0.7,
+                        ],
+                    },
+                ]),
+            ],
+        },
+    ]);
 
     const submitFormula = () => {
-        console.log(
-            "formula: ",
-            (document.getElementById("formula") as HTMLTextAreaElement).value
-        );
-        props.setCustomSortBy(
+        const SUBMITFORMULA_LOGGING = CUSTOMIZESORTBY_LOGGING && false;
+
+        if (SUBMITFORMULA_LOGGING)
+            console.log(
+                "formula: ",
+                (document.getElementById("formula") as HTMLTextAreaElement)
+                    .value
+            );
+        const formula: SortByArmor = deepCloneAndMap(
             unmarshallSortBy(
                 (document.getElementById("formula") as HTMLTextAreaElement)
                     .value
-            )
+            ),
+            [{ label: "Custom" }]
         );
+        if (SUBMITFORMULA_LOGGING) console.log("formula: ", formula);
+        props.setCustomSortBy(formula);
         props.closePopUp();
     };
 
     const cancelFormula = () => {
         props.closePopUp();
     };
-
-    const formulaTextArea: JSX.Element = (
-        <textarea
-            defaultValue={marshallSortByToString(
-                SORTBYARMOR_MODES["total-standard"]
-            )}
-            style={{
-                width: "100%",
-                backgroundColor: "var(--secondary)",
-                color: "var(--contrast)",
-            }}
-            rows={5}
-        />
-    );
 
     return (
         <div
@@ -96,6 +98,13 @@ export function CustomizeSortBy(props: {
             }}
         >
             <h2>Custom Sort</h2>
+            <div>
+                <FormulaField sortBy={props.sortBy} />
+            </div>
+            <div>
+                <button onClick={submitFormula}>Submit</button>
+                <button onClick={cancelFormula}>Cancel</button>
+            </div>
             <div>
                 <button onClick={() => setIsExpanded(!isExpanded)}>
                     {isExpanded ? "Hide Description" : "Show Description"}
@@ -121,30 +130,30 @@ export function CustomizeSortBy(props: {
                                 </ul>
                             </li>
                             <li>
-                                AVG( X, X, ... )
+                                AVG( X X ... )
                                 <ul>
                                     <li>
-                                        This will average all comma-separated
+                                        This will average all space-separated
                                         values inside the parentheses. Note that
                                         more than one value is required.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                SUM( X, X, ... )
+                                SUM( X X ... )
                                 <ul>
                                     <li>
-                                        This will sum all comma-separated values
+                                        This will sum all space-separated values
                                         inside the parentheses. Note that more
                                         than one value is required.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                MULT( X, X, ... )
+                                MULT( X X ... )
                                 <ul>
                                     <li>
-                                        This will multiply all comma-separated
+                                        This will multiply all space-separated
                                         values inside the parentheses. Note that
                                         more than one value is required.
                                     </li>
@@ -297,37 +306,6 @@ export function CustomizeSortBy(props: {
                         </ul>
                     </div>
                 )}
-            </div>
-            <div>
-                {/* <textarea
-                    rows={10}
-                    style={{
-                        width: "100%",
-                        color: "black",
-                        fontFamily: "monospace",
-                    }}
-                    readOnly
-                ></textarea> */}
-                {/* <FormulaSelector
-                    updateFormula={updateFormula}
-                    sortBy={SORTBYARMOR_MODES["total-standard"]}
-                /> */}
-                <textarea
-                    defaultValue={marshallSortByToString(
-                        SORTBYARMOR_MODES["total-standard"]
-                    )}
-                    style={{
-                        width: "100%",
-                        backgroundColor: "var(--secondary)",
-                        color: "var(--contrast)",
-                    }}
-                    rows={5}
-                    id="formula"
-                />
-            </div>
-            <div>
-                <button onClick={submitFormula}>Submit</button>
-                <button onClick={cancelFormula}>Cancel</button>
             </div>
         </div>
     );

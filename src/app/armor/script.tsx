@@ -1,10 +1,15 @@
-import { CHESTPIECES, GAUNTLETS, HELMETS, LEGGINGS } from "../util/constants";
+import {
+    CHESTPIECES,
+    GAUNTLETS,
+    HELMETS,
+    LEGGINGS,
+    LOGGING,
+} from "../util/constants";
 import Armor from "../util/types/armor";
 import ArmorSet from "../util/types/armorSet";
-import {
-    evaluateSortBy,
-    SORTBYARMOR_MODES,
-} from "./components/customSortBy/sorting";
+import { evaluateSortBy, SortByArmor } from "./components/customSortBy/sorting";
+
+const SCRIPT_LOGGING = LOGGING && true;
 
 export function resetAll(): void {
     [
@@ -168,13 +173,6 @@ export function setStatsToString(set: ArmorSet): string[] {
     return itemStatsToString(imaginary);
 }
 
-function fitness(item: Armor, sortBy: string): number {
-    return evaluateSortBy(
-        SORTBYARMOR_MODES[sortBy as keyof typeof SORTBYARMOR_MODES],
-        item!
-    );
-}
-
 function armorSetContains(set: ArmorSet, item: Armor): boolean {
     return (
         set.helmet?.id === item.id ||
@@ -188,7 +186,7 @@ export function dominated(
     itemList: Armor[],
     lockedItems: ArmorSet,
     ignoredItems: Armor[],
-    sortBy: string
+    sortBy: SortByArmor
 ): Armor[] {
     if (itemList.some((item: Armor) => armorSetContains(lockedItems, item))) {
         return [
@@ -208,7 +206,9 @@ export function dominated(
     sorted.forEach((item) => {
         if (
             !approved.some(
-                (other) => fitness(item, sortBy) <= fitness(other, sortBy)
+                (other) =>
+                    evaluateSortBy(sortBy, item!) <=
+                    evaluateSortBy(sortBy, other!)
             )
         ) {
             approved.push(item);
@@ -224,10 +224,24 @@ export function knapSack(
     chestpieces: Armor[],
     gauntlets: Armor[],
     leggings: Armor[],
-    sortBy: string
+    sortBy: SortByArmor
 ): ArmorSet[] {
+    const KNAPSACK_LOGGING = SCRIPT_LOGGING && false;
+
+    if (KNAPSACK_LOGGING) console.log("knapsack");
+
+    if (KNAPSACK_LOGGING) console.log("equipLoadBudget: ", equipLoadBudget);
+    if (KNAPSACK_LOGGING) console.log("helmets: ", helmets.length);
+    if (KNAPSACK_LOGGING) console.log("chestpieces: ", chestpieces.length);
+    if (KNAPSACK_LOGGING) console.log("gauntlets: ", gauntlets.length);
+    if (KNAPSACK_LOGGING) console.log("leggings: ", leggings.length);
+    if (KNAPSACK_LOGGING) console.log("sortBy: ", sortBy);
+
     // Convert max equip load to integer by multiplying by 10
     const equipLoadBudgetInt = Math.floor(equipLoadBudget * 10);
+
+    if (KNAPSACK_LOGGING)
+        console.log("equipLoadBudgetInt: ", equipLoadBudgetInt);
 
     // Initialize Dynamic Programming table
     const dp: ArmorSet[][] = Array(5)
@@ -243,16 +257,23 @@ export function knapSack(
                 })
         );
 
+    if (KNAPSACK_LOGGING) console.log("dp size: 5 x", dp[0].length);
+
     const equipment = [helmets, chestpieces, gauntlets, leggings];
     // Fill dynamic programming table
     for (let i = 0; i < 4; i++) {
         const armorArr = equipment[i];
 
         for (const armor of armorArr) {
+            if (KNAPSACK_LOGGING) console.log("armor: ", armor);
+
             // Convert piece weight to integer
             const armorWeight = armor.weight;
             const armorWeightInt = Math.round(armorWeight * 10);
-            const armorStat = fitness(armor, sortBy);
+            const armorStat = evaluateSortBy(sortBy, armor!);
+
+            if (KNAPSACK_LOGGING) console.log("armorWeight: ", armorWeight);
+            if (KNAPSACK_LOGGING) console.log("armorStat: ", armorStat);
 
             for (
                 let wInt = equipLoadBudgetInt;
