@@ -1,26 +1,35 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import ArmorResultSet from "@/app/armor/components/armorResult/ArmorResultSet";
 import {
-    ARMOR_RESULTS_SET_IDS,
-    CHESTPIECES,
-    GAUNTLETS,
-    HELMETS,
-    LEGGINGS,
-} from "../util/constants";
-import Armor from "../util/types/armor";
-import ArmorSet from "../util/types/armorSet";
-import ArmorResultSet from "./components/ArmorResultSet";
-import InputNumber from "./components/InputNumber";
-import InputRadio from "./components/InputRadio";
-import InputSelect from "./components/InputSelect";
+    DEFAULT_SORTBYARMOR,
+    marshallSortByToString,
+    SortByArmor,
+    SORTBYARMOR_MODES,
+    unmarshallSortBy,
+} from "@/app/armor/components/customSortBy/sorting";
 import {
     dominated,
     itemStatsToString,
     knapSack,
     resetAll,
     setStatsToString,
-} from "./script";
+} from "@/app/armor/script";
+import {
+    ARMOR_RESULTS_SET_IDS,
+    CHESTPIECES,
+    GAUNTLETS,
+    HELMETS,
+    LEGGINGS,
+} from "@/app/util/constants";
+import InputNumber from "@/app/util/input/InputNumber";
+import InputRadio from "@/app/util/input/InputRadio";
+import InputSelect from "@/app/util/input/InputSelect";
+import Armor from "@/app/util/types/armor";
+import ArmorSet from "@/app/util/types/armorSet";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { deepCloneAndMap } from "../util/script";
+import { CustomizeSortBy } from "./components/customSortBy/CustomizeSortBy";
 
 export default function ArmorPage() {
     // STATES
@@ -29,7 +38,7 @@ export default function ArmorPage() {
     const [currentEquipLoad, setCurrentEquipLoad] = useState(0);
     const [equipLoadBudget, setEquipLoadBudget] = useState(21);
     const [breakpoint, setBreakpoint] = useState(0.7);
-    const [sortBy, setSortBy] = useState("sort-standard");
+    const [sortBy, setSortBy] = useState("total-standard");
     const [lockedItems, setLockedItems] = useState<ArmorSet>({
         helmet: undefined,
         chestpiece: undefined,
@@ -42,6 +51,10 @@ export default function ArmorPage() {
     const [gauntlets, setGauntlets] = useState(Array<Armor>());
     const [leggings, setLeggings] = useState(Array<Armor>());
     const [pressedKeys, setPressedKeys] = useState(new Set());
+    const [customizeSortBy, setCustomizeSortBy] = useState(false);
+    const [customSortBy, setCustomSortBy] = useState<SortByArmor>(
+        deepCloneAndMap(DEFAULT_SORTBYARMOR, [{ label: "Custom" }])
+    );
 
     const hotkeyGroups = useMemo(
         () => [
@@ -190,8 +203,20 @@ export default function ArmorPage() {
             setBreakpoint(JSON.parse(localBreakpoint));
         }
 
+        const localCustomSortBy = localStorage.getItem("localCustomSortBy");
+        if (localCustomSortBy) {
+            setCustomSortBy(
+                deepCloneAndMap(unmarshallSortBy(localCustomSortBy), [
+                    { label: "Custom" },
+                ])
+            );
+        }
+
         const localSortBy = localStorage.getItem("localSortBy");
-        if (localSortBy) {
+        if (
+            localSortBy &&
+            SORTBYARMOR_MODES[localSortBy as keyof typeof SORTBYARMOR_MODES]
+        ) {
             setSortBy(JSON.parse(localSortBy));
         }
 
@@ -237,6 +262,13 @@ export default function ArmorPage() {
     }, [sortBy]);
 
     useEffect(() => {
+        localStorage.setItem(
+            "localCustomSortBy",
+            marshallSortByToString(customSortBy)
+        );
+    }, [customSortBy]);
+
+    useEffect(() => {
         localStorage.setItem("localLockedItems", JSON.stringify(lockedItems));
     }, [lockedItems]);
 
@@ -252,19 +284,73 @@ export default function ArmorPage() {
                 chestpieces,
                 gauntlets,
                 leggings,
-                sortBy
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
             )
         );
-    }, [equipLoadBudget, helmets, chestpieces, gauntlets, leggings, sortBy]);
+    }, [
+        equipLoadBudget,
+        helmets,
+        chestpieces,
+        gauntlets,
+        leggings,
+        sortBy,
+        customSortBy,
+    ]);
 
     useEffect(() => {
-        setHelmets(dominated(HELMETS, lockedItems, ignoredItems, sortBy));
-        setChestpieces(
-            dominated(CHESTPIECES, lockedItems, ignoredItems, sortBy)
+        setHelmets(
+            dominated(
+                HELMETS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
         );
-        setGauntlets(dominated(GAUNTLETS, lockedItems, ignoredItems, sortBy));
-        setLeggings(dominated(LEGGINGS, lockedItems, ignoredItems, sortBy));
-    }, [lockedItems, ignoredItems, sortBy]);
+        setChestpieces(
+            dominated(
+                CHESTPIECES,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+        setGauntlets(
+            dominated(
+                GAUNTLETS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+        setLeggings(
+            dominated(
+                LEGGINGS,
+                lockedItems,
+                ignoredItems,
+                sortBy == "custom"
+                    ? customSortBy
+                    : SORTBYARMOR_MODES[
+                          sortBy as keyof typeof SORTBYARMOR_MODES
+                      ]
+            )
+        );
+    }, [lockedItems, ignoredItems, sortBy, customSortBy]);
 
     useEffect(() => {
         setEquipLoadBudget(
@@ -275,6 +361,21 @@ export default function ArmorPage() {
     // RENDER
     return (
         <div>
+            {customizeSortBy && (
+                <CustomizeSortBy
+                    closePopUp={() => {
+                        setCustomizeSortBy(false);
+                    }}
+                    setCustomSortBy={setCustomSortBy}
+                    sortBy={
+                        sortBy == "custom"
+                            ? customSortBy
+                            : SORTBYARMOR_MODES[
+                                  sortBy as keyof typeof SORTBYARMOR_MODES
+                              ]
+                    }
+                />
+            )}
             <header>
                 <h1>Armor Optimizer</h1>
             </header>
@@ -347,153 +448,27 @@ export default function ArmorPage() {
                         />
                         <hr />
                         <b>Sort by</b>
-                        <InputRadio
-                            label="Greatest Average Absorption"
-                            id="sort-average"
-                            onClick={() => updateSortBy("sort-average")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-average"}
-                        />
-                        <InputRadio
-                            label="Greatest Standard Absorption"
-                            id="sort-standard"
-                            onClick={() => updateSortBy("sort-standard")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-standard"}
-                        />
-                        <InputRadio
-                            label="Greatest Physical Absorption"
-                            id="sort-physical"
-                            onClick={() => updateSortBy("sort-physical")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-physical"}
-                        />
-                        <InputRadio
-                            label="Greatest Strike Absorption"
-                            id="sort-strike"
-                            onClick={() => updateSortBy("sort-strike")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-strike"}
-                        />
-                        <InputRadio
-                            label="Greatest Slash Absorption"
-                            id="sort-slash"
-                            onClick={() => updateSortBy("sort-slash")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-slash"}
-                        />
-                        <InputRadio
-                            label="Greatest Pierce Absorption"
-                            id="sort-pierce"
-                            onClick={() => updateSortBy("sort-pierce")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-pierce"}
-                        />
-                        <InputRadio
-                            label="Greatest Elemental Absorption"
-                            id="sort-elemental"
-                            onClick={() => updateSortBy("sort-elemental")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-elemental"}
-                        />
-                        <InputRadio
-                            label="Greatest Magic Absorption"
-                            id="sort-magic"
-                            onClick={() => updateSortBy("sort-magic")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-magic"}
-                        />
-                        <InputRadio
-                            label="Greatest Fire Absorption"
-                            id="sort-fire"
-                            onClick={() => updateSortBy("sort-fire")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-fire"}
-                        />
-                        <InputRadio
-                            label="Greatest Lightning Absorption"
-                            id="sort-lightning"
-                            onClick={() => updateSortBy("sort-lightning")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-lightning"}
-                        />
-                        <InputRadio
-                            label="Greatest Holy Absorption"
-                            id="sort-holy"
-                            onClick={() => updateSortBy("sort-holy")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-holy"}
-                        />
-                        <InputRadio
-                            label="Greatest Average Resistance"
-                            id="sort-resistances"
-                            onClick={() => updateSortBy("sort-resistances")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-resistances"}
-                        />
-                        <InputRadio
-                            label="Greatest Scarlet Rot Resistance"
-                            id="sort-scarlet-rot"
-                            onClick={() => updateSortBy("sort-scarlet-rot")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-scarlet-rot"}
-                        />
-                        <InputRadio
-                            label="Greatest Poison Resistance"
-                            id="sort-poison"
-                            onClick={() => updateSortBy("sort-poison")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-poison"}
-                        />
-                        <InputRadio
-                            label="Greatest Hemorrhage Resistance"
-                            id="sort-hemorrhage"
-                            onClick={() => updateSortBy("sort-hemorrhage")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-hemorrhage"}
-                        />
-                        <InputRadio
-                            label="Greatest Frostbite Resistance"
-                            id="sort-frostbite"
-                            onClick={() => updateSortBy("sort-frostbite")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-frostbite"}
-                        />
-                        <InputRadio
-                            label="Greatest Sleep Resistance"
-                            id="sort-sleep"
-                            onClick={() => updateSortBy("sort-sleep")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-sleep"}
-                        />
-                        <InputRadio
-                            label="Greatest Madness Resistance"
-                            id="sort-madness"
-                            onClick={() => updateSortBy("sort-madness")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-madness"}
-                        />
-                        <InputRadio
-                            label="Greatest Death Resistance"
-                            id="sort-death"
-                            onClick={() => updateSortBy("sort-death")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-death"}
-                        />
-                        <InputRadio
-                            label="Greatest Poise"
-                            id="sort-poise"
-                            onClick={() => updateSortBy("sort-poise")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-poise"}
-                        />
-                        {/* <InputRadio
-                            label="Custom"
-                            id="sort-custom"
-                            onClick={() => updateSortBy("sort-custom")}
-                            name="sorting-order"
-                            checked={sortBy === "sort-custom"}
-                        /> */}
+                        {Object.entries(
+                            deepCloneAndMap(SORTBYARMOR_MODES, [
+                                { custom: customSortBy },
+                            ])
+                        ).map(([key, value]) => {
+                            return (
+                                <div key={key}>
+                                    <InputRadio
+                                        key={key}
+                                        label={value.label}
+                                        id={key}
+                                        onClick={() => updateSortBy(key)}
+                                        name="sorting-order"
+                                        checked={sortBy === key}
+                                        customizeFn={() =>
+                                            setCustomizeSortBy(true)
+                                        }
+                                    />
+                                </div>
+                            );
+                        })}
                         <hr />
                         <div>
                             <b>Locked Armor</b>
@@ -658,10 +633,35 @@ export default function ArmorPage() {
                         </div>
                     </article>
                     <div>
+                        <h2 style={{ textAlign: "center" }}>
+                            Custom Armor Sorting
+                        </h2>
+                        <p>
+                            You can sort the armor pieces in the order you want
+                            them to be considered for optimization.
+                        </p>
+                        <p>
+                            By clicking the &quot;Customize&quot; button to the
+                            right of the &quot;Custom&quot; sorting option, you
+                            will see the sorting algorithm for the currently
+                            selected sorting option.
+                        </p>
+                        <p>
+                            From here, you can customize the sorting algorithm.
+                            When you&apos;re done, click the &quot;Submit&quot;
+                            button to save your new custom sorting algorithm to
+                            the &quot;Custom&quot; sorting option.
+                        </p>
+                        <p>
+                            If you&apos;re stuck on a boss, go take a look at
+                            that boss&apos;s page on a wiki, and customize the
+                            sorting algorithm to optimize for the damage types
+                            they deal!
+                        </p>
                         <h2 style={{ textAlign: "center" }}>Ignoring Armor</h2>
                         <p>
-                            Click the red &quot;X&quot; next to any armor piece
-                            to remove it from the pool of armor being considered
+                            Click the &quot;❌&quot; next to any armor piece to
+                            remove it from the pool of armor being considered
                             for optimization. Some reasons you might do this
                             include:
                         </p>
@@ -677,7 +677,7 @@ export default function ArmorPage() {
                             associated with ignoring it. The hotkeys are the
                             keys on the top row of your QWERTY keyboard, from
                             backtick (`) to hyphen (-). Hover over any of the
-                            red &quot;X&quot;s to see what its hotkey is.
+                            red &quot;❌&quot;s to see what its hotkey is.
                         </p>
                     </div>
                 </div>

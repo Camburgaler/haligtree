@@ -6,7 +6,7 @@ function InputNumber(props: {
     value: number;
     name: string | undefined;
     disabled?: boolean;
-}) {
+}): JSX.Element {
     return (
         <div>
             <label htmlFor={props.id}>{props?.label}</label>

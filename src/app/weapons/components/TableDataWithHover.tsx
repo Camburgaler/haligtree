@@ -1,10 +1,11 @@
-import "@/app/globals.css";
-import { useState } from "react";
 import {
     ATTACK_POWER_TYPE_ID_TO_NAME,
     INFUSION_ID_TO_NAME,
-} from "../../util/constants";
-import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
+} from "@/app/util/constants";
+import AttackPowerTypeMap, {
+    AttackPowerTypeMapKey,
+} from "@/app/util/types/attackPowerTypeMap";
+import { useState } from "react";
 
 export function TableDataWithHover(props: {
     attackRating: number;
@@ -36,9 +37,9 @@ export function TableDataWithHover(props: {
         setHoveredCell(""); // hide the card
     };
 
-    const renderData = (dmgType: string) => {
+    const renderData = (dmgType: AttackPowerTypeMapKey) => {
         switch (dmgType) {
-            case "blood":
+            case "bleed":
             case "poison":
             case "frost":
             case "scarlet-rot":
@@ -95,8 +96,12 @@ export function TableDataWithHover(props: {
                     <h4>{INFUSION_ID_TO_NAME[props.infId]} Breakdown</h4>
                     <table>
                         <tbody>
-                            {Object.keys(props.data.baseDmg).map(
-                                (dmgType: string, i: number) => (
+                            {(
+                                Object.keys(
+                                    props.data.baseDmg
+                                ) as AttackPowerTypeMapKey[]
+                            ).map(
+                                (dmgType: AttackPowerTypeMapKey, i: number) => (
                                     <tr
                                         key={i}
                                         style={{ fontWeight: "normal" }}

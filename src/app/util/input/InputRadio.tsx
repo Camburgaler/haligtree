@@ -5,7 +5,12 @@ function InputRadio(props: {
     value?: string | number | readonly string[];
     label: string;
     checked?: boolean;
-}) {
+    customizeFn?: () => void;
+}): JSX.Element {
+    const conditionalColor = props.checked
+        ? "var(--accent)"
+        : "var(--contrast)";
+
     return (
         <div>
             <div>
@@ -17,7 +22,17 @@ function InputRadio(props: {
                     value={props.value}
                     checked={props.checked}
                 />
-                <label htmlFor={props.id}>{props.label}</label>
+                <label
+                    htmlFor={props.id}
+                    style={{
+                        color: conditionalColor,
+                    }}
+                >
+                    {props.label}
+                </label>{" "}
+                {props.label == "Custom" && props.name == "sorting-order" ? (
+                    <button onClick={props.customizeFn}>Customize</button>
+                ) : null}
             </div>
         </div>
     );

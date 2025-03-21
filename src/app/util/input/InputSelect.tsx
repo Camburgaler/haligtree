@@ -1,5 +1,5 @@
+import Armor from "@/app/util/types/armor";
 import { ChangeEventHandler } from "react";
-import Armor from "../../util/types/armor";
 
 function InputSelect(props: {
     id: string;
@@ -8,7 +8,7 @@ function InputSelect(props: {
     onChange: ChangeEventHandler<HTMLSelectElement>;
     options: Armor[];
     value?: string;
-}) {
+}): JSX.Element {
     return (
         <div>
             <label htmlFor={props.id}>{props.label}</label>

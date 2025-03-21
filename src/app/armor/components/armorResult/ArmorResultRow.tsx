@@ -5,7 +5,7 @@ function ArmorResultRow(props: {
     stats: string[];
     addIgnoredItem: Function;
     hotkey?: string;
-}) {
+}): JSX.Element {
     let ignoreButton;
     let name;
     if (props.name == "Total") {

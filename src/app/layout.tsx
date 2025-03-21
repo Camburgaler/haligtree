@@ -62,10 +62,15 @@ export default function RootLayout({
                             </a>
                         </h5>
                         <h5>
-                            Have suggestions?{" "}
-                            <a href="https://github.com/Camburgaler/erdtree/issues/new">
-                                Create an issue!
+                            Have suggestions? Submit a{" "}
+                            <a href="https://github.com/Camburgaler/erdtree/issues/new?template=feature_request.md">
+                                feature request
                             </a>{" "}
+                            or a{" "}
+                            <a href="https://github.com/Camburgaler/erdtree/issues/new?template=bug_report.md">
+                                bug report
+                            </a>
+                            !
                         </h5>
                     </span>
                 </footer>

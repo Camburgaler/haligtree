@@ -1,7 +1,7 @@
-import InfusionMap from "@/app/util/interfaces/infusionMap";
-import { INFUSION_IDS } from "../../util/constants";
-import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
-import { TableDataWithHover } from "./TableDataWithHover";
+import { INFUSION_IDS } from "@/app/util/constants";
+import AttackPowerTypeMap from "@/app/util/types/attackPowerTypeMap";
+import InfusionMap from "@/app/util/types/infusionMap";
+import { TableDataWithHover } from "@/app/weapons/components/TableDataWithHover";
 
 const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
     standard: 0,
