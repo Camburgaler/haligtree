@@ -6,6 +6,9 @@ import {
     marshallSortByToString,
     SortByArmor,
     SORTBYARMOR_MODES,
+    SORTBYBOSS_KEYS,
+    SORTBYBOSS_MODES,
+    SortByBossKey,
     unmarshallSortBy,
 } from "@/app/armor/components/customSortBy/sorting";
 import {
@@ -15,6 +18,9 @@ import {
     resetAll,
     setStatsToString,
 } from "@/app/armor/script";
+import InputNumber from "@/app/util/components/input/InputNumber";
+import InputRadio from "@/app/util/components/input/InputRadio";
+import InputSelect from "@/app/util/components/input/InputSelect";
 import {
     ARMOR_RESULTS_SET_IDS,
     CHESTPIECES,
@@ -22,9 +28,6 @@ import {
     HELMETS,
     LEGGINGS,
 } from "@/app/util/constants";
-import InputNumber from "@/app/util/input/InputNumber";
-import InputRadio from "@/app/util/input/InputRadio";
-import InputSelect from "@/app/util/input/InputSelect";
 import Armor from "@/app/util/types/armor";
 import ArmorSet from "@/app/util/types/armorSet";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -55,6 +58,8 @@ export default function ArmorPage() {
     const [customSortBy, setCustomSortBy] = useState<SortByArmor>(
         deepCloneAndMap(DEFAULT_SORTBYARMOR, [{ label: "Custom" }])
     );
+    const [bossSortBy, setBossSortBy] =
+        useState<SortByBossKey>("abductor-virgins");
 
     const hotkeyGroups = useMemo(
         () => [
@@ -183,6 +188,14 @@ export default function ArmorPage() {
         });
     }, []);
 
+    const getSortByArmor = useCallback((): SortByArmor => {
+        return sortBy == "custom"
+            ? customSortBy
+            : sortBy == "boss"
+            ? SORTBYBOSS_MODES[bossSortBy as SortByBossKey]
+            : SORTBYARMOR_MODES[sortBy as keyof typeof SORTBYARMOR_MODES];
+    }, [sortBy, customSortBy, bossSortBy]);
+
     // EFFECTS
     useEffect(() => {
         // Load data from localStorage on component mount
@@ -284,11 +297,7 @@ export default function ArmorPage() {
                 chestpieces,
                 gauntlets,
                 leggings,
-                sortBy == "custom"
-                    ? customSortBy
-                    : SORTBYARMOR_MODES[
-                          sortBy as keyof typeof SORTBYARMOR_MODES
-                      ]
+                getSortByArmor()
             )
         );
     }, [
@@ -297,60 +306,23 @@ export default function ArmorPage() {
         chestpieces,
         gauntlets,
         leggings,
-        sortBy,
-        customSortBy,
+        getSortByArmor,
     ]);
 
     useEffect(() => {
         setHelmets(
-            dominated(
-                HELMETS,
-                lockedItems,
-                ignoredItems,
-                sortBy == "custom"
-                    ? customSortBy
-                    : SORTBYARMOR_MODES[
-                          sortBy as keyof typeof SORTBYARMOR_MODES
-                      ]
-            )
+            dominated(HELMETS, lockedItems, ignoredItems, getSortByArmor())
         );
         setChestpieces(
-            dominated(
-                CHESTPIECES,
-                lockedItems,
-                ignoredItems,
-                sortBy == "custom"
-                    ? customSortBy
-                    : SORTBYARMOR_MODES[
-                          sortBy as keyof typeof SORTBYARMOR_MODES
-                      ]
-            )
+            dominated(CHESTPIECES, lockedItems, ignoredItems, getSortByArmor())
         );
         setGauntlets(
-            dominated(
-                GAUNTLETS,
-                lockedItems,
-                ignoredItems,
-                sortBy == "custom"
-                    ? customSortBy
-                    : SORTBYARMOR_MODES[
-                          sortBy as keyof typeof SORTBYARMOR_MODES
-                      ]
-            )
+            dominated(GAUNTLETS, lockedItems, ignoredItems, getSortByArmor())
         );
         setLeggings(
-            dominated(
-                LEGGINGS,
-                lockedItems,
-                ignoredItems,
-                sortBy == "custom"
-                    ? customSortBy
-                    : SORTBYARMOR_MODES[
-                          sortBy as keyof typeof SORTBYARMOR_MODES
-                      ]
-            )
+            dominated(LEGGINGS, lockedItems, ignoredItems, getSortByArmor())
         );
-    }, [lockedItems, ignoredItems, sortBy, customSortBy]);
+    }, [lockedItems, ignoredItems, getSortByArmor]);
 
     useEffect(() => {
         setEquipLoadBudget(
@@ -367,13 +339,7 @@ export default function ArmorPage() {
                         setCustomizeSortBy(false);
                     }}
                     setCustomSortBy={setCustomSortBy}
-                    sortBy={
-                        sortBy == "custom"
-                            ? customSortBy
-                            : SORTBYARMOR_MODES[
-                                  sortBy as keyof typeof SORTBYARMOR_MODES
-                              ]
-                    }
+                    sortBy={getSortByArmor()}
                 />
             )}
             <header>
@@ -448,13 +414,9 @@ export default function ArmorPage() {
                         />
                         <hr />
                         <b>Sort by</b>
-                        {Object.entries(
-                            deepCloneAndMap(SORTBYARMOR_MODES, [
-                                { custom: customSortBy },
-                            ])
-                        ).map(([key, value]) => {
-                            return (
-                                <div key={key}>
+                        {Object.entries(SORTBYARMOR_MODES).map(
+                            ([key, value]) => {
+                                return (
                                     <InputRadio
                                         key={key}
                                         label={value.label}
@@ -466,9 +428,74 @@ export default function ArmorPage() {
                                             setCustomizeSortBy(true)
                                         }
                                     />
-                                </div>
-                            );
-                        })}
+                                );
+                            }
+                        )}
+                        <div>
+                            <div>
+                                <input
+                                    type="radio"
+                                    id="boss"
+                                    onChange={() => updateSortBy("boss")}
+                                    name={"sorting-order"}
+                                    value={"boss"}
+                                    checked={sortBy === "boss"}
+                                />
+                                <label
+                                    htmlFor={"boss"}
+                                    style={{
+                                        color:
+                                            sortBy === "boss"
+                                                ? "var(--accent)"
+                                                : "var(--contrast)",
+                                    }}
+                                >
+                                    Boss
+                                </label>{" "}
+                                <select
+                                    itemType="text"
+                                    onChange={(e) =>
+                                        setBossSortBy(e.target.value)
+                                    }
+                                >
+                                    {SORTBYBOSS_KEYS.map((item: string) => {
+                                        return (
+                                            <option key={item} value={item}>
+                                                {SORTBYBOSS_MODES[item].label}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input
+                                    type="radio"
+                                    id="custom"
+                                    onChange={() => updateSortBy("custom")}
+                                    name={"sorting-order"}
+                                    value={"custom"}
+                                    checked={sortBy === "custom"}
+                                />
+                                <label
+                                    htmlFor={"custom"}
+                                    style={{
+                                        color:
+                                            sortBy === "custom"
+                                                ? "var(--accent)"
+                                                : "var(--contrast)",
+                                    }}
+                                >
+                                    Custom
+                                </label>{" "}
+                                <button
+                                    onClick={() => setCustomizeSortBy(true)}
+                                >
+                                    Customize
+                                </button>
+                            </div>
+                        </div>
                         <hr />
                         <div>
                             <b>Locked Armor</b>
@@ -633,30 +660,32 @@ export default function ArmorPage() {
                         </div>
                     </article>
                     <div>
-                        <h2 style={{ textAlign: "center" }}>
-                            Custom Armor Sorting
-                        </h2>
+                        <h2 style={{ textAlign: "center" }}>Boss Sorting</h2>
                         <p>
-                            You can sort the armor pieces in the order you want
-                            them to be considered for optimization.
+                            You can sort the armor pieces based on what is most
+                            optimal against a particular boss. This can be done
+                            by selecting the &quot;Boss&quot; sorting mode and
+                            using the dropdown to select a boss.
                         </p>
                         <p>
+                            Notably, each of those boss sorting modes is simple.
+                            It&apos;s just a summation based on all damage types
+                            and status effects dealt by that boss. If you want
+                            something more nuanced or complex, you can create a
+                            custom sorting algorithm!
+                        </p>
+                        <h2 style={{ textAlign: "center" }}>Custom Sorting</h2>
+                        <p>
                             By clicking the &quot;Customize&quot; button to the
-                            right of the &quot;Custom&quot; sorting option, you
+                            right of the &quot;Custom&quot; sorting mode, you
                             will see the sorting algorithm for the currently
-                            selected sorting option.
+                            selected sorting mode.
                         </p>
                         <p>
                             From here, you can customize the sorting algorithm.
                             When you&apos;re done, click the &quot;Submit&quot;
                             button to save your new custom sorting algorithm to
-                            the &quot;Custom&quot; sorting option.
-                        </p>
-                        <p>
-                            If you&apos;re stuck on a boss, go take a look at
-                            that boss&apos;s page on a wiki, and customize the
-                            sorting algorithm to optimize for the damage types
-                            they deal!
+                            the &quot;Custom&quot; sorting mode.
                         </p>
                         <h2 style={{ textAlign: "center" }}>Ignoring Armor</h2>
                         <p>

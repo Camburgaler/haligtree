@@ -9,7 +9,7 @@ import Armor from "../util/types/armor";
 import ArmorSet from "../util/types/armorSet";
 import { evaluateSortBy, SortByArmor } from "./components/customSortBy/sorting";
 
-const SCRIPT_LOGGING = LOGGING && true;
+const SCRIPT_LOGGING = LOGGING && false;
 
 export function resetAll(): void {
     [
