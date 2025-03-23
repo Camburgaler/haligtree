@@ -58,7 +58,7 @@ export default function FormulaField(props: {
                 backgroundColor: "var(--secondary)",
                 color: "var(--contrast)",
             }}
-            rows={30}
+            rows={20}
         />
     );
 }

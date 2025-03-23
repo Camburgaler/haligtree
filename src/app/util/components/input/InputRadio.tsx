@@ -1,3 +1,8 @@
+import {
+    SORTBYBOSS_KEYS,
+    SORTBYBOSS_MODES,
+} from "@/app/armor/components/customSortBy/sorting";
+
 function InputRadio(props: {
     id: string;
     onClick: React.ChangeEventHandler<HTMLInputElement>;
@@ -32,6 +37,15 @@ function InputRadio(props: {
                 </label>{" "}
                 {props.label == "Custom" && props.name == "sorting-order" ? (
                     <button onClick={props.customizeFn}>Customize</button>
+                ) : null}
+                {props.label == "Boss" && props.name == "sorting-order" ? (
+                    <select itemType="text">
+                        {SORTBYBOSS_KEYS.map((item: string) => (
+                            <option key={item} value={item}>
+                                {SORTBYBOSS_MODES[item].label}
+                            </option>
+                        ))}
+                    </select>
                 ) : null}
             </div>
         </div>

@@ -81,13 +81,7 @@ export const LEGGINGS: Armor[] = Object.values(
     require("../data/leggings.json")
 );
 
-export const ARMOR_RESULTS_SET_IDS = [
-    "first",
-    "second",
-    "third",
-    "fourth",
-    "fifth",
-];
+export const ARMOR_RESULTS_SET_IDS = ["first", "second", "third"];
 export const ATTACK_POWER_TYPE_MODE_ANY: string = "any";
 export const ATTACK_POWER_TYPE_MODE_ALL: string = "all";
 export const ATTACK_POWER_TYPE_MODE_EXACTLY: string = "exactly";

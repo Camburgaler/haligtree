@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import InputRadio from "../util/components/input/InputRadio";
 import {
     ATTACK_POWER_TYPE_MODE_ALL,
     ATTACK_POWER_TYPE_MODE_ANY,
@@ -11,7 +12,6 @@ import {
     INFUSION_NAMES,
     INFUSIONS,
 } from "../util/constants";
-import InputRadio from "../util/input/InputRadio";
 import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
 } from "../util/types/attackPowerTypeMap";
@@ -879,7 +879,7 @@ export default function Weapons() {
                                                     <th key={key} id={key}>
                                                         <Image
                                                             src={
-                                                                "/icons/" +
+                                                                "/icons/infusions/" +
                                                                 key +
                                                                 ".jpg"
                                                             }
