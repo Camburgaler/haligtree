@@ -11,14 +11,6 @@ import { evaluateSortBy, SortByArmor } from "./components/customSortBy/sorting";
 
 const SCRIPT_LOGGING = LOGGING && false;
 
-export function resetAll(): void {
-    [
-        ...(document.getElementsByName(
-            "locked-items"
-        ) as NodeListOf<HTMLSelectElement>),
-    ].forEach((select) => (select.selectedIndex = 0));
-}
-
 export function itemStatsToString(item: Armor): string[] {
     let weight = item.weight.toFixed(1);
     let poise = item.poise.toString();

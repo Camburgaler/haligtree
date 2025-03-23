@@ -15,7 +15,6 @@ import {
     dominated,
     itemStatsToString,
     knapSack,
-    resetAll,
     setStatsToString,
 } from "@/app/armor/script";
 import InputNumber from "@/app/util/components/input/InputNumber";
@@ -27,6 +26,7 @@ import {
     GAUNTLETS,
     HELMETS,
     LEGGINGS,
+    LOCKED_ARMOR_SELECT_NAME,
 } from "@/app/util/constants";
 import Armor from "@/app/util/types/armor";
 import ArmorSet from "@/app/util/types/armorSet";
@@ -98,6 +98,15 @@ export default function ArmorPage() {
 
     function removeIgnoredItem(oldItem: Armor): void {
         setIgnoredItems([...ignoredItems.filter((i) => i !== oldItem)]);
+    }
+
+    function resetAll(): void {
+        setLockedItems({
+            helmet: undefined,
+            chestpiece: undefined,
+            gauntlets: undefined,
+            leggings: undefined,
+        });
     }
 
     // HELPER FUNCTIONS
@@ -506,7 +515,7 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Helmet"
                             id="locked-helmet"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
                                 updateLockedItems(
                                     "helmet",
@@ -521,7 +530,7 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Chestpiece"
                             id="locked-chestpiece"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
                                 updateLockedItems(
                                     "chestpiece",
@@ -536,7 +545,7 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Gauntlets"
                             id="locked-gauntlets"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
                                 updateLockedItems(
                                     "gauntlets",
@@ -551,7 +560,7 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Leggings"
                             id="locked-leggings"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
                                 updateLockedItems(
                                     "leggings",
