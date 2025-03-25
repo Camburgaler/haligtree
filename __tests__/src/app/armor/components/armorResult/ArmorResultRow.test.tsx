@@ -6,14 +6,16 @@ import { render, screen } from "@testing-library/react";
 describe("ArmorResultRow", () => {
     test("Renders", () => {
         render(
-            <ArmorResultRow
-                name="Test"
-                id="test"
-                armorId="test"
-                stats={["0", "1", "2", "3", "4"]}
-                addIgnoredItem={() => null}
-                hotkey="1"
-            />
+            <tbody>
+                <ArmorResultRow
+                    name="Test"
+                    id="test"
+                    armorId="test"
+                    stats={["0", "1", "2", "3", "4"]}
+                    addIgnoredItem={() => null}
+                    hotkey="1"
+                />
+            </tbody>
         );
 
         expect(screen.getByText("Test")).toBeInTheDocument();

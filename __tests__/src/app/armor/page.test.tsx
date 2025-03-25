@@ -330,8 +330,6 @@ describe("Armor Page", () => {
             "ignore-button"
         )[0] as HTMLButtonElement;
 
-        console.log(ignoreButton);
-
         act(() => {
             ignoreButton.click();
         });
