@@ -9,10 +9,6 @@ import { InfusionMapKey } from "./types/infusionMap";
 import StatMap, { StatMapKey } from "./types/statMap";
 import Weapon from "./types/weapon";
 
-// Global logging constant
-// Turn this on in dev to enable console logging
-export const LOGGING = false;
-
 export const WEAPONS: Weapon[] = Object.values(require("../data/weapons.json"));
 WEAPONS.forEach((weapon) => {
     (Object.keys(weapon.infusions) as InfusionMapKey[]).forEach(
