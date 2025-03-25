@@ -7,7 +7,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: "Content-Security-Policy",
-                        value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';",
+                        value: "script-src 'sha256-{HASHED_INLINE_SCRIPT}' 'strict-dynamic';object-src 'none';base-uri 'none';",
                     },
                 ],
             },
