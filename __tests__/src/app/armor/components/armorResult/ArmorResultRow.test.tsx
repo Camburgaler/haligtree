@@ -6,16 +6,18 @@ import { render, screen } from "@testing-library/react";
 describe("ArmorResultRow", () => {
     test("Renders", () => {
         render(
-            <tbody>
-                <ArmorResultRow
-                    name="Test"
-                    id="test"
-                    armorId="test"
-                    stats={["0", "1", "2", "3", "4"]}
-                    addIgnoredItem={() => null}
-                    hotkey="1"
-                />
-            </tbody>
+            <table>
+                <tbody>
+                    <ArmorResultRow
+                        name="Test"
+                        id="test"
+                        armorId="test"
+                        stats={["0", "1", "2", "3", "4"]}
+                        addIgnoredItem={() => null}
+                        hotkey="1"
+                    />
+                </tbody>
+            </table>
         );
 
         expect(screen.getByText("Test")).toBeInTheDocument();
@@ -24,14 +26,18 @@ describe("ArmorResultRow", () => {
     test("clicks ignore button", () => {
         const addIgnoredItem = jest.fn();
         render(
-            <ArmorResultRow
-                name="Test"
-                id="test"
-                armorId="test"
-                stats={["0", "1", "2", "3", "4"]}
-                addIgnoredItem={addIgnoredItem}
-                hotkey="1"
-            />
+            <table>
+                <tbody>
+                    <ArmorResultRow
+                        name="Test"
+                        id="test"
+                        armorId="test"
+                        stats={["0", "1", "2", "3", "4"]}
+                        addIgnoredItem={addIgnoredItem}
+                        hotkey="1"
+                    />
+                </tbody>
+            </table>
         );
 
         screen.getByRole("button").click();
