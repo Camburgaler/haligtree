@@ -25,6 +25,7 @@ function InputRadio(props: {
                     htmlFor={props.id}
                     style={{
                         color: conditionalColor,
+                        minHeight: "24px",
                     }}
                 >
                     {props.label}

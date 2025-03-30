@@ -16,6 +16,7 @@ function ArmorResultRow(props: {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
+                    style={{ minHeight: "24px", minWidth: "24px" }}
                 >
                     {props.name}
                 </a>
@@ -28,6 +29,8 @@ function ArmorResultRow(props: {
                         marginLeft: "5px",
                         backgroundColor: "transparent",
                         border: "none",
+                        minWidth: "24px",
+                        minHeight: "24px",
                     }}
                 >
                     {" "}

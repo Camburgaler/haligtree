@@ -410,6 +410,11 @@ export default function ArmorPage() {
                                     onChange={(e) =>
                                         setBossSortBy(e.target.value)
                                     }
+                                    aria-label="boss select"
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
                                 >
                                     {SORTBYBOSS_KEYS.map((item: string) => {
                                         return (
@@ -444,6 +449,10 @@ export default function ArmorPage() {
                                 </label>{" "}
                                 <button
                                     onClick={() => setCustomizeSortBy(true)}
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
                                 >
                                     Customize
                                 </button>
@@ -462,6 +471,7 @@ export default function ArmorPage() {
                                         leggings: undefined,
                                     })
                                 }
+                                style={{ minHeight: "24px", minWidth: "24px" }}
                             >
                                 Reset All
                             </button>
@@ -529,10 +539,18 @@ export default function ArmorPage() {
                         <hr />
                         <div>
                             <b>Ignored Armor</b>
-                            <button id="ignore-all" onClick={ignoreAll}>
+                            <button
+                                id="ignore-all"
+                                onClick={ignoreAll}
+                                style={{ minHeight: "24px", minWidth: "24px" }}
+                            >
                                 Ignore All
                             </button>
-                            <button id="restore-all" onClick={restoreAll}>
+                            <button
+                                id="restore-all"
+                                onClick={restoreAll}
+                                style={{ minHeight: "24px", minWidth: "24px" }}
+                            >
                                 Restore All
                             </button>
                         </div>
@@ -561,7 +579,11 @@ export default function ArmorPage() {
                                                     ),
                                                 ])
                                             }
-                                            style={{ backgroundColor: "green" }}
+                                            style={{
+                                                backgroundColor: "green",
+                                                minWidth: "24px",
+                                                minHeight: "24px",
+                                            }}
                                         >
                                             {" 🗑"}
                                         </button>
@@ -574,7 +596,10 @@ export default function ArmorPage() {
                     <article style={{ flexBasis: "60%", minWidth: "320px" }}>
                         <b>Results</b>
                         <div>
-                            <table id="results">
+                            <table
+                                id="results"
+                                style={{ width: "100%", minHeight: "500px" }}
+                            >
                                 {best.map((set: ArmorSet, i) => {
                                     return (
                                         <ArmorResultSet

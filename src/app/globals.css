@@ -10,7 +10,7 @@
         --primary: #313131;
         --secondary: #212121;
         --contrast: white;
-        --accent: tomato;
+        --accent: #f1a639;
     }
 }
 
@@ -192,7 +192,6 @@ table thead {
 
 td,
 th {
-    /* overflow: scroll; */
     text-overflow: ellipsis;
     padding: 0.4rem;
     font-size: 0.9rem;
@@ -212,6 +211,8 @@ button {
     margin: 0rem 0rem 0.3rem 0rem;
     padding: 0rem 0.3rem 0.1rem 0.3rem;
     color: black;
+    min-width: "24px";
+    min-height: "24px";
 }
 
 label {

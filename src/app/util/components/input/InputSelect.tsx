@@ -18,6 +18,7 @@ function InputSelect(props: {
                 name={props.name}
                 onChange={props.onChange}
                 value={props.value === undefined ? "none" : props.value}
+                style={{ minHeight: "24px" }}
             >
                 <option value="none">None</option>
                 {props.options.map((item: Armor) => (

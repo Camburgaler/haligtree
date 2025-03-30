@@ -19,6 +19,7 @@ import CategoryMap, { CategoryMapKey } from "../util/types/categoryMap";
 import { InfusionData } from "../util/types/infusion";
 import InfusionMap, { InfusionMapKey } from "../util/types/infusionMap";
 import StatMap, { StatMapKey } from "../util/types/statMap";
+import { WeaponResultRow } from "./components/WeaponResultRow";
 import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
 
 export default function Weapons() {
@@ -321,7 +322,10 @@ export default function Weapons() {
                         }
                         checked={categories[categoryId]}
                     />
-                    <label htmlFor={categoryId}>
+                    <label
+                        htmlFor={categoryId}
+                        style={{ minWidth: "24px", minHeight: "24px" }}
+                    >
                         {i < CATEGORY_NAMES[0].length
                             ? CATEGORY_NAMES[0][i]
                             : i <
@@ -527,7 +531,7 @@ export default function Weapons() {
             <main>
                 <div className="app">
                     {/* <!-- parameters --> */}
-                    <article style={{ flexBasis: "15%" }}>
+                    <article style={{ flexBasis: "20%" }}>
                         <div>
                             <b>Parameters</b>
                             <button
@@ -541,7 +545,9 @@ export default function Weapons() {
                         {(Object.keys(stats) as StatMapKey[]).map(
                             (statId: StatMapKey) => (
                                 <div key={statId}>
-                                    <label htmlFor="str">{statId}</label>
+                                    <label htmlFor={statId.toLowerCase()}>
+                                        {statId}
+                                    </label>
                                     <input
                                         id={statId.toLowerCase()}
                                         type="number"
@@ -554,6 +560,10 @@ export default function Weapons() {
                                                 statId,
                                                 +event.target.value
                                             );
+                                        }}
+                                        style={{
+                                            minWidth: "24px",
+                                            minHeight: "24px",
                                         }}
                                     />
                                 </div>
@@ -598,7 +608,13 @@ export default function Weapons() {
                                     }}
                                     checked={requireStats}
                                 />
-                                <label htmlFor="requirements">
+                                <label
+                                    htmlFor="requirements"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Requirements Met
                                 </label>
                             </span>
@@ -613,7 +629,15 @@ export default function Weapons() {
                                     }}
                                     checked={buffableOnly}
                                 />
-                                <label htmlFor="buffable">Buffable Only</label>
+                                <label
+                                    htmlFor="buffable"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
+                                    Buffable Only
+                                </label>
                             </span>
                         </div>
                         <div>
@@ -626,7 +650,13 @@ export default function Weapons() {
                                     }}
                                     checked={splitDamage}
                                 />
-                                <label htmlFor="split-damage">
+                                <label
+                                    htmlFor="split-damage"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Allow Split Damage
                                 </label>
                             </span>
@@ -643,7 +673,13 @@ export default function Weapons() {
                                     }}
                                     checked={considerStatusEffects}
                                 />
-                                <label htmlFor="status-effects">
+                                <label
+                                    htmlFor="status-effects"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Consider Status Effects
                                 </label>
                             </span>
@@ -680,10 +716,22 @@ export default function Weapons() {
                         <div>
                             <b>Infusions</b>
                             <span>
-                                <button onClick={() => setAllInfusions(true)}>
+                                <button
+                                    onClick={() => setAllInfusions(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Any
                                 </button>
-                                <button onClick={() => setAllInfusions(false)}>
+                                <button
+                                    onClick={() => setAllInfusions(false)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     None
                                 </button>
                             </span>
@@ -706,7 +754,13 @@ export default function Weapons() {
                                             }}
                                             checked={infusions[key]}
                                         />
-                                        <label htmlFor={key}>
+                                        <label
+                                            htmlFor={key + "-infusion"}
+                                            style={{
+                                                minWidth: "24px",
+                                                minHeight: "24px",
+                                            }}
+                                        >
                                             {INFUSION_NAMES[i]}
                                         </label>
                                     </span>
@@ -720,6 +774,10 @@ export default function Weapons() {
                                     onClick={() => {
                                         setAllAttackPowerTypes(true);
                                     }}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     Any
                                 </button>
@@ -727,6 +785,10 @@ export default function Weapons() {
                                     onClick={() =>
                                         setAllAttackPowerTypes(false)
                                     }
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     None
                                 </button>
@@ -735,7 +797,11 @@ export default function Weapons() {
                         <div>
                             <span style={{ width: "100%" }}>
                                 <button
-                                    style={{ width: "100%" }}
+                                    style={{
+                                        width: "100%",
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                     onClick={() =>
                                         setAttackPowerTypesInclude(
                                             !attackPowerTypesInclude
@@ -822,7 +888,13 @@ export default function Weapons() {
                                         }}
                                         checked={attackPowerTypes[key]}
                                     />
-                                    <label htmlFor={key}>
+                                    <label
+                                        htmlFor={key + "-attack-power-type"}
+                                        style={{
+                                            minWidth: "24px",
+                                            minHeight: "24px",
+                                        }}
+                                    >
                                         {ATTACK_POWER_TYPE_NAMES[i]}
                                     </label>
                                 </span>
@@ -830,10 +902,12 @@ export default function Weapons() {
                         ))}
                     </article>
                     {/* <!-- results --> */}
-                    <article style={{ flexBasis: "55%" }}>
+                    <article style={{ flexBasis: "60%" }}>
                         <b>Attack Power</b>
                         <div style={{ overflow: "auto" }}>
-                            <table>
+                            <table
+                                style={{ minWidth: "100%", minHeight: "100%" }}
+                            >
                                 <thead>
                                     <tr>
                                         <th>
@@ -914,8 +988,25 @@ export default function Weapons() {
                                             )}
                                     </tr>
                                 </thead>
-                                <tbody id="weapons">
-                                    {mapResults(results, sortBy)}
+                                <tbody
+                                    id="weapons"
+                                    style={{ minHeight: "100%" }}
+                                >
+                                    {results.length
+                                        ? mapResults(results, sortBy)
+                                        : // preload 10 skeleton rows
+                                          Array(20)
+                                              .fill(0)
+                                              .map((_, i) => (
+                                                  <WeaponResultRow
+                                                      key={i}
+                                                      weaponName={"Loading..."}
+                                                      attackRatings={{}}
+                                                      max={0}
+                                                      arBreakdown={{}}
+                                                      rank={i + 1}
+                                                  />
+                                              ))}
                                 </tbody>
                             </table>
                         </div>
@@ -925,10 +1016,22 @@ export default function Weapons() {
                         <div>
                             <b>Categories</b>
                             <span>
-                                <button onClick={() => setAllCategories(true)}>
+                                <button
+                                    onClick={() => setAllCategories(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Any
                                 </button>
-                                <button onClick={() => setAllCategories(false)}>
+                                <button
+                                    onClick={() => setAllCategories(false)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     None
                                 </button>
                             </span>
@@ -939,6 +1042,10 @@ export default function Weapons() {
                             <span>
                                 <button
                                     onClick={() => setAllWeaponCategories(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     Any
                                 </button>
@@ -946,6 +1053,10 @@ export default function Weapons() {
                                     onClick={() =>
                                         setAllWeaponCategories(false)
                                     }
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     None
                                 </button>

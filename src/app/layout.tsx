@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 import { NavLinks } from "./util/components/NavLinks";
 
@@ -24,6 +25,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     const VERSION = require("../../package.json").version;
+    let nonce = "";
+    headers().then((headers) => {
+        nonce = headers.get("x-nonce") || "";
+    }) || "";
     return (
         <html lang="en">
             <body>
@@ -69,6 +74,7 @@ export default function RootLayout({
                         </p>
                     </span>
                 </footer>
+                <script nonce={nonce} />
             </body>
         </html>
     );
