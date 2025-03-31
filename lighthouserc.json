@@ -6,7 +6,6 @@
                 "chromeFlags": "--no-sandbox",
                 "preset": "desktop"
             },
-            "startServerCommand": "next build && next start -p 3000",
             "url": [
                 "http://localhost:3000/",
                 "http://localhost:3000/class",

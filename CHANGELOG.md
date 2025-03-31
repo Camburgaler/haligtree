@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Unit testing framework
 -   Unit tests for the Armor Page
 
+### Changed
+
+-   Updated highlight color to gold for accessibility
+
 ## [2.11.0] - 2025-03-23
 
 ### Added
