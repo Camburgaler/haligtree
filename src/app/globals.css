@@ -3,7 +3,7 @@
     --primary: white;
     --secondary: rgba(0, 0, 0, 0.075);
     --contrast: black;
-    --accent: teal;
+    --accent: #005f61;
 }
 @media (prefers-color-scheme: dark) {
     :root {
