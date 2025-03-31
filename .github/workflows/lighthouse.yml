@@ -22,8 +22,8 @@ jobs:
 
             - name: Start Next.js
               run: |
-                  next build
-                  next start -p 3000 &
+                  npx next build
+                  npx next start -p 3000 &
                   npx wait-on http://localhost:3000
 
             - name: Run Lighthouse CI
