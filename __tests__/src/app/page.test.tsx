@@ -1,6 +1,7 @@
+import "core-js/actual/structured-clone";
+
 import Home from "@/app/page";
 import { render, screen } from "@testing-library/react";
-import "core-js/actual/structured-clone";
 
 describe("Home Page", () => {
     test("Renders", () => {
