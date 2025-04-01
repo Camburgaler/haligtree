@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Unit testing framework
 -   Unit tests for the Armor Page
 -   Lighthouse for performance and accessibility testing
--   Stryker for mutation testing
 
 ### Changed
 
