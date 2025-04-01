@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: "*",
             allow: "/",
         },
-        sitemap: "https://erdtree.camburgaler.com/sitemap.ts",
+        sitemap: "https://haligtree.camburgaler.com/sitemap.ts",
     };
 }

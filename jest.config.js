@@ -4,7 +4,7 @@ const createJestConfig = nextJest({ dir: "./" });
 
 const customJestConfig = {
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-    testEnvironment: "@stryker-mutator/jest-runner/jest-env/jsdom",
+    testEnvironment: "jsdom",
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/app/$1", // Adjust this if your alias is different
     },

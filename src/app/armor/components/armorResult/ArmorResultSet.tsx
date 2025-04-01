@@ -1,5 +1,7 @@
 import ArmorResultRow from "./ArmorResultRow";
 
+import type { JSX } from "react/jsx-runtime";
+
 function ArmorResultSet(props: {
     id: string;
     armorIds: string[];

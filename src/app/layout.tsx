@@ -6,7 +6,7 @@ import "./globals.css";
 import { NavLinks } from "./util/components/NavLinks";
 
 export const metadata: Metadata = {
-    title: "Elden Ring Build Tools - Erdtree",
+    title: "Haligtree",
     description: "Elden Ring Build Tools - Armor, Weapon and Class Optimizer",
     authors: { name: "Camburgaler", url: "https://github.com/Camburgaler" },
     icons: {
@@ -44,7 +44,7 @@ export default function RootLayout({
                             &apos;s Erdtree Planner
                         </p>
                         <p>
-                            v{VERSION} of Erdtree Planner (available under
+                            v{VERSION} of Haligtree Planner (available under
                             BSD-3-Clause license)
                         </p>
                     </span>
@@ -63,11 +63,11 @@ export default function RootLayout({
                         </p>
                         <p>
                             Have suggestions? Submit a{" "}
-                            <a href="https://github.com/Camburgaler/erdtree/issues/new?template=feature_request.md">
+                            <a href="https://github.com/Camburgaler/haligtree/issues/new?template=feature_request.md">
                                 feature request
                             </a>{" "}
                             or a{" "}
-                            <a href="https://github.com/Camburgaler/erdtree/issues/new?template=bug_report.md">
+                            <a href="https://github.com/Camburgaler/haligtree/issues/new?template=bug_report.md">
                                 bug report
                             </a>
                             !

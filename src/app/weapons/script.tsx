@@ -1,3 +1,4 @@
+import { JSX } from "react/jsx-runtime";
 import {
     ATTACK_POWER_STAT_IDS,
     ATTACK_POWER_TYPE_IDS,

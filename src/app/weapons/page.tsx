@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import InputRadio from "../util/components/input/InputRadio";
 import {
     ATTACK_POWER_TYPE_MODE_ALL,
@@ -994,7 +994,7 @@ export default function Weapons() {
                                 >
                                     {results.length
                                         ? mapResults(results, sortBy)
-                                        : // preload 10 skeleton rows
+                                        : // preload 20 skeleton rows
                                           Array(20)
                                               .fill(0)
                                               .map((_, i) => (

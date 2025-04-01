@@ -1,3 +1,4 @@
+import type { JSX } from "react/jsx-runtime";
 function InputNumber(props: {
     id: string;
     label: string;
