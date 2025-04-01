@@ -244,6 +244,7 @@ export default function ClassPage() {
                             type="text"
                             value={best?.name}
                             disabled
+                            aria-label="best"
                         />
                     </div>
                     <hr />
@@ -270,6 +271,7 @@ export default function ClassPage() {
                                 type="number"
                                 value={best?.level}
                                 disabled
+                                aria-label="initial level"
                             />
                             <input
                                 type="number"
@@ -281,6 +283,7 @@ export default function ClassPage() {
                                 type="number"
                                 value={best.total || 1}
                                 disabled
+                                aria-label="final level"
                             />
                             <input
                                 type="number"
@@ -302,6 +305,15 @@ export default function ClassPage() {
                                         name="initial"
                                         value={best.stats[statId]}
                                         disabled
+                                        aria-label={
+                                            "initial " +
+                                            STAT_LONG_NAMES[i] +
+                                            " level"
+                                        }
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
                                     />
                                     <input
                                         id={statId}
@@ -317,18 +329,45 @@ export default function ClassPage() {
                                                     .valueAsNumber
                                             )
                                         }
+                                        aria-label={
+                                            "desired " +
+                                            STAT_LONG_NAMES[i] +
+                                            " level"
+                                        }
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
                                     />
                                     <input
                                         type="number"
                                         name="final"
                                         value={finalStats[statId]}
                                         disabled
+                                        aria-label={
+                                            "final " +
+                                            STAT_LONG_NAMES[i] +
+                                            " level"
+                                        }
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
                                     />
                                     <input
                                         type="number"
                                         name="virtual"
                                         value={virtualStats[statId]}
                                         disabled
+                                        aria-label={
+                                            "virtual " +
+                                            STAT_LONG_NAMES[i] +
+                                            " level"
+                                        }
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -337,7 +376,7 @@ export default function ClassPage() {
                 </article>
                 <article>
                     <div>
-                        <label>
+                        <label htmlFor="helmet">
                             <b>Helmet</b>
                         </label>
                         <select
@@ -351,6 +390,10 @@ export default function ClassPage() {
                                 )
                             }
                             value={helmet.id}
+                            style={{
+                                minHeight: "24px",
+                                minWidth: "24px",
+                            }}
                         >
                             {HELMETS.map((item: Armor) => (
                                 <option key={item.id} value={item.id}>
@@ -373,7 +416,7 @@ export default function ClassPage() {
                         </select>
                     </div>
                     <div>
-                        <label>
+                        <label htmlFor="chestpiece">
                             <b>Chestpiece</b>
                         </label>
                         <select
@@ -387,6 +430,10 @@ export default function ClassPage() {
                                 )
                             }
                             value={chestpiece.id}
+                            style={{
+                                minHeight: "24px",
+                                minWidth: "24px",
+                            }}
                         >
                             {CHESTPIECES.map((item: Armor) => (
                                 <option key={item.id} value={item.id}>
@@ -421,6 +468,7 @@ export default function ClassPage() {
                                 <li key={item.id} style={{ display: "flex" }}>
                                     <div>
                                         <input
+                                            id={item.id}
                                             name="talisman"
                                             type="checkbox"
                                             onChange={(event) =>
@@ -440,8 +488,17 @@ export default function ClassPage() {
                                             checked={equippedTalismans.some(
                                                 (t) => t?.id === item.id
                                             )}
+                                            aria-label={item.name}
                                         />
-                                        <label>{item.name}</label>
+                                        <label
+                                            htmlFor={item.id}
+                                            style={{
+                                                minHeight: "24px",
+                                                minWidth: "24px",
+                                            }}
+                                        >
+                                            {item.name}
+                                        </label>
                                     </div>
                                     <aside style={{ fontSize: "0.8rem" }}>
                                         {(
@@ -462,7 +519,15 @@ export default function ClassPage() {
                         </ul>
                     </div>
                     <div>
-                        <button onClick={resetAll}>Reset All</button>
+                        <button
+                            onClick={resetAll}
+                            style={{
+                                minHeight: "24px",
+                                minWidth: "24px",
+                            }}
+                        >
+                            Reset All
+                        </button>
                     </div>
                 </article>
             </div>

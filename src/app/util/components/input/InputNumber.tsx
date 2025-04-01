@@ -11,7 +11,11 @@ function InputNumber(props: {
         <div>
             <label htmlFor={props.id}>{props?.label}</label>
             <input
-                style={{ maxWidth: "50px" }}
+                style={{
+                    maxWidth: "50px",
+                    minWidth: "24px",
+                    minHeight: "24px",
+                }}
                 className={props?.className}
                 id={props.id}
                 type="number"

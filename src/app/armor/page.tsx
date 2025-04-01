@@ -5,17 +5,12 @@ import {
     DEFAULT_SORTBYARMOR,
     marshallSortByToString,
     SortByArmor,
-    SORTBYARMOR_MODES,
-    SORTBYBOSS_KEYS,
-    SORTBYBOSS_MODES,
-    SortByBossKey,
     unmarshallSortBy,
 } from "@/app/armor/components/customSortBy/sorting";
 import {
     dominated,
     itemStatsToString,
     knapSack,
-    resetAll,
     setStatsToString,
 } from "@/app/armor/script";
 import InputNumber from "@/app/util/components/input/InputNumber";
@@ -27,12 +22,19 @@ import {
     GAUNTLETS,
     HELMETS,
     LEGGINGS,
+    LOCKED_ARMOR_SELECT_NAME,
 } from "@/app/util/constants";
 import Armor from "@/app/util/types/armor";
 import ArmorSet from "@/app/util/types/armorSet";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deepCloneAndMap } from "../util/script";
 import { CustomizeSortBy } from "./components/customSortBy/CustomizeSortBy";
+import {
+    SORTBYARMOR_MODES,
+    SORTBYBOSS_KEYS,
+    SORTBYBOSS_MODES,
+    SortByBossKey,
+} from "./components/customSortBy/sortingPresets";
 
 export default function ArmorPage() {
     // STATES
@@ -70,36 +72,6 @@ export default function ArmorPage() {
         []
     );
 
-    // STATE UPDATE FUNCTIONS
-    function updateLockedItems(itemType: string, newItem: Armor): void {
-        if (
-            itemType != "helmet" &&
-            itemType != "chestpiece" &&
-            itemType != "gauntlets" &&
-            itemType != "leggings"
-        ) {
-            throw new Error("Invalid item type");
-        }
-
-        setLockedItems({ ...lockedItems, [itemType]: newItem });
-    }
-
-    function updateMaxEquipLoad(value: number): void {
-        setMaxEquipLoad(value);
-    }
-
-    function updateCurrentEquipLoad(value: number): void {
-        setCurrentEquipLoad(value);
-    }
-
-    function updateBreakpoint(value: number): void {
-        setBreakpoint(value);
-    }
-
-    function removeIgnoredItem(oldItem: Armor): void {
-        setIgnoredItems([...ignoredItems.filter((i) => i !== oldItem)]);
-    }
-
     // HELPER FUNCTIONS
     const ignoreAll = (): void => {
         // filter out No Helmet, No Chestpiece, No Gauntlets, No Leggings
@@ -117,18 +89,6 @@ export default function ArmorPage() {
     };
 
     // CALLBACKS
-    const addIgnoredItem = useCallback(
-        (newItem: Armor): void => {
-            if (ignoredItems.includes(newItem)) return;
-            setIgnoredItems([...ignoredItems, newItem]);
-        },
-        [ignoredItems]
-    );
-
-    const updateSortBy = useCallback((value: string): void => {
-        setSortBy(value);
-    }, []);
-
     const handleKeyDown = useCallback(
         (event: KeyboardEvent): void => {
             setPressedKeys((prevKeys) => new Set(prevKeys).add(event.key));
@@ -137,47 +97,47 @@ export default function ArmorPage() {
                 event.preventDefault();
                 switch (event.key) {
                     case hotkeyGroups[0][0]:
-                        addIgnoredItem(best[0].helmet!);
+                        setIgnoredItems([...ignoredItems, best[0].helmet!]);
                         break;
                     case hotkeyGroups[0][1]:
-                        addIgnoredItem(best[0].chestpiece!);
+                        setIgnoredItems([...ignoredItems, best[0].chestpiece!]);
                         break;
                     case hotkeyGroups[0][2]:
-                        addIgnoredItem(best[0].gauntlets!);
+                        setIgnoredItems([...ignoredItems, best[0].gauntlets!]);
                         break;
                     case hotkeyGroups[0][3]:
-                        addIgnoredItem(best[0].leggings!);
+                        setIgnoredItems([...ignoredItems, best[0].leggings!]);
                         break;
                     case hotkeyGroups[1][0]:
-                        addIgnoredItem(best[1].helmet!);
+                        setIgnoredItems([...ignoredItems, best[1].helmet!]);
                         break;
                     case hotkeyGroups[1][1]:
-                        addIgnoredItem(best[1].chestpiece!);
+                        setIgnoredItems([...ignoredItems, best[1].chestpiece!]);
                         break;
                     case hotkeyGroups[1][2]:
-                        addIgnoredItem(best[1].gauntlets!);
+                        setIgnoredItems([...ignoredItems, best[1].gauntlets!]);
                         break;
                     case hotkeyGroups[1][3]:
-                        addIgnoredItem(best[1].leggings!);
+                        setIgnoredItems([...ignoredItems, best[1].leggings!]);
                         break;
                     case hotkeyGroups[2][0]:
-                        addIgnoredItem(best[2].helmet!);
+                        setIgnoredItems([...ignoredItems, best[2].helmet!]);
                         break;
                     case hotkeyGroups[2][1]:
-                        addIgnoredItem(best[2].chestpiece!);
+                        setIgnoredItems([...ignoredItems, best[2].chestpiece!]);
                         break;
                     case hotkeyGroups[2][2]:
-                        addIgnoredItem(best[2].gauntlets!);
+                        setIgnoredItems([...ignoredItems, best[2].gauntlets!]);
                         break;
                     case hotkeyGroups[2][3]:
-                        addIgnoredItem(best[2].leggings!);
+                        setIgnoredItems([...ignoredItems, best[2].leggings!]);
                         break;
                     default:
                         break;
                 }
             }
         },
-        [addIgnoredItem, best, pressedKeys, hotkeyGroups]
+        [ignoredItems, best, pressedKeys, hotkeyGroups]
     );
 
     const handleKeyUp = useCallback((event: KeyboardEvent): void => {
@@ -226,10 +186,7 @@ export default function ArmorPage() {
         }
 
         const localSortBy = localStorage.getItem("localSortBy");
-        if (
-            localSortBy &&
-            SORTBYARMOR_MODES[localSortBy as keyof typeof SORTBYARMOR_MODES]
-        ) {
+        if (localSortBy) {
             setSortBy(JSON.parse(localSortBy));
         }
 
@@ -359,9 +316,7 @@ export default function ArmorPage() {
                                 if (event.target.value == "") {
                                     event.target.value = "0";
                                 }
-                                updateMaxEquipLoad(
-                                    parseFloat(event.target.value)
-                                );
+                                setMaxEquipLoad(parseFloat(event.target.value));
                             }}
                             value={maxEquipLoad}
                             name="equip-load"
@@ -374,7 +329,7 @@ export default function ArmorPage() {
                                 if (event.target.value == "") {
                                     event.target.value = "0";
                                 }
-                                updateCurrentEquipLoad(
+                                setCurrentEquipLoad(
                                     parseFloat(event.target.value)
                                 );
                             }}
@@ -394,21 +349,21 @@ export default function ArmorPage() {
                         <InputRadio
                             label="Fast Roll (up to 30% equip load)"
                             id="fast-roll"
-                            onClick={() => updateBreakpoint(0.3)}
+                            onClick={() => setBreakpoint(0.3)}
                             name="roll-type"
                             checked={breakpoint === 0.3}
                         />
                         <InputRadio
                             label="Normal Roll (up to 70% equip load)"
                             id="normal-roll"
-                            onClick={() => updateBreakpoint(0.7)}
+                            onClick={() => setBreakpoint(0.7)}
                             name="roll-type"
                             checked={breakpoint === 0.7}
                         />
                         <InputRadio
                             label="Fat Roll (up to 100% equip load)"
                             id="fat-roll"
-                            onClick={() => updateBreakpoint(1.0)}
+                            onClick={() => setBreakpoint(1.0)}
                             name="roll-type"
                             checked={breakpoint === 1.0}
                         />
@@ -421,12 +376,9 @@ export default function ArmorPage() {
                                         key={key}
                                         label={value.label}
                                         id={key}
-                                        onClick={() => updateSortBy(key)}
+                                        onClick={() => setSortBy(key)}
                                         name="sorting-order"
                                         checked={sortBy === key}
-                                        customizeFn={() =>
-                                            setCustomizeSortBy(true)
-                                        }
                                     />
                                 );
                             }
@@ -436,7 +388,7 @@ export default function ArmorPage() {
                                 <input
                                     type="radio"
                                     id="boss"
-                                    onChange={() => updateSortBy("boss")}
+                                    onChange={() => setSortBy("boss")}
                                     name={"sorting-order"}
                                     value={"boss"}
                                     checked={sortBy === "boss"}
@@ -453,10 +405,16 @@ export default function ArmorPage() {
                                     Boss
                                 </label>{" "}
                                 <select
+                                    id="boss-select"
                                     itemType="text"
                                     onChange={(e) =>
                                         setBossSortBy(e.target.value)
                                     }
+                                    aria-label="boss select"
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
                                 >
                                     {SORTBYBOSS_KEYS.map((item: string) => {
                                         return (
@@ -473,7 +431,7 @@ export default function ArmorPage() {
                                 <input
                                     type="radio"
                                     id="custom"
-                                    onChange={() => updateSortBy("custom")}
+                                    onChange={() => setSortBy("custom")}
                                     name={"sorting-order"}
                                     value={"custom"}
                                     checked={sortBy === "custom"}
@@ -491,6 +449,10 @@ export default function ArmorPage() {
                                 </label>{" "}
                                 <button
                                     onClick={() => setCustomizeSortBy(true)}
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
                                 >
                                     Customize
                                 </button>
@@ -499,21 +461,32 @@ export default function ArmorPage() {
                         <hr />
                         <div>
                             <b>Locked Armor</b>
-                            <button id="clear-equipment" onClick={resetAll}>
+                            <button
+                                id="clear-equipment"
+                                onClick={() =>
+                                    setLockedItems({
+                                        helmet: undefined,
+                                        chestpiece: undefined,
+                                        gauntlets: undefined,
+                                        leggings: undefined,
+                                    })
+                                }
+                                style={{ minHeight: "24px", minWidth: "24px" }}
+                            >
                                 Reset All
                             </button>
                         </div>
                         <InputSelect
                             label="Helmet"
                             id="locked-helmet"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
-                                updateLockedItems(
-                                    "helmet",
-                                    HELMETS.find(
+                                setLockedItems({
+                                    ...lockedItems,
+                                    helmet: HELMETS.find(
                                         (item) => item.id === event.target.value
-                                    )!
-                                );
+                                    )!,
+                                });
                             }}
                             options={HELMETS}
                             value={lockedItems.helmet?.id}
@@ -521,14 +494,14 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Chestpiece"
                             id="locked-chestpiece"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
-                                updateLockedItems(
-                                    "chestpiece",
-                                    CHESTPIECES.find(
+                                setLockedItems({
+                                    ...lockedItems,
+                                    chestpiece: CHESTPIECES.find(
                                         (item) => item.id === event.target.value
-                                    )!
-                                );
+                                    )!,
+                                });
                             }}
                             options={CHESTPIECES}
                             value={lockedItems.chestpiece?.id}
@@ -536,14 +509,14 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Gauntlets"
                             id="locked-gauntlets"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
-                                updateLockedItems(
-                                    "gauntlets",
-                                    GAUNTLETS.find(
+                                setLockedItems({
+                                    ...lockedItems,
+                                    gauntlets: GAUNTLETS.find(
                                         (item) => item.id === event.target.value
-                                    )!
-                                );
+                                    )!,
+                                });
                             }}
                             options={GAUNTLETS}
                             value={lockedItems.gauntlets?.id}
@@ -551,14 +524,14 @@ export default function ArmorPage() {
                         <InputSelect
                             label="Leggings"
                             id="locked-leggings"
-                            name="locked-items"
+                            name={LOCKED_ARMOR_SELECT_NAME}
                             onChange={(event) => {
-                                updateLockedItems(
-                                    "leggings",
-                                    LEGGINGS.find(
+                                setLockedItems({
+                                    ...lockedItems,
+                                    leggings: LEGGINGS.find(
                                         (item) => item.id === event.target.value
-                                    )!
-                                );
+                                    )!,
+                                });
                             }}
                             options={LEGGINGS}
                             value={lockedItems.leggings?.id}
@@ -566,10 +539,18 @@ export default function ArmorPage() {
                         <hr />
                         <div>
                             <b>Ignored Armor</b>
-                            <button id="ignore-all" onClick={ignoreAll}>
+                            <button
+                                id="ignore-all"
+                                onClick={ignoreAll}
+                                style={{ minHeight: "24px", minWidth: "24px" }}
+                            >
                                 Ignore All
                             </button>
-                            <button id="restore-all" onClick={restoreAll}>
+                            <button
+                                id="restore-all"
+                                onClick={restoreAll}
+                                style={{ minHeight: "24px", minWidth: "24px" }}
+                            >
                                 Restore All
                             </button>
                         </div>
@@ -586,13 +567,23 @@ export default function ArmorPage() {
                                         {item.name}
                                         <button
                                             onClick={() =>
-                                                removeIgnoredItem(
-                                                    ignoredItems.find(
-                                                        (i) => i == item
-                                                    )!
-                                                )
+                                                setIgnoredItems([
+                                                    ...ignoredItems.filter(
+                                                        (ignoredItem) =>
+                                                            ignoredItem !==
+                                                            ignoredItems.find(
+                                                                (oldItem) =>
+                                                                    oldItem ==
+                                                                    item
+                                                            )!
+                                                    ),
+                                                ])
                                             }
-                                            style={{ backgroundColor: "green" }}
+                                            style={{
+                                                backgroundColor: "green",
+                                                minWidth: "24px",
+                                                minHeight: "24px",
+                                            }}
                                         >
                                             {" 🗑"}
                                         </button>
@@ -605,7 +596,10 @@ export default function ArmorPage() {
                     <article style={{ flexBasis: "60%", minWidth: "320px" }}>
                         <b>Results</b>
                         <div>
-                            <table id="results">
+                            <table
+                                id="results"
+                                style={{ width: "100%", minHeight: "500px" }}
+                            >
                                 {best.map((set: ArmorSet, i) => {
                                     return (
                                         <ArmorResultSet
@@ -638,19 +632,25 @@ export default function ArmorPage() {
                                             setStats={setStatsToString(set)}
                                             addIgnoredItem={[
                                                 () =>
-                                                    addIgnoredItem(set.helmet!),
+                                                    setIgnoredItems([
+                                                        ...ignoredItems,
+                                                        set.helmet!,
+                                                    ]),
                                                 () =>
-                                                    addIgnoredItem(
-                                                        set.chestpiece!
-                                                    ),
+                                                    setIgnoredItems([
+                                                        ...ignoredItems,
+                                                        set.chestpiece!,
+                                                    ]),
                                                 () =>
-                                                    addIgnoredItem(
-                                                        set.gauntlets!
-                                                    ),
+                                                    setIgnoredItems([
+                                                        ...ignoredItems,
+                                                        set.gauntlets!,
+                                                    ]),
                                                 () =>
-                                                    addIgnoredItem(
-                                                        set.leggings!
-                                                    ),
+                                                    setIgnoredItems([
+                                                        ...ignoredItems,
+                                                        set.leggings!,
+                                                    ]),
                                             ]}
                                             hotkeys={hotkeyGroups[i]}
                                         />
