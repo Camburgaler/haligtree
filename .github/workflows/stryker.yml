@@ -1,0 +1,26 @@
+name: Mutation Testing
+
+on:
+    push:
+        branches:
+            - "**"
+
+jobs:
+    mutation-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci # Use `npm install` if you don't have package-lock.json
+
+            - name: Run Stryker mutation testing
+              run: npx stryker run --fileLogLevel info

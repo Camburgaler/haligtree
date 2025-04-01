@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @jest-environment @stryker-mutator/jest-runner/jest-env/node
  */
 
 import { DEFAULT_SORTBYARMOR } from "@/app/armor/components/customSortBy/sorting";
