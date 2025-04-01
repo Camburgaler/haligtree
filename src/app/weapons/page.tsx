@@ -994,7 +994,7 @@ export default function Weapons() {
                                 >
                                     {results.length
                                         ? mapResults(results, sortBy)
-                                        : // preload 10 skeleton rows
+                                        : // preload 20 skeleton rows
                                           Array(20)
                                               .fill(0)
                                               .map((_, i) => (

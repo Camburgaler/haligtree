@@ -6,7 +6,7 @@ import "./globals.css";
 import { NavLinks } from "./util/components/NavLinks";
 
 export const metadata: Metadata = {
-    title: "Elden Ring Build Tools - Erdtree",
+    title: "Haligtree",
     description: "Elden Ring Build Tools - Armor, Weapon and Class Optimizer",
     authors: { name: "Camburgaler", url: "https://github.com/Camburgaler" },
     icons: {

@@ -2,7 +2,7 @@ export default function Home() {
     return (
         <div>
             <header>
-                <h1>Create, view and optimize builds for Elden Ring.</h1>
+                <h1>Create, view, and optimize builds for Elden Ring.</h1>
             </header>
             <main>
                 <div className="cards">

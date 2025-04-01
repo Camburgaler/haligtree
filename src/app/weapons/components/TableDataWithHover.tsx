@@ -5,7 +5,7 @@ import {
 import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
 } from "@/app/util/types/attackPowerTypeMap";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export function TableDataWithHover(props: {
     attackRating: number;
@@ -16,6 +16,7 @@ export function TableDataWithHover(props: {
     };
     style?: React.CSSProperties;
     infId: string;
+    rowHighlighted: Dispatch<SetStateAction<boolean>>;
 }) {
     const [hoveredCell, setHoveredCell] = useState<string>("");
     const [cardPosition, setCardPosition] = useState({
@@ -31,10 +32,14 @@ export function TableDataWithHover(props: {
             top: rect.top + window.scrollY, // to account for any scrolling
             left: rect.left - cardWidth - 10, // slightly offset from the cell
         });
+        e.currentTarget.style.fontWeight = "bold";
+        props.rowHighlighted(true);
     };
 
-    const handleMouseLeave = () => {
-        setHoveredCell(""); // hide the card
+    const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+        setHoveredCell("");
+        props.rowHighlighted(false);
+        e.currentTarget.style.fontWeight = "normal";
     };
 
     const renderData = (dmgType: AttackPowerTypeMapKey) => {
@@ -68,8 +73,9 @@ export function TableDataWithHover(props: {
 
     return (
         <td
-            onMouseEnter={(e) => handleMouseEnter(e)}
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onMouseOut={handleMouseLeave}
             style={props.style}
         >
             {props.attackRating != 0
@@ -91,6 +97,9 @@ export function TableDataWithHover(props: {
                         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                         zIndex: 1000,
                         width: `${cardWidth}px`,
+                    }}
+                    onMouseEnter={() => {
+                        setHoveredCell("");
                     }}
                 >
                     <h4>{INFUSION_ID_TO_NAME[props.infId]} Breakdown</h4>

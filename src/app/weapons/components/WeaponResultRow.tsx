@@ -2,6 +2,7 @@ import { INFUSION_IDS } from "@/app/util/constants";
 import AttackPowerTypeMap from "@/app/util/types/attackPowerTypeMap";
 import InfusionMap from "@/app/util/types/infusionMap";
 import { TableDataWithHover } from "@/app/weapons/components/TableDataWithHover";
+import { useState } from "react";
 
 const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
     standard: 0,
@@ -30,8 +31,14 @@ export function WeaponResultRow(props: {
     }>;
     rank: number;
 }) {
+    const [highlighted, setHighlighted] = useState(false);
+
     return (
-        <tr>
+        <tr
+            style={{
+                backgroundColor: highlighted ? `rgba(255, 255, 255, 0.1)` : "",
+            }}
+        >
             <td>{props.rank}</td>
             <td>
                 <a
@@ -54,10 +61,11 @@ export function WeaponResultRow(props: {
                     style={
                         props.attackRatings[infId] == props.max &&
                         props.attackRatings[infId] != undefined
-                            ? { fontWeight: 900 }
+                            ? { color: "var(--accent)" }
                             : {}
                     }
                     infId={infId}
+                    rowHighlighted={setHighlighted}
                 />
             ))}
         </tr>
