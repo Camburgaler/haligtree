@@ -1,3 +1,4 @@
+import type { JSX } from "react/jsx-runtime";
 function InputRadio(props: {
     id: string;
     onClick: React.ChangeEventHandler<HTMLInputElement>;

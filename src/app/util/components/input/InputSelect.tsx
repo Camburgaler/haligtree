@@ -1,5 +1,6 @@
 import Armor from "@/app/util/types/armor";
 import { ChangeEventHandler } from "react";
+import type { JSX } from "react/jsx-runtime";
 
 function InputSelect(props: {
     id: string;

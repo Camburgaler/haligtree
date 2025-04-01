@@ -1,3 +1,4 @@
+import type { JSX } from "react/jsx-runtime";
 function ArmorResultRow(props: {
     name: string;
     id: string;

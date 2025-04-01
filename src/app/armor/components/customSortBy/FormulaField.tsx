@@ -4,6 +4,8 @@ import {
     SortByArmor,
 } from "./sorting";
 
+import type { JSX } from "react/jsx-runtime";
+
 export default function FormulaField(props: {
     sortBy: SortByArmor;
 }): JSX.Element {
