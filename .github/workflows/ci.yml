@@ -27,3 +27,11 @@ jobs:
 
             - name: Run unit tests
               run: npm run test:coverage
+
+            - name: Enforce coverage threshold
+              run: |
+                  COVERAGE=$(npx jest --coverage --coverageReporters=json-summary --coverageThreshold)
+                  if [ $? -ne 0 ]; then
+                    echo "Code coverage is below the required threshold. Failing the build."
+                    exit 1
+                  fi
