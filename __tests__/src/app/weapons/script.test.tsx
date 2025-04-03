@@ -488,7 +488,7 @@ describe("Weapon Script", () => {
                 spellScaling: 0,
             },
         ];
-        const sortBy: SortByWeapon = { dmgType: "max", desc: true };
+        const sortBy: SortByWeapon = { column: "max", desc: true };
 
         render(mapResults(results, sortBy));
 
@@ -535,7 +535,7 @@ describe("Weapon Script", () => {
                 spellScaling: 0,
             },
         ];
-        const sortBy: SortByWeapon = { dmgType: "max", desc: false };
+        const sortBy: SortByWeapon = { column: "max", desc: false };
 
         render(mapResults(results, sortBy));
 
@@ -582,7 +582,7 @@ describe("Weapon Script", () => {
                 spellScaling: 0,
             },
         ];
-        const sortBy: SortByWeapon = { dmgType: "standard", desc: true };
+        const sortBy: SortByWeapon = { column: "standard", desc: true };
 
         render(mapResults(results, sortBy));
 
@@ -629,7 +629,7 @@ describe("Weapon Script", () => {
                 spellScaling: 0,
             },
         ];
-        const sortBy: SortByWeapon = { dmgType: "standard", desc: false };
+        const sortBy: SortByWeapon = { column: "standard", desc: false };
 
         render(mapResults(results, sortBy));
 

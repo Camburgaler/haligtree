@@ -44,7 +44,7 @@ export type WeaponResult = {
     spellScaling: number;
 };
 export type SortByWeapon = {
-    dmgType: InfusionMapKey | "max";
+    column: InfusionMapKey | "max";
     desc: boolean;
 };
 
@@ -728,15 +728,15 @@ function sortResults(
 ): WeaponResult[] {
     return results.sort((a, b) => {
         // sort based on current sort order
-        if (sortBy.dmgType == "max") {
+        if (sortBy.column == "max") {
             // sort by max
             return sortBy.desc ? b.max - a.max : a.max - b.max;
         } else {
             return sortBy.desc
-                ? b.attackRatings[sortBy.dmgType]! -
-                      a.attackRatings[sortBy.dmgType]!
-                : a.attackRatings[sortBy.dmgType]! -
-                      b.attackRatings[sortBy.dmgType]!;
+                ? b.attackRatings[sortBy.column]! -
+                      a.attackRatings[sortBy.column]!
+                : a.attackRatings[sortBy.column]! -
+                      b.attackRatings[sortBy.column]!;
         }
     });
 }
