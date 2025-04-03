@@ -490,7 +490,11 @@ describe("Weapon Script", () => {
         ];
         const sortBy: SortByWeapon = { column: "max", desc: true };
 
-        render(mapResults(results, sortBy));
+        render(
+            <table>
+                <tbody>{mapResults(results, sortBy)}</tbody>
+            </table>
+        );
 
         expect(screen.getAllByRole("row").length).toBe(2);
 
@@ -537,7 +541,11 @@ describe("Weapon Script", () => {
         ];
         const sortBy: SortByWeapon = { column: "max", desc: false };
 
-        render(mapResults(results, sortBy));
+        render(
+            <table>
+                <tbody>{mapResults(results, sortBy)}</tbody>
+            </table>
+        );
 
         expect(screen.getAllByRole("row").length).toBe(2);
 
@@ -584,7 +592,11 @@ describe("Weapon Script", () => {
         ];
         const sortBy: SortByWeapon = { column: "standard", desc: true };
 
-        render(mapResults(results, sortBy));
+        render(
+            <table>
+                <tbody>{mapResults(results, sortBy)}</tbody>
+            </table>
+        );
 
         expect(screen.getAllByRole("row").length).toBe(2);
 
@@ -631,7 +643,11 @@ describe("Weapon Script", () => {
         ];
         const sortBy: SortByWeapon = { column: "standard", desc: false };
 
-        render(mapResults(results, sortBy));
+        render(
+            <table>
+                <tbody>{mapResults(results, sortBy)}</tbody>
+            </table>
+        );
 
         expect(screen.getAllByRole("row").length).toBe(2);
 
