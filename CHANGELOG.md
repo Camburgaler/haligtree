@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.11.3] - Current
+## [2.11.4] - Current
+
+#### Added
+
+-   Unit tests for the Weapons page
+
+### Fixed
+
+-   Fixed attack power type filtering in weapons page
+-   Fixed bow damage calculation in weapons page
+-   Fixed bug preventing unique weapons from displaying
+
+## [2.11.3] - 2025-04-01
 
 ### Added
 

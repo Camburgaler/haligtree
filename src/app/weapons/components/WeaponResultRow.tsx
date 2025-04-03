@@ -1,25 +1,12 @@
-import { INFUSION_IDS } from "@/app/util/constants";
+import {
+    DEFAULT_INFUSION_MAP_NUMBER,
+    INFUSION_IDS,
+} from "@/app/util/constants";
 import AttackPowerTypeMap from "@/app/util/types/attackPowerTypeMap";
 import InfusionMap from "@/app/util/types/infusionMap";
 import { TableDataWithHover } from "@/app/weapons/components/TableDataWithHover";
 import { useState } from "react";
-
-const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
-    standard: 0,
-    heavy: 0,
-    keen: 0,
-    quality: 0,
-    fire: 0,
-    "flame-art": 0,
-    lightning: 0,
-    sacred: 0,
-    magic: 0,
-    cold: 0,
-    poison: 0,
-    blood: 0,
-    occult: 0,
-    unique: 0,
-};
+import { JSX } from "react/jsx-runtime";
 
 export function WeaponResultRow(props: {
     weaponName: string;
@@ -30,7 +17,7 @@ export function WeaponResultRow(props: {
         scalingDmg: AttackPowerTypeMap<number>;
     }>;
     rank: number;
-}) {
+}): JSX.Element {
     const [highlighted, setHighlighted] = useState(false);
 
     return (
@@ -56,8 +43,10 @@ export function WeaponResultRow(props: {
                 <TableDataWithHover
                     key={infId}
                     attackRating={props.attackRatings[infId]! ?? 0}
-                    max={props.max ?? 0}
-                    data={props.arBreakdown[infId]! ?? DEFAULT_INFUSION_MAP}
+                    max={props.max}
+                    data={
+                        props.arBreakdown[infId]! ?? DEFAULT_INFUSION_MAP_NUMBER
+                    }
                     style={
                         props.attackRatings[infId] == props.max &&
                         props.attackRatings[infId] != undefined

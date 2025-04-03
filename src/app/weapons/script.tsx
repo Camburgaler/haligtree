@@ -5,7 +5,7 @@ import {
     ATTACK_POWER_TYPE_MODE_ALL,
     ATTACK_POWER_TYPE_MODE_ANY,
     ATTACK_POWER_TYPE_MODE_EXACTLY,
-    CATEGORY_NAMES,
+    BOW_CATEGORY_IDS,
     CORRECTIONS,
     DAMAGE_IDS,
     DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN,
@@ -29,21 +29,21 @@ import Weapon from "../util/types/weapon";
 import WeaponInfusion from "../util/types/weaponInfusion";
 import { WeaponResultRow } from "./components/WeaponResultRow";
 
-let logWeapon: boolean;
-
 // TYPES
-export type AttackRatingBreakdown = InfusionMap<{
+export type AttackRatingBreakdown = {
     baseDmg: AttackPowerTypeMap<number>;
     scalingDmg: AttackPowerTypeMap<number>;
-}>;
+};
+export type InfusionMapAttackRatingBreakdown =
+    InfusionMap<AttackRatingBreakdown>;
 export type WeaponResult = {
     weaponName: string;
     attackRatings: InfusionMap<number>;
     max: number;
-    arBreakdown: AttackRatingBreakdown;
+    arBreakdown: InfusionMapAttackRatingBreakdown;
     spellScaling: number;
 };
-export type SortBy = {
+export type SortByWeapon = {
     dmgType: InfusionMapKey | "max";
     desc: boolean;
 };
@@ -79,21 +79,45 @@ const anyAttackPowerTypes = (
     return attackPowerTypesInclude ? result : !result;
 };
 
+/**
+ * Returns true if all attack power types in `attackPowerTypes` are included in `dmg`
+ * and have a value greater than 0, and false otherwise. If
+ * `attackPowerTypesInclude` is false, the result is inverted.
+ * @param {AttackPowerTypeMap<number>} dmg - a weapon's attack ratings
+ * @param {AttackPowerTypeMap<boolean>} attackPowerTypes - the user's selected attack power types
+ * @param {boolean} attackPowerTypesInclude - whether to return true or false if
+ * all attack power types are included
+ * @returns {boolean} true if all attack power types are included, false otherwise
+ */
 const allAttackPowerTypes = (
     dmg: AttackPowerTypeMap<number>,
     attackPowerTypes: AttackPowerTypeMap<boolean>,
     attackPowerTypesInclude: boolean
 ): boolean => {
     let result: boolean = true;
+
+    // if there are no selected attack power types, return false
     if (!(Object.values(attackPowerTypes) as boolean[]).includes(true)) {
         result = false;
     } else {
+        // else, return true if all selected attack power types have a value greater than 0
         result = Object.entries(dmg).every(([key, value]: [string, number]) =>
             attackPowerTypes[key as AttackPowerTypeMapKey] ? value! > 0 : true
         ) as boolean;
     }
     return attackPowerTypesInclude ? result : !result;
 };
+
+/**
+ * Determines if the attack power types in `dmg` exactly match the selected
+ * `attackPowerTypes` and have the corresponding values. If `attackPowerTypesInclude`
+ * is false, the result is inverted.
+ *
+ * @param {AttackPowerTypeMap<number>} dmg - A map of attack power types and their values.
+ * @param {AttackPowerTypeMap<boolean>} attackPowerTypes - The user's selected attack power types.
+ * @param {boolean} attackPowerTypesInclude - Whether to return true if the match is exact.
+ * @returns {boolean} - True if the attack power types match exactly, false otherwise.
+ */
 
 const exactlyAttackPowerTypes = (
     dmg: AttackPowerTypeMap<number>,
@@ -195,7 +219,7 @@ function adjustStatsForTwoHanding(
     }
 
     // Bows and ballistae can only be two handed
-    if (CATEGORY_NAMES[1].includes(weapon.category)) {
+    if (BOW_CATEGORY_IDS.includes(weapon.category)) {
         twoHandingBonus = true;
     }
 
@@ -242,7 +266,7 @@ function calculateBaseAttackPowerRating(
 ): number {
     if (isDamageType) {
         return (
-            (weaponInfusion.damage[attackPowerType] ?? 0) *
+            weaponInfusion.damage[attackPowerType]! *
             (weapon.id === "unarmed"
                 ? 1
                 : // calculate upgrade rate based on upgrade level
@@ -254,12 +278,9 @@ function calculateBaseAttackPowerRating(
                       upgLevel
                   ))
         );
-    } else if (weaponInfusion.aux?.[attackPowerType]) {
-        return weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0] ?? 0;
+    } else {
+        return weaponInfusion.aux?.[attackPowerType][upgraded ? 1 : 0];
     }
-    throw new Error(
-        "calculateBaseAttackPowerRating: Invalid attack power data"
-    );
 }
 
 function attackPower(
@@ -324,6 +345,8 @@ function attackPower(
         const isDamageType: boolean = DAMAGE_IDS.includes(attackPowerType);
 
         // calculate base attack rating
+        // all damage types get calculated
+        // but only applicable auxiliaries get calculated
         if (isDamageType || weaponInfusion.aux?.[attackPowerType]) {
             baseAttackRating[attackPowerType] = calculateBaseAttackPowerRating(
                 isDamageType,
@@ -365,10 +388,10 @@ function attackPower(
                     scalingStats
                 );
                 for (const statId of ATTACK_POWER_STAT_IDS) {
-                    const statCorrect: boolean = scalingStats[statId] ?? false;
+                    const statCorrect: boolean = scalingStats[statId]!;
                     if (statCorrect) {
                         let scaling: number =
-                            (weaponInfusion.scaling[statId]! ?? 0) *
+                            weaponInfusion.scaling[statId]! *
                             inf.statScalingRate[statId]![upgLevel]!;
 
                         totalScaling += statScaling[statId]! * scaling;
@@ -398,24 +421,12 @@ function attackPower(
         scalingAttackRating = { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER };
     }
 
-    let matchesDamageTypes: boolean =
-        attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ANY
-            ? anyAttackPowerTypes(
-                  baseAttackRating,
-                  attackPowerTypes,
-                  attackPowerTypesInclude
-              )
-            : attackPowerTypeMode == ATTACK_POWER_TYPE_MODE_ALL
-            ? allAttackPowerTypes(
-                  baseAttackRating,
-                  attackPowerTypes,
-                  attackPowerTypesInclude
-              )
-            : exactlyAttackPowerTypes(
-                  baseAttackRating,
-                  attackPowerTypes,
-                  attackPowerTypesInclude
-              );
+    let matchesDamageTypes: boolean = checkDamageTypesAreAllowed(
+        weapon,
+        attackPowerTypeMode,
+        attackPowerTypes,
+        attackPowerTypesInclude
+    );
 
     // if weapon does not match damage types, set base damage to 0
     if (!matchesDamageTypes) {
@@ -454,11 +465,10 @@ function attackPower(
     };
     result.arBreakdown[infId]!.baseDmg = baseAttackRating;
     result.arBreakdown[infId]!.scalingDmg = scalingAttackRating;
-    result.spellScaling =
-        Object.values(spellScaling).reduce(
-            (sum: number | undefined, n: number | undefined) => sum! + n!,
-            0
-        ) ?? 0;
+    result.spellScaling = Object.values(spellScaling).reduce(
+        (sum: number | undefined, n: number | undefined) => sum! + n!,
+        0
+    );
 
     return result;
 }
@@ -476,7 +486,7 @@ function checkStatRequirementsMet(
                 // if the stat is STR
                 statName == "STR"
                     ? // and if the weapon is using two handed damage
-                      twoHanded
+                      twoHanded || BOW_CATEGORY_IDS.includes(weapon.category)
                         ? // then use the two handing formula for STR
                           stats["STR"] * 1.5 >= weapon.requirements["STR"]
                         : // else use the one handed formula for STR
@@ -583,12 +593,14 @@ function filterWeapons(
             // and if the weapon is split damage (a way to filter out some split damage weapons early is to check if the weapon's default infusion is split)
             checkSplitDamageIsAllowed(weapon, allowSplitDamage) &&
             // and if the weapon's default damage contains selected damage types
-            checkDamageTypesAreAllowed(
-                weapon,
-                attackPowerTypeMode,
-                attackPowerTypes,
-                attackPowerTypesInclude
-            )
+            (weapon.infusions.unique
+                ? checkDamageTypesAreAllowed(
+                      weapon,
+                      attackPowerTypeMode,
+                      attackPowerTypes,
+                      attackPowerTypesInclude
+                  )
+                : true)
         );
     });
 }
@@ -621,7 +633,11 @@ export function mapWeapons(
     ).map((weapon) => {
         // calculate attack ratings for every allowed infusion as well as the maximum damage of any infusion
         let result: WeaponResult = { ...DEFAULT_WEAPON_RESULT };
+
+        // map weapon name
         result.weaponName = weapon.name;
+
+        // for each infusion within the selected infusions
         (Object.keys(INFUSIONS) as InfusionMapKey[])
             .filter((infId) => infusions[infId])
             .forEach((infId) => {
@@ -637,6 +653,10 @@ export function mapWeapons(
                     spellScaling: 0,
                 };
 
+                // if buffable is not a requirement or the weapon can be buffed
+                // and the weapon has the infusion
+                // and the weapon's infusion has a damage type greater than 0
+                // then calculate the attack rating
                 if (
                     (!buffableOnly || weapon.infusions[infId]?.buffable) &&
                     weapon.infusions[infId] &&
@@ -702,7 +722,10 @@ export function mapWeapons(
     });
 }
 
-function sortResults(results: WeaponResult[], sortBy: SortBy): WeaponResult[] {
+function sortResults(
+    results: WeaponResult[],
+    sortBy: SortByWeapon
+): WeaponResult[] {
     return results.sort((a, b) => {
         // sort based on current sort order
         if (sortBy.dmgType == "max") {
@@ -720,7 +743,7 @@ function sortResults(results: WeaponResult[], sortBy: SortBy): WeaponResult[] {
 
 export function mapResults(
     results: WeaponResult[],
-    sortBy: SortBy
+    sortBy: SortByWeapon
 ): JSX.Element[] {
     return sortResults(results, sortBy).map((weaponResult, i) => (
         <WeaponResultRow

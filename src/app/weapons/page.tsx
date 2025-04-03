@@ -20,7 +20,7 @@ import { InfusionData } from "../util/types/infusion";
 import InfusionMap, { InfusionMapKey } from "../util/types/infusionMap";
 import StatMap, { StatMapKey } from "../util/types/statMap";
 import { WeaponResultRow } from "./components/WeaponResultRow";
-import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
+import { mapResults, mapWeapons, SortByWeapon, WeaponResult } from "./script";
 
 export default function Weapons() {
     // STATES
@@ -75,7 +75,7 @@ export default function Weapons() {
         madness: true,
         sleep: true,
     });
-    const [sortBy, setSortBy] = useState<SortBy>({
+    const [sortBy, setSortBy] = useState<SortByWeapon>({
         dmgType: "max",
         desc: true,
     });
@@ -491,7 +491,7 @@ export default function Weapons() {
             twoHanded,
             requireStats,
             categories,
-            infusions,
+            { ...infusions, unique: true },
             buffableOnly,
             splitDamage,
             attackPowerTypesInclude,
@@ -1000,7 +1000,9 @@ export default function Weapons() {
                                               .map((_, i) => (
                                                   <WeaponResultRow
                                                       key={i}
-                                                      weaponName={"Loading..."}
+                                                      weaponName={
+                                                          "No Results..."
+                                                      }
                                                       attackRatings={{}}
                                                       max={0}
                                                       arBreakdown={{}}

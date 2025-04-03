@@ -1,11 +1,12 @@
-import { WeaponResult } from "../weapons/script";
+import { AttackRatingBreakdown, WeaponResult } from "../weapons/script";
 import Armor from "./types/armor";
 import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
 } from "./types/attackPowerTypeMap";
+import CategoryMap, { CategoryMapKey } from "./types/categoryMap";
 import Correction from "./types/correction";
 import Infusion from "./types/infusion";
-import { InfusionMapKey } from "./types/infusionMap";
+import InfusionMap, { InfusionMapKey } from "./types/infusionMap";
 import StatMap, { StatMapKey } from "./types/statMap";
 import Weapon from "./types/weapon";
 
@@ -210,6 +211,14 @@ export const CATEGORY_NAMES: string[][] = [
     ["Glintstone Staves", "Sacred Seals"],
 ];
 
+export const BOW_CATEGORY_IDS: CategoryMapKey[] = [
+    "light-bow",
+    "bow",
+    "greatbow",
+    "crossbow",
+    "ballista",
+];
+
 export const INEFFECTIVE_STAT_PENALTY = 0.4;
 
 export const ATTACK_POWER_STAT_IDS: StatMapKey[] = [
@@ -243,10 +252,7 @@ export const DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER: AttackPowerTypeMap<number> =
         holy: 0,
     };
 
-export const DEFAULT_ATTACK_RATING_BREAKDOWN: {
-    baseDmg: AttackPowerTypeMap<number>;
-    scalingDmg: AttackPowerTypeMap<number>;
-} = {
+export const DEFAULT_ATTACK_RATING_BREAKDOWN: AttackRatingBreakdown = {
     baseDmg: { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER },
     scalingDmg: { ...DEFAULT_ATTACK_POWER_TYPE_MAP_NUMBER },
 };
@@ -272,6 +278,85 @@ export const DEFAULT_STAT_MAP_NUMBER: StatMap<number> = {
     INT: 0,
     FTH: 0,
     ARC: 0,
+};
+
+export const DEFAULT_INFUSION_MAP_NUMBER: InfusionMap<number> = {
+    standard: 0,
+    heavy: 0,
+    keen: 0,
+    quality: 0,
+    magic: 0,
+    fire: 0,
+    "flame-art": 0,
+    lightning: 0,
+    sacred: 0,
+    poison: 0,
+    blood: 0,
+    cold: 0,
+    occult: 0,
+    unique: 0,
+};
+
+export const DEFAULT_INFUSION_MAP_BOOLEAN: InfusionMap<boolean> = {
+    standard: false,
+    heavy: false,
+    keen: false,
+    quality: false,
+    magic: false,
+    fire: false,
+    "flame-art": false,
+    lightning: false,
+    sacred: false,
+    poison: false,
+    blood: false,
+    cold: false,
+    occult: false,
+    unique: false,
+};
+
+export const DEFAULT_CATEGORY_MAP_BOOLEAN: CategoryMap<boolean> = {
+    dagger: false,
+    "straight-sword": false,
+    greatsword: false,
+    "colossal-sword": false,
+    "thrusting-sword": false,
+    "heavy-thrusting-sword": false,
+    "curved-sword": false,
+    "curved-greatsword": false,
+    katana: false,
+    twinblade: false,
+    hammer: false,
+    "great-hammer": false,
+    flail: false,
+    axe: false,
+    greataxe: false,
+    spear: false,
+    "great-spear": false,
+    halberd: false,
+    scythe: false,
+    whip: false,
+    fist: false,
+    claw: false,
+    "colossal-weapon": false,
+    torch: false,
+    "thrusting-shield": false,
+    "hand-to-hand-art": false,
+    "throwing-blade": false,
+    "backhand-blade": false,
+    "perfume-bottle": false,
+    "beast-claw": false,
+    "light-greatsword": false,
+    "great-katana": false,
+    "light-bow": false,
+    bow: false,
+    greatbow: false,
+    crossbow: false,
+    ballista: false,
+    "small-shield": false,
+    "medium-shield": false,
+    greatshield: false,
+    "glintstone-staff": false,
+    "sacred-seal": false,
 };
 
 export const SCALING_MULTIPLIERS = {
