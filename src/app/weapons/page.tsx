@@ -20,9 +20,9 @@ import { InfusionData } from "../util/types/infusion";
 import InfusionMap, { InfusionMapKey } from "../util/types/infusionMap";
 import StatMap, { StatMapKey } from "../util/types/statMap";
 import { WeaponResultRow } from "./components/WeaponResultRow";
-import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
+import { mapResults, mapWeapons, SortByWeapon, WeaponResult } from "./script";
 
-export default function Weapons() {
+export default function WeaponsPage() {
     // STATES
     const [results, setResults] = useState<WeaponResult[]>([]);
     const [stats, setStats] = useState<StatMap<number>>({
@@ -75,8 +75,8 @@ export default function Weapons() {
         madness: true,
         sleep: true,
     });
-    const [sortBy, setSortBy] = useState<SortBy>({
-        dmgType: "max",
+    const [sortBy, setSortBy] = useState<SortByWeapon>({
+        column: "max",
         desc: true,
     });
     const [categories, setCategories] = useState<CategoryMap<boolean>>({
@@ -491,7 +491,7 @@ export default function Weapons() {
             twoHanded,
             requireStats,
             categories,
-            infusions,
+            { ...infusions, unique: infusions.standard },
             buffableOnly,
             splitDamage,
             attackPowerTypesInclude,
@@ -535,6 +535,7 @@ export default function Weapons() {
                         <div>
                             <b>Parameters</b>
                             <button
+                                id="reset-all"
                                 onClick={resetAll}
                                 style={{ marginBottom: "0px" }}
                             >
@@ -717,6 +718,7 @@ export default function Weapons() {
                             <b>Infusions</b>
                             <span>
                                 <button
+                                    id="infusion-any"
                                     onClick={() => setAllInfusions(true)}
                                     style={{
                                         minWidth: "24px",
@@ -726,6 +728,7 @@ export default function Weapons() {
                                     Any
                                 </button>
                                 <button
+                                    id="infusion-none"
                                     onClick={() => setAllInfusions(false)}
                                     style={{
                                         minWidth: "24px",
@@ -742,7 +745,7 @@ export default function Weapons() {
                                 <div key={key}>
                                     <span>
                                         <input
-                                            id={key + "-infusion"}
+                                            id={"infusion-" + key}
                                             value={key}
                                             type="checkbox"
                                             name="infusion"
@@ -771,6 +774,7 @@ export default function Weapons() {
                             <b>Attack Power Types</b>
                             <span>
                                 <button
+                                    id="attack-power-any"
                                     onClick={() => {
                                         setAllAttackPowerTypes(true);
                                     }}
@@ -782,6 +786,7 @@ export default function Weapons() {
                                     Any
                                 </button>
                                 <button
+                                    id="attack-power-none"
                                     onClick={() =>
                                         setAllAttackPowerTypes(false)
                                     }
@@ -797,6 +802,7 @@ export default function Weapons() {
                         <div>
                             <span style={{ width: "100%" }}>
                                 <button
+                                    id="attack-power-include"
                                     style={{
                                         width: "100%",
                                         minWidth: "24px",
@@ -876,7 +882,7 @@ export default function Weapons() {
                             <div key={key}>
                                 <span>
                                     <input
-                                        id={key + "-attack-power-type"}
+                                        id={"attack-power-type-" + key}
                                         value={key}
                                         type="checkbox"
                                         name="attack-power-type"
@@ -920,28 +926,26 @@ export default function Weapons() {
                                                 Weapon
                                             </b>
                                         </th>
-                                        <th>
-                                            <b
-                                                onClick={() => {
-                                                    sortBy.dmgType == "max"
-                                                        ? setSortBy({
-                                                              ...sortBy,
-                                                              desc: !sortBy.desc,
-                                                          })
-                                                        : setSortBy({
-                                                              dmgType: "max",
-                                                              desc: true,
-                                                          });
-                                                }}
-                                                onMouseOver={(event) =>
-                                                    (event.currentTarget.style.cursor =
-                                                        "pointer")
-                                                }
-                                                style={{ userSelect: "none" }}
-                                            >
-                                                {" "}
-                                                Max{" "}
-                                            </b>
+                                        <th
+                                            id="max"
+                                            onClick={() => {
+                                                sortBy.column == "max"
+                                                    ? setSortBy({
+                                                          ...sortBy,
+                                                          desc: !sortBy.desc,
+                                                      })
+                                                    : setSortBy({
+                                                          column: "max",
+                                                          desc: true,
+                                                      });
+                                            }}
+                                            onMouseOver={(event) =>
+                                                (event.currentTarget.style.cursor =
+                                                    "pointer")
+                                            }
+                                            style={{ userSelect: "none" }}
+                                        >
+                                            <b> Max </b>
                                         </th>
                                         {Object.entries(INFUSIONS)
                                             .filter(([key]) => key != "unique")
@@ -950,7 +954,21 @@ export default function Weapons() {
                                                     string,
                                                     InfusionData
                                                 ]) => (
-                                                    <th key={key} id={key}>
+                                                    <th
+                                                        key={key}
+                                                        id={key}
+                                                        onClick={() => {
+                                                            sortBy.column == key
+                                                                ? setSortBy({
+                                                                      ...sortBy,
+                                                                      desc: !sortBy.desc,
+                                                                  })
+                                                                : setSortBy({
+                                                                      column: key as InfusionMapKey,
+                                                                      desc: true,
+                                                                  });
+                                                        }}
+                                                    >
                                                         <Image
                                                             src={
                                                                 "/icons/infusions/" +
@@ -965,23 +983,6 @@ export default function Weapons() {
                                                             height={20}
                                                             title={value.name}
                                                             alt={value.name}
-                                                            onClick={() => {
-                                                                sortBy.dmgType ==
-                                                                key
-                                                                    ? setSortBy(
-                                                                          {
-                                                                              ...sortBy,
-                                                                              desc: !sortBy.desc,
-                                                                          }
-                                                                      )
-                                                                    : setSortBy(
-                                                                          {
-                                                                              dmgType:
-                                                                                  key as InfusionMapKey,
-                                                                              desc: true,
-                                                                          }
-                                                                      );
-                                                            }}
                                                         />
                                                     </th>
                                                 )
@@ -1000,7 +1001,9 @@ export default function Weapons() {
                                               .map((_, i) => (
                                                   <WeaponResultRow
                                                       key={i}
-                                                      weaponName={"Loading..."}
+                                                      weaponName={
+                                                          "No Results..."
+                                                      }
                                                       attackRatings={{}}
                                                       max={0}
                                                       arBreakdown={{}}
@@ -1017,6 +1020,7 @@ export default function Weapons() {
                             <b>Categories</b>
                             <span>
                                 <button
+                                    id="category-any"
                                     onClick={() => setAllCategories(true)}
                                     style={{
                                         minWidth: "24px",
@@ -1026,6 +1030,7 @@ export default function Weapons() {
                                     Any
                                 </button>
                                 <button
+                                    id="category-none"
                                     onClick={() => setAllCategories(false)}
                                     style={{
                                         minWidth: "24px",
@@ -1041,6 +1046,7 @@ export default function Weapons() {
                             <b>Weapons</b>
                             <span>
                                 <button
+                                    id="category-weapon-any"
                                     onClick={() => setAllWeaponCategories(true)}
                                     style={{
                                         minWidth: "24px",
@@ -1050,6 +1056,7 @@ export default function Weapons() {
                                     Any
                                 </button>
                                 <button
+                                    id="category-weapon-none"
                                     onClick={() =>
                                         setAllWeaponCategories(false)
                                     }

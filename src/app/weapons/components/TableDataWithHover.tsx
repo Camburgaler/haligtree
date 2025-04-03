@@ -6,6 +6,7 @@ import AttackPowerTypeMap, {
     AttackPowerTypeMapKey,
 } from "@/app/util/types/attackPowerTypeMap";
 import { Dispatch, SetStateAction, useState } from "react";
+import { JSX } from "react/jsx-runtime";
 
 export function TableDataWithHover(props: {
     attackRating: number;
@@ -17,7 +18,7 @@ export function TableDataWithHover(props: {
     style?: React.CSSProperties;
     infId: string;
     rowHighlighted: Dispatch<SetStateAction<boolean>>;
-}) {
+}): JSX.Element {
     const [hoveredCell, setHoveredCell] = useState<string>("");
     const [cardPosition, setCardPosition] = useState({
         top: 0,
@@ -79,9 +80,7 @@ export function TableDataWithHover(props: {
             style={props.style}
         >
             {props.attackRating != 0
-                ? props.attackRating != undefined
-                    ? Math.floor(props.attackRating)?.toString()
-                    : "-"
+                ? Math.floor(props.attackRating)?.toString()
                 : "-"}
 
             {hoveredCell && props.attackRating != 0 && (
