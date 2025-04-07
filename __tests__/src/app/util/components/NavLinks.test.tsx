@@ -1,14 +1,31 @@
 import "core-js/actual/structured-clone";
 
 import { NavLinks } from "@/app/util/components/NavLinks";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
 
+// mock the next/navigation usePathname hook
 jest.mock("next/navigation", () => ({
     usePathname: jest.fn(),
 }));
+// mock the auth0 useUser hook
+jest.mock("@auth0/nextjs-auth0/client", () => ({
+    useUser: jest.fn(),
+}));
 
 describe("NavLinks", () => {
+    beforeEach(() => {
+        // mock the next/navigation usePathname hook
+        (usePathname as jest.Mock).mockReturnValue("/");
+        // mock the auth0 useUser hook
+        (useUser as jest.Mock).mockReturnValue({
+            user: null,
+            isLoading: false,
+            error: null,
+        });
+    });
+
     test("Renders", () => {
         render(<NavLinks />);
 
@@ -57,5 +74,21 @@ describe("NavLinks", () => {
         render(<NavLinks />);
 
         expect(screen.getByText("About")).toHaveClass("current");
+    });
+
+    test("logged in", () => {
+        // mock the auth0 useUser hook
+        (useUser as jest.Mock).mockReturnValue({
+            user: {
+                name: "test",
+                picture: "/favicon.ico",
+                email: "test@email.com",
+            },
+            error: null,
+            isLoading: false,
+        });
+        render(<NavLinks />);
+
+        expect(screen.getByText("Logout")).toBeInTheDocument();
     });
 });
