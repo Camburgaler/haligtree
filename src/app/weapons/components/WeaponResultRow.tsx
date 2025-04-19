@@ -1,24 +1,12 @@
-import InfusionMap from "@/app/util/interfaces/infusionMap";
-import { INFUSION_IDS } from "../../util/constants";
-import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
-import { TableDataWithHover } from "./TableDataWithHover";
-
-const DEFAULT_INFUSION_MAP: InfusionMap<number> = {
-    standard: 0,
-    heavy: 0,
-    keen: 0,
-    quality: 0,
-    fire: 0,
-    "flame-art": 0,
-    lightning: 0,
-    sacred: 0,
-    magic: 0,
-    cold: 0,
-    poison: 0,
-    blood: 0,
-    occult: 0,
-    unique: 0,
-};
+import {
+    DEFAULT_INFUSION_MAP_NUMBER,
+    INFUSION_IDS,
+} from "@/app/util/constants";
+import AttackPowerTypeMap from "@/app/util/types/attackPowerTypeMap";
+import InfusionMap from "@/app/util/types/infusionMap";
+import { TableDataWithHover } from "@/app/weapons/components/TableDataWithHover";
+import { useState } from "react";
+import { JSX } from "react/jsx-runtime";
 
 export function WeaponResultRow(props: {
     weaponName: string;
@@ -28,9 +16,17 @@ export function WeaponResultRow(props: {
         baseDmg: AttackPowerTypeMap<number>;
         scalingDmg: AttackPowerTypeMap<number>;
     }>;
-}) {
+    rank: number;
+}): JSX.Element {
+    const [highlighted, setHighlighted] = useState(false);
+
     return (
-        <tr>
+        <tr
+            style={{
+                backgroundColor: highlighted ? `rgba(255, 255, 255, 0.1)` : "",
+            }}
+        >
+            <td>{props.rank}</td>
             <td>
                 <a
                     target="_blank"
@@ -47,15 +43,18 @@ export function WeaponResultRow(props: {
                 <TableDataWithHover
                     key={infId}
                     attackRating={props.attackRatings[infId]! ?? 0}
-                    max={props.max ?? 0}
-                    data={props.arBreakdown[infId]! ?? DEFAULT_INFUSION_MAP}
+                    max={props.max}
+                    data={
+                        props.arBreakdown[infId]! ?? DEFAULT_INFUSION_MAP_NUMBER
+                    }
                     style={
                         props.attackRatings[infId] == props.max &&
                         props.attackRatings[infId] != undefined
-                            ? { fontWeight: 900 }
+                            ? { color: "var(--accent)" }
                             : {}
                     }
                     infId={infId}
+                    rowHighlighted={setHighlighted}
                 />
             ))}
         </tr>

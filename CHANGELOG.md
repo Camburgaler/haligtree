@@ -5,9 +5,141 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Planned
+## [2.11.5] - Current
 
--   Add spell scaling to weapon page
+### Added
+
+-   General unit tests
+
+## [2.11.4] - 2025-04-03
+
+#### Added
+
+-   Unit tests for the Weapons page
+
+### Fixed
+
+-   Fixed attack power type filtering in weapons page
+-   Fixed bow damage calculation in weapons page
+-   Fixed bug preventing unique weapons from displaying
+
+## [2.11.3] - 2025-04-01
+
+### Added
+
+-   Unit tests for the Class page
+
+## [2.11.2] - 2025-04-01
+
+### Added
+
+-   Highlight maxes in weapons page
+-   Unit tests for the Home page
+
+## Changed
+
+-   Updated favicon
+-   Updated application name to Haligtree
+
+## [2.11.1] - 2025-03-31
+
+### Added
+
+-   Unit testing framework
+-   Unit tests for the Armor Page
+-   Lighthouse for performance and accessibility testing
+
+### Changed
+
+-   Updated highlight color to gold for accessibility
+
+## [2.11.0] - 2025-03-23
+
+### Added
+
+-   Boss sorting presets for custom sorting
+
+## [2.10.0] - 2025-03-21
+
+### Added
+
+-   Custom sorting method in the armor page
+
+### Changed
+
+-   Updated feature request/bug report links in footer
+
+## [2.9.1] - 2025-02-02
+
+### Fixed
+
+-   Fixed ineffective stat scaling calculation
+
+## [2.9.0] - 2025-02-02
+
+### Added
+
+-   Added about page with changelog
+
+### Changed
+
+-   Updated copyright in the footer
+
+## [2.8.1] - 2025-02-02
+
+### Fixed
+
+-   Fixed error with the weapon damage type check that made the page crash
+
+## [2.8.0] - 2025-01-23
+
+### Added
+
+-   Added weapon ranking
+
+## [2.7.2] - 2025-01-23
+
+### Fixed
+
+-   Fixed armor weight filtering
+
+## [2.7.1] - 2025-01-23
+
+### Fixed
+
+-   Fixed keyboard use on armor page
+
+## [2.7.0] - 2025-01-20
+
+### Added
+
+-   Added hotkeys to quickly ignore any item in the results table
+
+## [2.6.0] - 2025-01-20
+
+### Added
+
+-   Added button to ignore all armor
+
+## [2.5.0] - 2025-01-20
+
+### Added
+
+-   Remember armor page data between sessions
+
+### Fixed
+
+-   Weapon page reset will now disable Consider Status Effects
+
+## [2.4.0] - 2025-01-19
+
+### Added
+
+-   Remember weapon page data between sessions
+
+### Fixed
+
+-   Weapon page stat minimum is now 1 instead of 0
 
 ## [2.3.0] - 2024-12-31
 

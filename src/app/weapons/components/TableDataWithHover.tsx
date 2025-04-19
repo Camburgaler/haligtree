@@ -1,10 +1,12 @@
-import "@/app/globals.css";
-import { useState } from "react";
 import {
     ATTACK_POWER_TYPE_ID_TO_NAME,
     INFUSION_ID_TO_NAME,
-} from "../../util/constants";
-import AttackPowerTypeMap from "../../util/interfaces/attackPowerTypeMap";
+} from "@/app/util/constants";
+import AttackPowerTypeMap, {
+    AttackPowerTypeMapKey,
+} from "@/app/util/types/attackPowerTypeMap";
+import { Dispatch, SetStateAction, useState } from "react";
+import { JSX } from "react/jsx-runtime";
 
 export function TableDataWithHover(props: {
     attackRating: number;
@@ -15,7 +17,8 @@ export function TableDataWithHover(props: {
     };
     style?: React.CSSProperties;
     infId: string;
-}) {
+    rowHighlighted: Dispatch<SetStateAction<boolean>>;
+}): JSX.Element {
     const [hoveredCell, setHoveredCell] = useState<string>("");
     const [cardPosition, setCardPosition] = useState({
         top: 0,
@@ -30,15 +33,19 @@ export function TableDataWithHover(props: {
             top: rect.top + window.scrollY, // to account for any scrolling
             left: rect.left - cardWidth - 10, // slightly offset from the cell
         });
+        e.currentTarget.style.fontWeight = "bold";
+        props.rowHighlighted(true);
     };
 
-    const handleMouseLeave = () => {
-        setHoveredCell(""); // hide the card
+    const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+        setHoveredCell("");
+        props.rowHighlighted(false);
+        e.currentTarget.style.fontWeight = "normal";
     };
 
-    const renderData = (dmgType: string) => {
+    const renderData = (dmgType: AttackPowerTypeMapKey) => {
         switch (dmgType) {
-            case "blood":
+            case "bleed":
             case "poison":
             case "frost":
             case "scarlet-rot":
@@ -67,14 +74,13 @@ export function TableDataWithHover(props: {
 
     return (
         <td
-            onMouseEnter={(e) => handleMouseEnter(e)}
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onMouseOut={handleMouseLeave}
             style={props.style}
         >
             {props.attackRating != 0
-                ? props.attackRating != undefined
-                    ? Math.floor(props.attackRating)?.toString()
-                    : "-"
+                ? Math.floor(props.attackRating)?.toString()
                 : "-"}
 
             {hoveredCell && props.attackRating != 0 && (
@@ -91,12 +97,19 @@ export function TableDataWithHover(props: {
                         zIndex: 1000,
                         width: `${cardWidth}px`,
                     }}
+                    onMouseEnter={() => {
+                        setHoveredCell("");
+                    }}
                 >
                     <h4>{INFUSION_ID_TO_NAME[props.infId]} Breakdown</h4>
                     <table>
                         <tbody>
-                            {Object.keys(props.data.baseDmg).map(
-                                (dmgType: string, i: number) => (
+                            {(
+                                Object.keys(
+                                    props.data.baseDmg
+                                ) as AttackPowerTypeMapKey[]
+                            ).map(
+                                (dmgType: AttackPowerTypeMapKey, i: number) => (
                                     <tr
                                         key={i}
                                         style={{ fontWeight: "normal" }}

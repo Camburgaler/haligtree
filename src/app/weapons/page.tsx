@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
+import InputRadio from "../util/components/input/InputRadio";
 import {
-    ATTACK_POWER_TYPE_MODE_All,
+    ATTACK_POWER_TYPE_MODE_ALL,
     ATTACK_POWER_TYPE_MODE_ANY,
     ATTACK_POWER_TYPE_MODE_EXACTLY,
     ATTACK_POWER_TYPE_NAMES,
@@ -11,13 +12,17 @@ import {
     INFUSION_NAMES,
     INFUSIONS,
 } from "../util/constants";
-import AttackPowerTypeMap from "../util/interfaces/attackPowerTypeMap";
-import CategoryMap from "../util/interfaces/categoryMap";
-import InfusionMap from "../util/interfaces/infusionMap";
-import StatMap from "../util/interfaces/statMap";
-import { mapResults, mapWeapons, SortBy, WeaponResult } from "./script";
+import AttackPowerTypeMap, {
+    AttackPowerTypeMapKey,
+} from "../util/types/attackPowerTypeMap";
+import CategoryMap, { CategoryMapKey } from "../util/types/categoryMap";
+import { InfusionData } from "../util/types/infusion";
+import InfusionMap, { InfusionMapKey } from "../util/types/infusionMap";
+import StatMap, { StatMapKey } from "../util/types/statMap";
+import { WeaponResultRow } from "./components/WeaponResultRow";
+import { mapResults, mapWeapons, SortByWeapon, WeaponResult } from "./script";
 
-export default function Weapons() {
+export default function WeaponsPage() {
     // STATES
     const [results, setResults] = useState<WeaponResult[]>([]);
     const [stats, setStats] = useState<StatMap<number>>({
@@ -31,7 +36,8 @@ export default function Weapons() {
     const [requireStats, setRequireStats] = useState(true);
     const [buffableOnly, setBuffableOnly] = useState(false);
     const [splitDamage, setSplitDamage] = useState(true);
-    const [statusEffects, setStatusEffects] = useState<boolean>(false);
+    const [considerStatusEffects, setConsiderStatusEffects] =
+        useState<boolean>(false);
     const [twoHanded, setTwoHanded] = useState(false);
     const [infusions, setInfusions] = useState<InfusionMap<boolean>>({
         standard: true,
@@ -62,15 +68,15 @@ export default function Weapons() {
         fire: true,
         lightning: true,
         holy: true,
-        blood: true,
+        bleed: true,
         poison: true,
         frost: true,
         "scarlet-rot": true,
         madness: true,
         sleep: true,
     });
-    const [sortBy, setSortBy] = useState<SortBy>({
-        dmgType: "max",
+    const [sortBy, setSortBy] = useState<SortByWeapon>({
+        column: "max",
         desc: true,
     });
     const [categories, setCategories] = useState<CategoryMap<boolean>>({
@@ -122,7 +128,7 @@ export default function Weapons() {
     function updateStats(id: string, value: number) {
         setStats({
             ...stats,
-            [id]: value < 0 ? 0 : value > 99 ? 99 : value,
+            [id]: value < 1 ? 1 : value > 99 ? 99 : value,
         });
     }
 
@@ -172,7 +178,7 @@ export default function Weapons() {
             fire: state,
             lightning: state,
             holy: state,
-            blood: state,
+            bleed: state,
             poison: state,
             frost: state,
             "scarlet-rot": state,
@@ -283,10 +289,11 @@ export default function Weapons() {
         setAttackPowerTypeMode(ATTACK_POWER_TYPE_MODE_ANY);
         setAllAttackPowerTypes(true);
         setAttackPowerTypesInclude(true);
+        setConsiderStatusEffects(false);
     }
 
     function createCategoryCheckbox(
-        categoryId: string,
+        categoryId: CategoryMapKey,
         i: number
     ): JSX.Element {
         return (
@@ -315,7 +322,10 @@ export default function Weapons() {
                         }
                         checked={categories[categoryId]}
                     />
-                    <label htmlFor={categoryId}>
+                    <label
+                        htmlFor={categoryId}
+                        style={{ minWidth: "24px", minHeight: "24px" }}
+                    >
                         {i < CATEGORY_NAMES[0].length
                             ? CATEGORY_NAMES[0][i]
                             : i <
@@ -343,6 +353,137 @@ export default function Weapons() {
         );
     }
 
+    // Load data from localStorage on component mount
+    useEffect(() => {
+        const localStats = localStorage.getItem("localStats");
+        if (localStats) {
+            setStats(JSON.parse(localStats));
+        }
+
+        const localReinforced = localStorage.getItem("localReinforced");
+        if (localReinforced) {
+            setReinforced(JSON.parse(localReinforced));
+        }
+
+        const localRequireStats = localStorage.getItem("localRequireStats");
+        if (localRequireStats) {
+            setRequireStats(JSON.parse(localRequireStats));
+        }
+
+        const localBuffableOnly = localStorage.getItem("localBuffableOnly");
+        if (localBuffableOnly) {
+            setBuffableOnly(JSON.parse(localBuffableOnly));
+        }
+
+        const localSplitDamage = localStorage.getItem("localSplitDamage");
+        if (localSplitDamage) {
+            setSplitDamage(JSON.parse(localSplitDamage));
+        }
+
+        const localStatusEffects = localStorage.getItem("localStatusEffects");
+        if (localStatusEffects) {
+            setConsiderStatusEffects(JSON.parse(localStatusEffects));
+        }
+
+        const localTwoHanded = localStorage.getItem("localTwoHanded");
+        if (localTwoHanded) {
+            setTwoHanded(JSON.parse(localTwoHanded));
+        }
+
+        const localInfusions = localStorage.getItem("localInfusions");
+        if (localInfusions) {
+            setInfusions(JSON.parse(localInfusions));
+        }
+
+        const localAttackPowerTypeMode = localStorage.getItem(
+            "localAttackPowerTypeMode"
+        );
+        if (localAttackPowerTypeMode) {
+            setAttackPowerTypeMode(JSON.parse(localAttackPowerTypeMode));
+        }
+
+        const localAttackPowerTypesInclude = localStorage.getItem(
+            "localAttackPowerTypesInclude"
+        );
+        if (localAttackPowerTypesInclude) {
+            setAttackPowerTypesInclude(
+                JSON.parse(localAttackPowerTypesInclude)
+            );
+        }
+
+        const localAttackPowerTypes = localStorage.getItem(
+            "localAttackPowerTypes"
+        );
+        if (localAttackPowerTypes) {
+            setAttackPowerTypes(JSON.parse(localAttackPowerTypes));
+        }
+
+        const localCategories = localStorage.getItem("localCategories");
+        if (localCategories) {
+            setCategories(JSON.parse(localCategories));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("localStats", JSON.stringify(stats));
+    }, [stats]);
+
+    useEffect(() => {
+        localStorage.setItem("localReinforced", JSON.stringify(reinforced));
+    }, [reinforced]);
+
+    useEffect(() => {
+        localStorage.setItem("localRequireStats", JSON.stringify(requireStats));
+    }, [requireStats]);
+
+    useEffect(() => {
+        localStorage.setItem("localBuffableOnly", JSON.stringify(buffableOnly));
+    }, [buffableOnly]);
+
+    useEffect(() => {
+        localStorage.setItem("localSplitDamage", JSON.stringify(splitDamage));
+    }, [splitDamage]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localStatusEffects",
+            JSON.stringify(considerStatusEffects)
+        );
+    }, [considerStatusEffects]);
+
+    useEffect(() => {
+        localStorage.setItem("localTwoHanded", JSON.stringify(twoHanded));
+    }, [twoHanded]);
+
+    useEffect(() => {
+        localStorage.setItem("localInfusions", JSON.stringify(infusions));
+    }, [infusions]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypeMode",
+            JSON.stringify(attackPowerTypeMode)
+        );
+    }, [attackPowerTypeMode]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypesInclude",
+            JSON.stringify(attackPowerTypesInclude)
+        );
+    }, [attackPowerTypesInclude]);
+
+    useEffect(() => {
+        localStorage.setItem(
+            "localAttackPowerTypes",
+            JSON.stringify(attackPowerTypes)
+        );
+    }, [attackPowerTypes]);
+
+    useEffect(() => {
+        localStorage.setItem("localCategories", JSON.stringify(categories));
+    }, [categories]);
+
     // EFFECTS
     useEffect(() => {
         let filtered = mapWeapons(
@@ -350,14 +491,14 @@ export default function Weapons() {
             twoHanded,
             requireStats,
             categories,
-            infusions,
+            { ...infusions, unique: infusions.standard },
             buffableOnly,
             splitDamage,
             attackPowerTypesInclude,
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            statusEffects
+            considerStatusEffects
         );
         filtered.forEach((weapon) => {
             if (weapon.max == 0) {
@@ -378,7 +519,7 @@ export default function Weapons() {
         attackPowerTypesInclude,
         attackPowerTypeMode,
         attackPowerTypes,
-        statusEffects,
+        considerStatusEffects,
     ]);
 
     // RENDER
@@ -390,10 +531,11 @@ export default function Weapons() {
             <main>
                 <div className="app">
                     {/* <!-- parameters --> */}
-                    <article style={{ flexBasis: "15%" }}>
+                    <article style={{ flexBasis: "20%" }}>
                         <div>
                             <b>Parameters</b>
                             <button
+                                id="reset-all"
                                 onClick={resetAll}
                                 style={{ marginBottom: "0px" }}
                             >
@@ -401,57 +543,59 @@ export default function Weapons() {
                             </button>
                         </div>
                         <hr />
-                        {Object.keys(stats).map((statId: string) => (
-                            <div key={statId}>
-                                <label htmlFor="str">{statId}</label>
-                                <input
-                                    id={statId.toLowerCase()}
-                                    type="number"
-                                    name="stat"
-                                    value={stats[statId]}
-                                    min={0}
-                                    max={99}
-                                    onChange={(event) => {
-                                        updateStats(
-                                            statId,
-                                            +event.target.value
-                                        );
-                                    }}
-                                />
-                            </div>
-                        ))}
+                        {(Object.keys(stats) as StatMapKey[]).map(
+                            (statId: StatMapKey) => (
+                                <div key={statId}>
+                                    <label htmlFor={statId.toLowerCase()}>
+                                        {statId}
+                                    </label>
+                                    <input
+                                        id={statId.toLowerCase()}
+                                        type="number"
+                                        name="stat"
+                                        value={stats[statId]}
+                                        min={0}
+                                        max={99}
+                                        onChange={(event) => {
+                                            updateStats(
+                                                statId,
+                                                +event.target.value
+                                            );
+                                        }}
+                                        style={{
+                                            minWidth: "24px",
+                                            minHeight: "24px",
+                                        }}
+                                    />
+                                </div>
+                            )
+                        )}
                         <hr />
                         <b>Reinforcement</b>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="max-upgrade"
                                     name="upgrade-level"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setReinforced(true);
                                     }}
                                     checked={reinforced}
+                                    label="Reinforced (+10 or +25)"
                                 />
-                                <label htmlFor="max-upgrade">
-                                    Reinforced (+10 or +25)
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="min-upgrade"
                                     name="upgrade-level"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setReinforced(false);
                                     }}
                                     checked={!reinforced}
+                                    label="Not Reinforced (+0)"
                                 />
-                                <label htmlFor="min-upgrade">
-                                    Not Reinforced (+0)
-                                </label>
                             </span>
                         </div>
                         <hr />
@@ -465,7 +609,13 @@ export default function Weapons() {
                                     }}
                                     checked={requireStats}
                                 />
-                                <label htmlFor="requirements">
+                                <label
+                                    htmlFor="requirements"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Requirements Met
                                 </label>
                             </span>
@@ -480,7 +630,15 @@ export default function Weapons() {
                                     }}
                                     checked={buffableOnly}
                                 />
-                                <label htmlFor="buffable">Buffable Only</label>
+                                <label
+                                    htmlFor="buffable"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
+                                    Buffable Only
+                                </label>
                             </span>
                         </div>
                         <div>
@@ -493,7 +651,13 @@ export default function Weapons() {
                                     }}
                                     checked={splitDamage}
                                 />
-                                <label htmlFor="split-damage">
+                                <label
+                                    htmlFor="split-damage"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Allow Split Damage
                                 </label>
                             </span>
@@ -504,11 +668,19 @@ export default function Weapons() {
                                     type="checkbox"
                                     id="status-effects"
                                     onChange={(event) => {
-                                        setStatusEffects(event.target.checked);
+                                        setConsiderStatusEffects(
+                                            event.target.checked
+                                        );
                                     }}
-                                    checked={statusEffects}
+                                    checked={considerStatusEffects}
                                 />
-                                <label htmlFor="status-effects">
+                                <label
+                                    htmlFor="status-effects"
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Consider Status Effects
                                 </label>
                             </span>
@@ -517,51 +689,63 @@ export default function Weapons() {
                         <b>Handedness</b>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="2h-never"
                                     name="handedness"
-                                    onChange={(event) => {
+                                    onClick={(event) => {
                                         setTwoHanded(!event.target.checked);
                                     }}
                                     checked={!twoHanded}
+                                    label="One-handing"
                                 />
-                                <label htmlFor="2h-never">One-handing</label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
+                                <InputRadio
                                     id="2h-always"
-                                    type="radio"
                                     name="handedness"
-                                    onChange={(event) => {
+                                    onClick={(event) => {
                                         setTwoHanded(event.target.checked);
                                     }}
                                     checked={twoHanded}
+                                    label="Two-handing"
                                 />
-                                <label htmlFor="2h-always">Two-handing</label>
                             </span>
                         </div>
                         <hr />
                         <div>
                             <b>Infusions</b>
                             <span>
-                                <button onClick={() => setAllInfusions(true)}>
+                                <button
+                                    id="infusion-any"
+                                    onClick={() => setAllInfusions(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Any
                                 </button>
-                                <button onClick={() => setAllInfusions(false)}>
+                                <button
+                                    id="infusion-none"
+                                    onClick={() => setAllInfusions(false)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     None
                                 </button>
                             </span>
                         </div>
-                        {Object.keys(infusions)
+                        {(Object.keys(infusions) as InfusionMapKey[])
                             .filter((i) => i != "unique")
-                            .map((key: string, i) => (
+                            .map((key: InfusionMapKey, i) => (
                                 <div key={key}>
                                     <span>
                                         <input
-                                            id={key + "-infusion"}
+                                            id={"infusion-" + key}
                                             value={key}
                                             type="checkbox"
                                             name="infusion"
@@ -573,7 +757,13 @@ export default function Weapons() {
                                             }}
                                             checked={infusions[key]}
                                         />
-                                        <label htmlFor={key}>
+                                        <label
+                                            htmlFor={key + "-infusion"}
+                                            style={{
+                                                minWidth: "24px",
+                                                minHeight: "24px",
+                                            }}
+                                        >
                                             {INFUSION_NAMES[i]}
                                         </label>
                                     </span>
@@ -584,16 +774,26 @@ export default function Weapons() {
                             <b>Attack Power Types</b>
                             <span>
                                 <button
+                                    id="attack-power-any"
                                     onClick={() => {
                                         setAllAttackPowerTypes(true);
+                                    }}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
                                     }}
                                 >
                                     Any
                                 </button>
                                 <button
+                                    id="attack-power-none"
                                     onClick={() =>
                                         setAllAttackPowerTypes(false)
                                     }
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     None
                                 </button>
@@ -602,7 +802,12 @@ export default function Weapons() {
                         <div>
                             <span style={{ width: "100%" }}>
                                 <button
-                                    style={{ width: "100%" }}
+                                    id="attack-power-include"
+                                    style={{
+                                        width: "100%",
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                     onClick={() =>
                                         setAttackPowerTypesInclude(
                                             !attackPowerTypesInclude
@@ -617,11 +822,10 @@ export default function Weapons() {
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-any"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
                                             ATTACK_POWER_TYPE_MODE_ANY
                                         );
@@ -630,40 +834,34 @@ export default function Weapons() {
                                         attackPowerTypeMode ===
                                         ATTACK_POWER_TYPE_MODE_ANY
                                     }
+                                    label="ANY of the following"
                                 />
-                                <label htmlFor="attack-power-type-any">
-                                    ANY of the following
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-all"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
-                                            ATTACK_POWER_TYPE_MODE_All
+                                            ATTACK_POWER_TYPE_MODE_ALL
                                         );
                                     }}
                                     checked={
                                         attackPowerTypeMode ===
-                                        ATTACK_POWER_TYPE_MODE_All
+                                        ATTACK_POWER_TYPE_MODE_ALL
                                     }
+                                    label="ALL of the following"
                                 />
-                                <label htmlFor="attack-power-type-all">
-                                    ALL of the following
-                                </label>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <input
-                                    type="radio"
+                                <InputRadio
                                     id="attack-power-type-exactly"
                                     name="attack-power-type-mode"
-                                    onChange={() => {
+                                    onClick={() => {
                                         setAttackPowerTypeMode(
                                             ATTACK_POWER_TYPE_MODE_EXACTLY
                                         );
@@ -672,17 +870,19 @@ export default function Weapons() {
                                         attackPowerTypeMode ===
                                         ATTACK_POWER_TYPE_MODE_EXACTLY
                                     }
+                                    label="EXACTLY the following"
                                 />
-                                <label htmlFor="attack-power-type-exactly">
-                                    EXACTLY the following
-                                </label>
                             </span>
                         </div>
-                        {Object.keys(attackPowerTypes).map((key: string, i) => (
+                        {(
+                            Object.keys(
+                                attackPowerTypes
+                            ) as AttackPowerTypeMapKey[]
+                        ).map((key: AttackPowerTypeMapKey, i) => (
                             <div key={key}>
                                 <span>
                                     <input
-                                        id={key + "-attack-power-type"}
+                                        id={"attack-power-type-" + key}
                                         value={key}
                                         type="checkbox"
                                         name="attack-power-type"
@@ -694,7 +894,13 @@ export default function Weapons() {
                                         }}
                                         checked={attackPowerTypes[key]}
                                     />
-                                    <label htmlFor={key}>
+                                    <label
+                                        htmlFor={key + "-attack-power-type"}
+                                        style={{
+                                            minWidth: "24px",
+                                            minHeight: "24px",
+                                        }}
+                                    >
                                         {ATTACK_POWER_TYPE_NAMES[i]}
                                     </label>
                                 </span>
@@ -702,77 +908,108 @@ export default function Weapons() {
                         ))}
                     </article>
                     {/* <!-- results --> */}
-                    <article style={{ flexBasis: "55%" }}>
+                    <article style={{ flexBasis: "60%" }}>
                         <b>Attack Power</b>
                         <div style={{ overflow: "auto" }}>
-                            <table>
+                            <table
+                                style={{ minWidth: "100%", minHeight: "100%" }}
+                            >
                                 <thead>
                                     <tr>
+                                        <th>
+                                            <b style={{ userSelect: "none" }}>
+                                                Rank
+                                            </b>
+                                        </th>
                                         <th style={{ minWidth: "2rem" }}>
                                             <b style={{ userSelect: "none" }}>
                                                 Weapon
                                             </b>
                                         </th>
-                                        <th>
-                                            <b
-                                                onClick={() => {
-                                                    sortBy.dmgType == "max"
-                                                        ? setSortBy({
-                                                              ...sortBy,
-                                                              desc: !sortBy.desc,
-                                                          })
-                                                        : setSortBy({
-                                                              dmgType: "max",
-                                                              desc: true,
-                                                          });
-                                                }}
-                                                onMouseOver={(event) =>
-                                                    (event.currentTarget.style.cursor =
-                                                        "pointer")
-                                                }
-                                                style={{ userSelect: "none" }}
-                                            >
-                                                {" "}
-                                                Max{" "}
-                                            </b>
+                                        <th
+                                            id="max"
+                                            onClick={() => {
+                                                sortBy.column == "max"
+                                                    ? setSortBy({
+                                                          ...sortBy,
+                                                          desc: !sortBy.desc,
+                                                      })
+                                                    : setSortBy({
+                                                          column: "max",
+                                                          desc: true,
+                                                      });
+                                            }}
+                                            onMouseOver={(event) =>
+                                                (event.currentTarget.style.cursor =
+                                                    "pointer")
+                                            }
+                                            style={{ userSelect: "none" }}
+                                        >
+                                            <b> Max </b>
                                         </th>
                                         {Object.entries(INFUSIONS)
                                             .filter(([key]) => key != "unique")
-                                            .map(([key, value]) => (
-                                                <th key={key} id={key}>
-                                                    <Image
-                                                        src={
-                                                            "/icons/" +
-                                                            key +
-                                                            ".jpg"
-                                                        }
-                                                        style={{
-                                                            maxWidth: "20px",
-                                                        }}
-                                                        width={20}
-                                                        height={20}
-                                                        title={value.name}
-                                                        alt={value.name}
+                                            .map(
+                                                ([key, value]: [
+                                                    string,
+                                                    InfusionData
+                                                ]) => (
+                                                    <th
+                                                        key={key}
+                                                        id={key}
                                                         onClick={() => {
-                                                            sortBy.dmgType ==
-                                                            key
+                                                            sortBy.column == key
                                                                 ? setSortBy({
                                                                       ...sortBy,
                                                                       desc: !sortBy.desc,
                                                                   })
                                                                 : setSortBy({
-                                                                      dmgType:
-                                                                          key,
+                                                                      column: key as InfusionMapKey,
                                                                       desc: true,
                                                                   });
                                                         }}
-                                                    />
-                                                </th>
-                                            ))}
+                                                    >
+                                                        <Image
+                                                            src={
+                                                                "/icons/infusions/" +
+                                                                key +
+                                                                ".jpg"
+                                                            }
+                                                            style={{
+                                                                maxWidth:
+                                                                    "20px",
+                                                            }}
+                                                            width={20}
+                                                            height={20}
+                                                            title={value.name}
+                                                            alt={value.name}
+                                                        />
+                                                    </th>
+                                                )
+                                            )}
                                     </tr>
                                 </thead>
-                                <tbody id="weapons">
-                                    {mapResults(results, sortBy)}
+                                <tbody
+                                    id="weapons"
+                                    style={{ minHeight: "100%" }}
+                                >
+                                    {results.length
+                                        ? mapResults(results, sortBy)
+                                        : // preload 20 skeleton rows
+                                          Array(20)
+                                              .fill(0)
+                                              .map((_, i) => (
+                                                  <WeaponResultRow
+                                                      key={i}
+                                                      weaponName={
+                                                          "No Results..."
+                                                      }
+                                                      attackRatings={{}}
+                                                      max={0}
+                                                      arBreakdown={{}}
+                                                      rank={i + 1}
+                                                  />
+                                              ))}
                                 </tbody>
                             </table>
                         </div>
@@ -782,10 +1019,24 @@ export default function Weapons() {
                         <div>
                             <b>Categories</b>
                             <span>
-                                <button onClick={() => setAllCategories(true)}>
+                                <button
+                                    id="category-any"
+                                    onClick={() => setAllCategories(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     Any
                                 </button>
-                                <button onClick={() => setAllCategories(false)}>
+                                <button
+                                    id="category-none"
+                                    onClick={() => setAllCategories(false)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
+                                >
                                     None
                                 </button>
                             </span>
@@ -795,21 +1046,31 @@ export default function Weapons() {
                             <b>Weapons</b>
                             <span>
                                 <button
+                                    id="category-weapon-any"
                                     onClick={() => setAllWeaponCategories(true)}
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     Any
                                 </button>
                                 <button
+                                    id="category-weapon-none"
                                     onClick={() =>
                                         setAllWeaponCategories(false)
                                     }
+                                    style={{
+                                        minWidth: "24px",
+                                        minHeight: "24px",
+                                    }}
                                 >
                                     None
                                 </button>
                             </span>
                         </div>
-                        {Object.keys(categories).map(
-                            (categoryId: string, i: number) =>
+                        {(Object.keys(categories) as CategoryMapKey[]).map(
+                            (categoryId: CategoryMapKey, i: number) =>
                                 i == CATEGORY_NAMES[0].length
                                     ? [
                                           <hr key={"hr_" + categoryId} />,
