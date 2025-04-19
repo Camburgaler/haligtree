@@ -36,7 +36,7 @@ html {
 
 @font-face {
     font-family: "Mantinia";
-    src: url("/fonts/Mantinia.otf") format("truetype");
+    src: url("/fonts/Mantinia Regular.otf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }
