@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { JSX } from "react/jsx-runtime";
 import FormulaField from "./FormulaField";
 import { SortByArmor, unmarshallSortBy } from "./sorting";
 
@@ -6,7 +7,7 @@ export function CustomizeSortBy(props: {
     closePopUp: () => void;
     setCustomSortBy: (newSortBy: SortByArmor) => void;
     sortBy: SortByArmor;
-}) {
+}): JSX.Element {
     const [descriptionIsExpanded, setDescriptionIsExpanded] =
         useState<boolean>(true);
 
@@ -83,7 +84,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 ( X )
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         The parentheses will group things into
                                         one value. This is useful for separating
                                         values when trying to ensure an order of
@@ -94,7 +100,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 AVG( X X ... )
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will average all space-separated
                                         values inside the parentheses. Note that
                                         more than one value is required.
@@ -104,7 +115,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 SUM( X X ... )
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will sum all space-separated values
                                         inside the parentheses. Note that more
                                         than one value is required.
@@ -114,7 +130,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 MULT( X X ... )
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will multiply all space-separated
                                         values inside the parentheses. Note that
                                         more than one value is required.
@@ -124,7 +145,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 PHYSICAL
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Physical Absorption.
                                     </li>
@@ -133,7 +159,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 STRIKE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Strike Absorption.
                                     </li>
@@ -142,7 +173,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 SLASH
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Slash Absorption.
                                     </li>
@@ -151,7 +187,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 PIERCE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Pierce Absorption.
                                     </li>
@@ -160,7 +201,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 MAGIC
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Magic Absorption.
                                     </li>
@@ -169,7 +215,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 FIRE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Fire Absorption.
                                     </li>
@@ -178,7 +229,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 LIGHTNING
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Lightning Absorption.
                                     </li>
@@ -187,7 +243,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 HOLY
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of an armor
                                         piece&#39;s Holy Absorption.
                                     </li>
@@ -196,7 +257,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 POISON
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Poison Resistance.
                                     </li>
@@ -205,7 +271,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 SCARLETROT
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Scarlet Rot Resistance.
                                     </li>
@@ -214,7 +285,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 HEMORRHAGE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Hemorrhage Resistance.
                                     </li>
@@ -223,7 +299,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 FROSTBITE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Frostbite Resistance.
                                     </li>
@@ -232,7 +313,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 SLEEP
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Sleep Resistance.
                                     </li>
@@ -241,7 +327,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 MADNESS
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Madness Resistance.
                                     </li>
@@ -250,7 +341,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 DEATHBLIGHT
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Death Blight Resistance.
                                     </li>
@@ -259,7 +355,12 @@ export function CustomizeSortBy(props: {
                             <li>
                                 POISE
                                 <ul>
-                                    <li>
+                                    <li
+                                        style={{
+                                            whiteSpace: "pre-wrap",
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
                                         This will use the value of the armor
                                         piece&#39;s Poise.
                                     </li>
