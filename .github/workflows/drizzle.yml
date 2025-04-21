@@ -6,8 +6,9 @@ on:
             - "**" # Runs on all branches
 
 jobs:
-    test:
+    push-schema:
         runs-on: ubuntu-latest
+        environment: Preview
 
         steps:
             - name: Checkout repository
