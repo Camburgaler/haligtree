@@ -25,7 +25,10 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Echo environment
+              run: echo "${{ github.env }}"
+
             - name: Push schema
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-              run: printenv | grep DATABASE && npm run drizzle:push
+              run: npm run drizzle:push
