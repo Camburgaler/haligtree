@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 
 const authOptions: NextAuthOptions = {
     providers: [
@@ -21,10 +20,10 @@ const authOptions: NextAuthOptions = {
                 return null;
             },
         }),
-        Google({
-            clientId: process.env.AUTH_GOOGLE_ID!,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET!,
-        }),
+        // Google({
+        //     clientId: process.env.AUTH_GOOGLE_ID!,
+        //     clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+        // }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
     // database: process.env.DATABASE_URL, // Optional: Database for user persistence
