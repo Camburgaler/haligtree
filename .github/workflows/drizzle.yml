@@ -26,9 +26,6 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Echo environment
-              run: echo "${{ github.env }}"
-
             - name: Push schema
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
