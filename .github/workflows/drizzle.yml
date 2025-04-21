@@ -26,6 +26,6 @@ jobs:
               run: npm install
 
             - name: Push schema
-              run: npm run drizzle:push
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+              run: printenv | grep DATABASE && npm run drizzle:push
