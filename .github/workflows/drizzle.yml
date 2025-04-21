@@ -27,3 +27,5 @@ jobs:
 
             - name: Push schema
               run: npm run drizzle:push
+              env:
+                  DATABASE_URL: $secrets.DATABASE_URL
