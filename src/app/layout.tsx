@@ -27,8 +27,8 @@ export default function RootLayout({
     const VERSION = require("../../package.json").version;
     let nonce = "";
     headers().then((headers) => {
-        nonce = headers.get("x-nonce") || "";
-    }) || "";
+        nonce = headers.get("x-nonce")!;
+    });
     return (
         <html lang="en">
             <body>

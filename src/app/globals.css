@@ -4,6 +4,7 @@
     --secondary: rgba(0, 0, 0, 0.075);
     --contrast: black;
     --accent: #005f61;
+    --error: orange;
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -11,6 +12,7 @@
         --secondary: #212121;
         --contrast: white;
         --accent: #f1a639;
+        --error: cyan;
     }
 }
 

@@ -1,0 +1,59 @@
+name: Push Database Schema
+
+on:
+    push:
+        branches:
+            - "**" # Runs on all branches
+
+jobs:
+    push-schema-preview:
+        runs-on: ubuntu-latest
+        if: github.ref != 'refs/heads/master'
+        environment: Preview
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+
+            - name: Clean NPM Cache
+              run: npm cache clean --force
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Push schema
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+              run: npm run drizzle:push
+
+    push-schema-production:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/master'
+        environment: Production
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: "npm"
+
+            - name: Clean NPM Cache
+              run: npm cache clean --force
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Push schema
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+              run: npm run drizzle:push
