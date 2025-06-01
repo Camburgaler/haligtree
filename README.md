@@ -50,3 +50,7 @@ Data and images from Elden Ring which are used in this project are the property 
 Based on [erdtree](https://github.com/vodofrede/erdtree) by [@vodofrede](https://github.com/vodofrede)
 
 Weapon attack rating calculations feature some cannibalization of [Elden Ring Weapon Calculator](https://github.com/ThomasJClark/elden-ring-weapon-calculator) by [Thomas J Clark](https://github.com/ThomasJClark).
+
+Authentication provided by [Auth0](https://auth0.com).
+
+Mantinia Regular font provided by [fontsgeek.com](https://fontsgeek.com).
