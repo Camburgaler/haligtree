@@ -1,0 +1,4 @@
+{
+    "app_name": "Haligtree",
+    "description": "Forked from another project that was written in CommonJS, this version is rewritten from scratch in Next.JS, includes more features, and gained some optimizations. It exists to assist in planning and optimizing character builds in Elden Ring. There are three main pages: a class selector, an armor optimizer, and a weapon finder. The class selector finds the optimal starting class for your build. The armor optimizer displays the three best armor sets within your equip load budget, and does so with an efficient knapsack algorithm. The weapon finder allows you to filter weapons and ranks them based on damage output. To see my future plans for this app, please see the (Github issues)[https://github.com/Camburgaler/haligtree/issues] page."
+}
