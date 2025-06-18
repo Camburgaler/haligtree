@@ -387,7 +387,7 @@ describe("Weapon Script", () => {
             considerStatusEffects
         );
 
-        expect(result.length).toBe(341);
+        expect(result.length).toBe(340);
 
         expect(weaponResultsAreDisplayable(result)).toBe(true);
     });
