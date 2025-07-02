@@ -1,6 +1,6 @@
 {
     "name": "haligtree",
-    "version": "2.11.4",
+    "version": "2.11.6",
     "private": true,
     "scripts": {
         "dev": "next dev",
