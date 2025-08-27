@@ -16,7 +16,7 @@
         "@tailwindcss/postcss": "^4.1.12",
         "@vercel/analytics": "^1",
         "@vercel/speed-insights": "^1",
-        "core-js": "^3.44.0",
+        "core-js": "^3.45.1",
         "next": "^15.3.5",
         "react": "^19",
         "react-dom": "^19",
