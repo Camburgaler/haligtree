@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
 import { CHESTPIECES, GAUNTLETS, HELMETS, LEGGINGS } from "../util/constants";
 import Armor from "../util/types/armor";
 import ArmorSet from "../util/types/armorSet";

@@ -28,6 +28,7 @@ import Armor from "@/app/util/types/armor";
 import ArmorSet from "@/app/util/types/armorSet";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deepCloneAndMap } from "../util/script";
+import ArmorCanvas from "./components/ArmorCanvas";
 import { CustomizeSortBy } from "./components/customSortBy/CustomizeSortBy";
 import {
     SORTBYARMOR_MODES,
@@ -62,6 +63,7 @@ export default function ArmorPage() {
     );
     const [bossSortBy, setBossSortBy] =
         useState<SortByBossKey>("abductor-virgins");
+    const [viewerCollapsed, setViewerCollapsed] = useState(true);
 
     const hotkeyGroups = useMemo(
         () => [
@@ -305,293 +307,327 @@ export default function ArmorPage() {
             <main>
                 <div className="app">
                     {/* <!-- settings --> */}
-                    <article style={{ flexBasis: "25%" }}>
-                        <b>Settings</b>
-                        <hr />
-                        <InputNumber
-                            label="Max. Equip Load"
-                            className="stat"
-                            id="max-equip-load"
-                            onChange={(event) => {
-                                if (event.target.value == "") {
-                                    event.target.value = "0";
-                                }
-                                setMaxEquipLoad(parseFloat(event.target.value));
-                            }}
-                            value={maxEquipLoad}
-                            name="equip-load"
-                        />
-                        <InputNumber
-                            label="Current Equip Load"
-                            className="stat"
-                            id="current-equip-load"
-                            onChange={(event) => {
-                                if (event.target.value == "") {
-                                    event.target.value = "0";
-                                }
-                                setCurrentEquipLoad(
-                                    parseFloat(event.target.value)
-                                );
-                            }}
-                            value={currentEquipLoad}
-                            name="equip-load"
-                        />
-                        <InputNumber
-                            label="Equip Load Budget"
-                            className="stat"
-                            id="equip-load-budget"
-                            value={equipLoadBudget}
-                            name="equip-load"
-                            disabled
-                        />
-                        <hr />
-                        <b>Breakpoints</b>
-                        <InputRadio
-                            label="Fast Roll (up to 30% equip load)"
-                            id="fast-roll"
-                            onClick={() => setBreakpoint(0.3)}
-                            name="roll-type"
-                            checked={breakpoint === 0.3}
-                        />
-                        <InputRadio
-                            label="Normal Roll (up to 70% equip load)"
-                            id="normal-roll"
-                            onClick={() => setBreakpoint(0.7)}
-                            name="roll-type"
-                            checked={breakpoint === 0.7}
-                        />
-                        <InputRadio
-                            label="Fat Roll (up to 100% equip load)"
-                            id="fat-roll"
-                            onClick={() => setBreakpoint(1.0)}
-                            name="roll-type"
-                            checked={breakpoint === 1.0}
-                        />
-                        <hr />
-                        <b>Sort by</b>
-                        {Object.entries(SORTBYARMOR_MODES).map(
-                            ([key, value]) => {
-                                return (
-                                    <InputRadio
-                                        key={key}
-                                        label={value.label}
-                                        id={key}
-                                        onClick={() => setSortBy(key)}
-                                        name="sorting-order"
-                                        checked={sortBy === key}
-                                    />
-                                );
-                            }
-                        )}
-                        <div>
+                    <div style={{ flexBasis: "25%", maxWidth: "32%" }}>
+                        <article style={{ width: "100%" }}>
                             <div>
-                                <input
-                                    type="radio"
-                                    id="boss"
-                                    onChange={() => setSortBy("boss")}
-                                    name={"sorting-order"}
-                                    value={"boss"}
-                                    checked={sortBy === "boss"}
-                                />
-                                <label
-                                    htmlFor={"boss"}
-                                    style={{
-                                        color:
-                                            sortBy === "boss"
-                                                ? "var(--accent)"
-                                                : "var(--contrast)",
-                                    }}
-                                >
-                                    Boss
-                                </label>{" "}
-                                <select
-                                    id="boss-select"
-                                    itemType="text"
-                                    onChange={(e) =>
-                                        setBossSortBy(e.target.value)
-                                    }
-                                    aria-label="boss select"
-                                    style={{
-                                        minHeight: "24px",
-                                        minWidth: "24px",
-                                    }}
-                                >
-                                    {SORTBYBOSS_KEYS.map((item: string) => {
-                                        return (
-                                            <option key={item} value={item}>
-                                                {SORTBYBOSS_MODES[item].label}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <input
-                                    type="radio"
-                                    id="custom"
-                                    onChange={() => setSortBy("custom")}
-                                    name={"sorting-order"}
-                                    value={"custom"}
-                                    checked={sortBy === "custom"}
-                                />
-                                <label
-                                    htmlFor={"custom"}
-                                    style={{
-                                        color:
-                                            sortBy === "custom"
-                                                ? "var(--accent)"
-                                                : "var(--contrast)",
-                                    }}
-                                >
-                                    Custom
-                                </label>{" "}
+                                <b>Viewer</b>
                                 <button
-                                    onClick={() => setCustomizeSortBy(true)}
-                                    style={{
-                                        minHeight: "24px",
-                                        minWidth: "24px",
-                                    }}
+                                    onClick={() =>
+                                        setViewerCollapsed(!viewerCollapsed)
+                                    }
                                 >
-                                    Customize
+                                    {viewerCollapsed ? "Expand" : "Collapse"}
                                 </button>
                             </div>
-                        </div>
-                        <hr />
-                        <div>
-                            <b>Locked Armor</b>
-                            <button
-                                id="clear-equipment"
-                                onClick={() =>
-                                    setLockedItems({
-                                        helmet: undefined,
-                                        chestpiece: undefined,
-                                        gauntlets: undefined,
-                                        leggings: undefined,
-                                    })
+                            <hr />
+                            {!viewerCollapsed && <ArmorCanvas />}
+                        </article>
+                        <article>
+                            <b>Settings</b>
+                            <hr />
+                            <InputNumber
+                                label="Max. Equip Load"
+                                className="stat"
+                                id="max-equip-load"
+                                onChange={(event) => {
+                                    if (event.target.value == "") {
+                                        event.target.value = "0";
+                                    }
+                                    setMaxEquipLoad(
+                                        parseFloat(event.target.value)
+                                    );
+                                }}
+                                value={maxEquipLoad}
+                                name="equip-load"
+                            />
+                            <InputNumber
+                                label="Current Equip Load"
+                                className="stat"
+                                id="current-equip-load"
+                                onChange={(event) => {
+                                    if (event.target.value == "") {
+                                        event.target.value = "0";
+                                    }
+                                    setCurrentEquipLoad(
+                                        parseFloat(event.target.value)
+                                    );
+                                }}
+                                value={currentEquipLoad}
+                                name="equip-load"
+                            />
+                            <InputNumber
+                                label="Equip Load Budget"
+                                className="stat"
+                                id="equip-load-budget"
+                                value={equipLoadBudget}
+                                name="equip-load"
+                                disabled
+                            />
+                            <hr />
+                            <b>Breakpoints</b>
+                            <InputRadio
+                                label="Fast Roll (up to 30% equip load)"
+                                id="fast-roll"
+                                onClick={() => setBreakpoint(0.3)}
+                                name="roll-type"
+                                checked={breakpoint === 0.3}
+                            />
+                            <InputRadio
+                                label="Normal Roll (up to 70% equip load)"
+                                id="normal-roll"
+                                onClick={() => setBreakpoint(0.7)}
+                                name="roll-type"
+                                checked={breakpoint === 0.7}
+                            />
+                            <InputRadio
+                                label="Fat Roll (up to 100% equip load)"
+                                id="fat-roll"
+                                onClick={() => setBreakpoint(1.0)}
+                                name="roll-type"
+                                checked={breakpoint === 1.0}
+                            />
+                            <hr />
+                            <b>Sort by</b>
+                            {Object.entries(SORTBYARMOR_MODES).map(
+                                ([key, value]) => {
+                                    return (
+                                        <InputRadio
+                                            key={key}
+                                            label={value.label}
+                                            id={key}
+                                            onClick={() => setSortBy(key)}
+                                            name="sorting-order"
+                                            checked={sortBy === key}
+                                        />
+                                    );
                                 }
-                                style={{ minHeight: "24px", minWidth: "24px" }}
-                            >
-                                Reset All
-                            </button>
-                        </div>
-                        <InputSelect
-                            label="Helmet"
-                            id="locked-helmet"
-                            name={LOCKED_ARMOR_SELECT_NAME}
-                            onChange={(event) => {
-                                setLockedItems({
-                                    ...lockedItems,
-                                    helmet: HELMETS.find(
-                                        (item) => item.id === event.target.value
-                                    )!,
-                                });
-                            }}
-                            options={HELMETS}
-                            value={lockedItems.helmet?.id}
-                        />
-                        <InputSelect
-                            label="Chestpiece"
-                            id="locked-chestpiece"
-                            name={LOCKED_ARMOR_SELECT_NAME}
-                            onChange={(event) => {
-                                setLockedItems({
-                                    ...lockedItems,
-                                    chestpiece: CHESTPIECES.find(
-                                        (item) => item.id === event.target.value
-                                    )!,
-                                });
-                            }}
-                            options={CHESTPIECES}
-                            value={lockedItems.chestpiece?.id}
-                        />
-                        <InputSelect
-                            label="Gauntlets"
-                            id="locked-gauntlets"
-                            name={LOCKED_ARMOR_SELECT_NAME}
-                            onChange={(event) => {
-                                setLockedItems({
-                                    ...lockedItems,
-                                    gauntlets: GAUNTLETS.find(
-                                        (item) => item.id === event.target.value
-                                    )!,
-                                });
-                            }}
-                            options={GAUNTLETS}
-                            value={lockedItems.gauntlets?.id}
-                        />
-                        <InputSelect
-                            label="Leggings"
-                            id="locked-leggings"
-                            name={LOCKED_ARMOR_SELECT_NAME}
-                            onChange={(event) => {
-                                setLockedItems({
-                                    ...lockedItems,
-                                    leggings: LEGGINGS.find(
-                                        (item) => item.id === event.target.value
-                                    )!,
-                                });
-                            }}
-                            options={LEGGINGS}
-                            value={lockedItems.leggings?.id}
-                        />
-                        <hr />
-                        <div>
-                            <b>Ignored Armor</b>
-                            <button
-                                id="ignore-all"
-                                onClick={ignoreAll}
-                                style={{ minHeight: "24px", minWidth: "24px" }}
-                            >
-                                Ignore All
-                            </button>
-                            <button
-                                id="restore-all"
-                                onClick={restoreAll}
-                                style={{ minHeight: "24px", minWidth: "24px" }}
-                            >
-                                Restore All
-                            </button>
-                        </div>
-                        <div>
-                            <ul
-                                id="ignored-items"
-                                style={{ listStyle: "none" }}
-                            >
-                                {ignoredItems.map((item: Armor) => (
-                                    <li
-                                        key={item.id}
-                                        style={{ display: "flex" }}
+                            )}
+                            <div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="boss"
+                                        onChange={() => setSortBy("boss")}
+                                        name={"sorting-order"}
+                                        value={"boss"}
+                                        checked={sortBy === "boss"}
+                                    />
+                                    <label
+                                        htmlFor={"boss"}
+                                        style={{
+                                            color:
+                                                sortBy === "boss"
+                                                    ? "var(--accent)"
+                                                    : "var(--contrast)",
+                                        }}
                                     >
-                                        {item.name}
-                                        <button
-                                            onClick={() =>
-                                                setIgnoredItems([
-                                                    ...ignoredItems.filter(
-                                                        (ignoredItem) =>
-                                                            ignoredItem !==
-                                                            ignoredItems.find(
-                                                                (oldItem) =>
-                                                                    oldItem ==
-                                                                    item
-                                                            )!
-                                                    ),
-                                                ])
-                                            }
-                                            style={{
-                                                backgroundColor: "green",
-                                                minWidth: "24px",
-                                                minHeight: "24px",
-                                            }}
+                                        Boss
+                                    </label>{" "}
+                                    <select
+                                        id="boss-select"
+                                        itemType="text"
+                                        onChange={(e) =>
+                                            setBossSortBy(e.target.value)
+                                        }
+                                        aria-label="boss select"
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
+                                    >
+                                        {SORTBYBOSS_KEYS.map((item: string) => {
+                                            return (
+                                                <option key={item} value={item}>
+                                                    {
+                                                        SORTBYBOSS_MODES[item]
+                                                            .label
+                                                    }
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="custom"
+                                        onChange={() => setSortBy("custom")}
+                                        name={"sorting-order"}
+                                        value={"custom"}
+                                        checked={sortBy === "custom"}
+                                    />
+                                    <label
+                                        htmlFor={"custom"}
+                                        style={{
+                                            color:
+                                                sortBy === "custom"
+                                                    ? "var(--accent)"
+                                                    : "var(--contrast)",
+                                        }}
+                                    >
+                                        Custom
+                                    </label>{" "}
+                                    <button
+                                        onClick={() => setCustomizeSortBy(true)}
+                                        style={{
+                                            minHeight: "24px",
+                                            minWidth: "24px",
+                                        }}
+                                    >
+                                        Customize
+                                    </button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div>
+                                <b>Locked Armor</b>
+                                <button
+                                    id="clear-equipment"
+                                    onClick={() =>
+                                        setLockedItems({
+                                            helmet: undefined,
+                                            chestpiece: undefined,
+                                            gauntlets: undefined,
+                                            leggings: undefined,
+                                        })
+                                    }
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
+                                >
+                                    Reset All
+                                </button>
+                            </div>
+                            <InputSelect
+                                label="Helmet"
+                                id="locked-helmet"
+                                name={LOCKED_ARMOR_SELECT_NAME}
+                                onChange={(event) => {
+                                    setLockedItems({
+                                        ...lockedItems,
+                                        helmet: HELMETS.find(
+                                            (item) =>
+                                                item.id === event.target.value
+                                        )!,
+                                    });
+                                }}
+                                options={HELMETS}
+                                value={lockedItems.helmet?.id}
+                            />
+                            <InputSelect
+                                label="Chestpiece"
+                                id="locked-chestpiece"
+                                name={LOCKED_ARMOR_SELECT_NAME}
+                                onChange={(event) => {
+                                    setLockedItems({
+                                        ...lockedItems,
+                                        chestpiece: CHESTPIECES.find(
+                                            (item) =>
+                                                item.id === event.target.value
+                                        )!,
+                                    });
+                                }}
+                                options={CHESTPIECES}
+                                value={lockedItems.chestpiece?.id}
+                            />
+                            <InputSelect
+                                label="Gauntlets"
+                                id="locked-gauntlets"
+                                name={LOCKED_ARMOR_SELECT_NAME}
+                                onChange={(event) => {
+                                    setLockedItems({
+                                        ...lockedItems,
+                                        gauntlets: GAUNTLETS.find(
+                                            (item) =>
+                                                item.id === event.target.value
+                                        )!,
+                                    });
+                                }}
+                                options={GAUNTLETS}
+                                value={lockedItems.gauntlets?.id}
+                            />
+                            <InputSelect
+                                label="Leggings"
+                                id="locked-leggings"
+                                name={LOCKED_ARMOR_SELECT_NAME}
+                                onChange={(event) => {
+                                    setLockedItems({
+                                        ...lockedItems,
+                                        leggings: LEGGINGS.find(
+                                            (item) =>
+                                                item.id === event.target.value
+                                        )!,
+                                    });
+                                }}
+                                options={LEGGINGS}
+                                value={lockedItems.leggings?.id}
+                            />
+                            <hr />
+                            <div>
+                                <b>Ignored Armor</b>
+                                <button
+                                    id="ignore-all"
+                                    onClick={ignoreAll}
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
+                                >
+                                    Ignore All
+                                </button>
+                                <button
+                                    id="restore-all"
+                                    onClick={restoreAll}
+                                    style={{
+                                        minHeight: "24px",
+                                        minWidth: "24px",
+                                    }}
+                                >
+                                    Restore All
+                                </button>
+                            </div>
+                            <div>
+                                <ul
+                                    id="ignored-items"
+                                    style={{ listStyle: "none" }}
+                                >
+                                    {ignoredItems.map((item: Armor) => (
+                                        <li
+                                            key={item.id}
+                                            style={{ display: "flex" }}
                                         >
-                                            {" 🗑"}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </article>
+                                            {item.name}
+                                            <button
+                                                onClick={() =>
+                                                    setIgnoredItems([
+                                                        ...ignoredItems.filter(
+                                                            (ignoredItem) =>
+                                                                ignoredItem !==
+                                                                ignoredItems.find(
+                                                                    (oldItem) =>
+                                                                        oldItem ==
+                                                                        item
+                                                                )!
+                                                        ),
+                                                    ])
+                                                }
+                                                style={{
+                                                    backgroundColor: "green",
+                                                    minWidth: "24px",
+                                                    minHeight: "24px",
+                                                }}
+                                            >
+                                                {" 🗑"}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
                     {/* <!-- sort --> */}
                     <article style={{ flexBasis: "60%", minWidth: "320px" }}>
                         <b>Results</b>
@@ -660,6 +696,11 @@ export default function ArmorPage() {
                         </div>
                     </article>
                     <div>
+                        <h2 style={{ textAlign: "center" }}>Armor Viewer</h2>
+                        <p>
+                            You can now view an armor set without needing to
+                            open Elden Ring! TODO: instructions.
+                        </p>
                         <h2 style={{ textAlign: "center" }}>Boss Sorting</h2>
                         <p>
                             You can sort the armor pieces based on what is most
