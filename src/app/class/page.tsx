@@ -557,7 +557,7 @@ export default function ClassPage() {
                     </p>
                     <ol>
                         <li>
-                            Class base stats, e.g. the stats the class has at
+                            Class base stats, i.e. the stats the class has at
                             its base level.
                         </li>
                         <li>
