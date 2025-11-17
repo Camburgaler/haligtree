@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import Armor from "../util/types/armor";
 import Class from "../util/types/class";
-import Equippable from "../util/types/equippable";
 import StatMap, { StatMapKey } from "../util/types/statMap";
 import Talisman from "../util/types/talisman";
+import { getItemStats, isMutuallyExcluded } from "./script";
 
 // GLOBAL CONSTANTS
 const CLASSES: Class[] = Object.values(require("../data/classes.json"));
@@ -30,12 +30,9 @@ const STAT_LONG_NAMES: StatMap<string> = {
     FTH: "Faith",
     ARC: "Arcane",
 };
-const MUTUALLY_EXCLUSIVE_TALISMANS = [
-    ["radagons-scarseal", "radagons-soreseal"],
-    ["marikas-scarseal", "marikas-soreseal"],
-];
 
 export default function ClassPage() {
+    // Desired stats are user input, and represent the "ideal" stats of a character.
     const [desiredStats, setDesiredStats] = useState<StatMap<number>>({
         VIG: 0,
         END: 0,
@@ -47,51 +44,7 @@ export default function ClassPage() {
         ARC: 0,
     });
 
-    const delta = useCallback(
-        (classStats: StatMap<number>): number => {
-            return (Object.keys(classStats) as StatMapKey[])
-                .map((statId: StatMapKey) =>
-                    classStats[statId]! < desiredStats[statId]!
-                        ? desiredStats[statId]! - classStats[statId]!
-                        : 0
-                )
-                .reduce((total: number, n: number) => total + n);
-        },
-        [desiredStats]
-    );
-
-    const sortClasses = useCallback((): Class[] => {
-        return CLASSES.map((c: Class) => {
-            c.total = c.level + delta(c.stats);
-            return c;
-        }).sort((a: Class, b: Class) => a.total! - b.total!);
-    }, [delta]);
-
-    const [best, setBest] = useState<Class>(CLASSES[0]);
-    const [finalStats, setFinalStats] = useState<StatMap<number>>({
-        VIG: 0,
-        END: 0,
-        MND: 0,
-        STR: 0,
-        DEX: 0,
-        INT: 0,
-        FTH: 0,
-        ARC: 0,
-    });
-    const [virtualStats, setVirtualStats] = useState<StatMap<number>>({
-        VIG: 0,
-        END: 0,
-        MND: 0,
-        STR: 0,
-        DEX: 0,
-        INT: 0,
-        FTH: 0,
-        ARC: 0,
-    });
-    const [sorted, setSorted] = useState<Class[]>(sortClasses());
-    const [equippedTalismans, setEquippedTalismans] = useState<Talisman[]>([]);
-    const [helmet, setHelmet] = useState<Armor>(HELMETS[0]);
-    const [chestpiece, setChestpiece] = useState<Armor>(CHESTPIECES[0]);
+    // Item stats are the stats of the currently selected equipment
     const [itemStats, setItemStats] = useState<StatMap<number>>({
         VIG: 0,
         END: 0,
@@ -103,7 +56,76 @@ export default function ClassPage() {
         ARC: 0,
     });
 
+    // Delta is the difference between the desired stats and the class' stats
+    const delta = useCallback(
+        (classStats: StatMap<number>): number => {
+            return (Object.keys(classStats) as StatMapKey[])
+                .map((statId: StatMapKey) =>
+                    classStats[statId]! <
+                    desiredStats[statId]! - itemStats[statId]!
+                        ? desiredStats[statId]! -
+                          classStats[statId]! -
+                          itemStats[statId]!
+                        : 0
+                )
+                .reduce((total: number, n: number) => total + n);
+        },
+        [desiredStats, itemStats]
+    );
+
+    // Sort classes by ascending delta
+    const sortClasses = useCallback((): Class[] => {
+        return CLASSES.map((c: Class) => {
+            c.total = c.level + delta(c.stats);
+            return c;
+        }).sort((a: Class, b: Class) => a.total! - b.total!);
+    }, [delta]);
+
+    // Optimal class is the class with the lowest delta
+    const [optimalClass, setOptimalClass] = useState<Class>(CLASSES[0]);
+
+    // Final stats are the optimal class's stats after leveling up
+    const [finalStats, setFinalStats] = useState<StatMap<number>>({
+        VIG: 0,
+        END: 0,
+        MND: 0,
+        STR: 0,
+        DEX: 0,
+        INT: 0,
+        FTH: 0,
+        ARC: 0,
+    });
+
+    // Virtual stats are the final stats after adding equipment bonuses
+    const [virtualStats, setVirtualStats] = useState<StatMap<number>>({
+        VIG: 0,
+        END: 0,
+        MND: 0,
+        STR: 0,
+        DEX: 0,
+        INT: 0,
+        FTH: 0,
+        ARC: 0,
+    });
+
+    // Sorted classes are the classes sorted by ascending delta
+    const [sorted, setSorted] = useState<Class[]>(sortClasses());
+
+    // Equipped talismans are the talismans to consider when adding equipment bonuses
+    const [equippedTalismans, setEquippedTalismans] = useState<Talisman[]>([]);
+
+    // Helmet and chestpiece are the helmet and chestpiece to consider when adding equipment bonuses
+    const [helmet, setHelmet] = useState<Armor>(HELMETS[0]);
+    const [chestpiece, setChestpiece] = useState<Armor>(CHESTPIECES[0]);
+
     // STATE UPDATE FUNCTIONS
+
+    /**
+     * Updates the desired stats state with the given statId and value.
+     *
+     * @param {string} statId - The statId to update.
+     * @param {number} value - The value to update the statId with.
+     */
     function updateDesiredStats(statId: string, value: number): void {
         setDesiredStats({
             ...desiredStats,
@@ -111,49 +133,27 @@ export default function ClassPage() {
         });
     }
 
-    function updateEquippedTalismans(value: string, add: boolean): void {
-        setEquippedTalismans(
-            add
-                ? [...equippedTalismans, TALISMANS.find((t) => t.id === value)!]
-                : [...equippedTalismans.filter((t) => t.id !== value)]
-        );
+    /**
+     * Updates the equippedTalismans state by either removing the Talisman
+     * with the given id if it exists, or by adding it if it doesn't.
+     *
+     * @param {string} value - The id of the Talisman to add or remove.
+     */
+    function updateEquippedTalismans(value: string): void {
+        equippedTalismans.find((t) => t.id == value)
+            ? setEquippedTalismans(
+                  equippedTalismans.filter((t) => t.id !== value)
+              )
+            : setEquippedTalismans([
+                  ...equippedTalismans,
+                  TALISMANS.find((t) => t.id === value)!,
+              ]);
     }
 
-    // FUNCTIONS
-    function getItemStats(relevantItems: Equippable[]): StatMap<number> {
-        return relevantItems.reduce(
-            (total: StatMap<number>, item: Equippable) =>
-                (Object.keys(total) as StatMapKey[]).reduce(
-                    (acc: StatMap<number>, statId: StatMapKey) => {
-                        acc[statId]! += item?.stats ? item.stats[statId]! : 0;
-                        return acc;
-                    },
-                    total
-                ),
-            {
-                VIG: 0,
-                END: 0,
-                MND: 0,
-                STR: 0,
-                DEX: 0,
-                INT: 0,
-                FTH: 0,
-                ARC: 0,
-            }
-        );
-    }
-
-    function isMutuallyExcluded(talismanId: string): boolean {
-        return MUTUALLY_EXCLUSIVE_TALISMANS.some((idGroup) =>
-            equippedTalismans.some(
-                (t) =>
-                    t.id != talismanId &&
-                    idGroup.includes(t.id) &&
-                    idGroup.includes(talismanId)
-            )
-        );
-    }
-
+    /**
+     * Resets all states to their default values.
+     * This will reset the desired stats, equipped talismans, helmet, and chestpiece.
+     */
     function resetAll() {
         setDesiredStats({
             VIG: 0,
@@ -171,16 +171,26 @@ export default function ClassPage() {
     }
 
     // EFFECTS
+
+    /**
+     * Calculates the optimal class when the sorted classes change.
+     */
     useEffect(() => {
         // calculate best class
-        setBest(sorted[0]);
+        setOptimalClass(sorted[0]);
     }, [sorted]);
 
+    /**
+     * Sorts the classes by ascending delta when the final stats change.
+     */
     useEffect(() => {
         // sort classes
         setSorted(sortClasses());
     }, [finalStats, sortClasses]);
 
+    /**
+     * Updates the final stats and virtual stats when the desired stats, optimal class, or item stats change.
+     */
     useEffect(() => {
         // calculate final stats
         let tempFinal: StatMap<number> = {
@@ -208,19 +218,22 @@ export default function ClassPage() {
                 {
                     tempFinal[statId] = Math.max(
                         desiredStats[statId]! - itemStats[statId]!,
-                        best?.stats[statId]!
+                        optimalClass?.stats[statId]!
                     );
                     tempVirtual[statId] = Math.max(
                         desiredStats[statId]!,
-                        best.stats![statId]! + itemStats[statId]!
+                        optimalClass.stats![statId]! + itemStats[statId]!
                     );
                 }
             }
         );
         setFinalStats(tempFinal);
         setVirtualStats(tempVirtual);
-    }, [desiredStats, best, itemStats]);
+    }, [desiredStats, optimalClass, itemStats]);
 
+    /**
+     * Updates the item stats when the helmet, chestpiece, or equipped talismans change.
+     */
     useEffect(() => {
         // get added stats from items
         setItemStats(
@@ -246,7 +259,7 @@ export default function ClassPage() {
                             <input
                                 id="best"
                                 type="text"
-                                value={best?.name}
+                                value={optimalClass?.name}
                                 disabled
                                 aria-label="best"
                             />
@@ -271,12 +284,39 @@ export default function ClassPage() {
                     </article>
                     <article>
                         <div>
+                            <b />
+                            <div>
+                                <input
+                                    value="Base"
+                                    disabled
+                                    style={{ width: 50 }}
+                                />
+                                <input
+                                    value="Desired"
+                                    disabled
+                                    style={{
+                                        width: 50,
+                                    }}
+                                />
+                                <input
+                                    value="Final"
+                                    disabled
+                                    style={{ width: 50 }}
+                                />
+                                <input
+                                    value="Virtual"
+                                    disabled
+                                    style={{ width: 50 }}
+                                />
+                            </div>
+                        </div>
+                        <div>
                             <b>Level</b>
                             <div>
                                 <input
                                     id="initial-level"
                                     type="number"
-                                    value={best?.level}
+                                    value={optimalClass?.level}
                                     disabled
                                     aria-label="initial level"
                                 />
@@ -288,7 +328,7 @@ export default function ClassPage() {
                                 <input
                                     id="final-level"
                                     type="number"
-                                    value={best.total}
+                                    value={optimalClass.total}
                                     disabled
                                     aria-label="final level"
                                 />
@@ -311,7 +351,7 @@ export default function ClassPage() {
                                             id={"initial-" + statId}
                                             type="number"
                                             name="initial"
-                                            value={best.stats[statId]}
+                                            value={optimalClass.stats[statId]}
                                             disabled
                                             aria-label={
                                                 "initial " +
@@ -486,14 +526,14 @@ export default function ClassPage() {
                                                 id={item.id}
                                                 name="talisman"
                                                 type="checkbox"
-                                                onChange={(event) =>
+                                                onChange={() =>
                                                     updateEquippedTalismans(
-                                                        item.id,
-                                                        event.target.checked
+                                                        item.id
                                                     )
                                                 }
                                                 disabled={
                                                     isMutuallyExcluded(
+                                                        equippedTalismans,
                                                         item.id
                                                     ) ||
                                                     (equippedTalismans.length >=

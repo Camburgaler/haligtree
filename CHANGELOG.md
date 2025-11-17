@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Typos
+-   Bug in final stat calculation on Class page
 
 ## [2.11.6] - 2025-06-18
 

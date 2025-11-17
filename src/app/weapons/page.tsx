@@ -1108,10 +1108,11 @@ export default function WeaponsPage() {
                     <h2 style={{ textAlign: "center" }}>Notes</h2>
                     <p>
                         Click the headers in the table to sort the table based
-                        that column.
+                        on that column.
                     </p>
                     <p>
-                        You can choose between six modes of attack power types:
+                        You can choose between six modes of attack power type
+                        filtering:
                     </p>
                     <ul>
                         <li>
