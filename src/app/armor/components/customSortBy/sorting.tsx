@@ -359,6 +359,10 @@ export function marshallSortByToTokens(sortBy: SortByArmor): string[] {
             break;
         case "invert":
             result.push("INV(");
+            break;
+        default:
+            result.push("(");
+            break;
     }
 
     for (const child of sortBy.children as (number | SortByArmor)[]) {

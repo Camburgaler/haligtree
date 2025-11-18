@@ -7,9 +7,17 @@ export function CustomizeSortBy(props: {
     setCustomSortBy: (newSortBy: SortByArmor) => void;
     sortBy: SortByArmor;
 }) {
+    /**
+     * Whether the description is expanded
+     */
     const [descriptionIsExpanded, setDescriptionIsExpanded] =
         useState<boolean>(true);
 
+    /**
+     * Submits the formula currently in the FormulaField, and sets the submitted formula as the new SortByArmor.
+     * If there is an error in the submission, it will be logged to the console.
+     * After successful submission, it will call props.setCustomSortBy with the submitted SortByArmor and call props.closePopUp to close the popup.
+     */
     const submitFormula = () => {
         let submittedSortBy: SortByArmor;
         try {
@@ -18,7 +26,8 @@ export function CustomizeSortBy(props: {
             ).value;
             submittedSortBy = unmarshallSortBy(formula);
         } catch (error) {
-            console.error("error: ", error);
+            console.error(error);
+            alert(error);
             return;
         }
         submittedSortBy.label = "Custom";

@@ -178,11 +178,15 @@ export default function ArmorPage() {
 
         const localCustomSortBy = localStorage.getItem("localCustomSortBy");
         if (localCustomSortBy) {
-            setCustomSortBy(
-                deepCloneAndMap(unmarshallSortBy(localCustomSortBy), [
-                    { label: "Custom" },
-                ])
-            );
+            try {
+                setCustomSortBy(
+                    deepCloneAndMap(unmarshallSortBy(localCustomSortBy), [
+                        { label: "Custom" },
+                    ])
+                );
+            } catch (error) {
+                console.error("error: ", error);
+            }
         }
 
         const localSortBy = localStorage.getItem("localSortBy");
