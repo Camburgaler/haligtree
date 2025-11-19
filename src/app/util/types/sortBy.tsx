@@ -1,4 +1,4 @@
 export type SortByGeneric = {
     children: (number | SortByGeneric)[];
-    operation: "value" | "sum" | "average" | "multiply";
+    operation: "value" | "sum" | "average" | "multiply" | "invert";
 };

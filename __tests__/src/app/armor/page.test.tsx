@@ -541,4 +541,14 @@ describe("Armor Page", () => {
 
         expect(ignoredItems.children.length).toBe(12);
     });
+
+    test("misconfigured local custom SortBy logs error", () => {
+        localStorage.clear();
+        localStorage.setItem("localCustomSortBy", JSON.stringify("invalid"));
+
+        jest.spyOn(console, "error");
+        render(<ArmorPage />);
+
+        expect(console.error).toHaveBeenCalledTimes(1);
+    });
 });

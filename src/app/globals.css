@@ -206,8 +206,6 @@ tbody {
 
 /* buttons & input */
 button {
-    /* border: var(--secondary);
-  border-radius: 3px;*/
     margin: 0rem 0rem 0.3rem 0rem;
     padding: 0rem 0.3rem 0.1rem 0.3rem;
     color: black;
@@ -314,7 +312,7 @@ select option {
 }
 
 .app article input[type="number"] {
-    width: 45px;
+    width: 50px;
 }
 
 .app ul {

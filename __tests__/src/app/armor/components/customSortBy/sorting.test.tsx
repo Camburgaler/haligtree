@@ -341,7 +341,7 @@ describe("Armor Sorting Script", () => {
     });
 
     // SortByArmor child
-    test("marshallSortByToTokens with number child", () => {
+    test("marshallSortByToTokens with SortByArmor child", () => {
         const sortBy: SortByArmor = deepCloneAndMap(DEFAULT_SORTBYARMOR, [
             {
                 children: [
@@ -545,7 +545,7 @@ describe("Armor Sorting Script", () => {
     // value error
     test("unmarshallSortBy with value error", () => {
         expect(() => unmarshallSortBy("( PHYSICAL STRIKE )")).toThrow(
-            "Cannot have more than 1 value without average or sum"
+            "Must have exactly one value in plain parentheses"
         );
     });
 });

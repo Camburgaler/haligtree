@@ -6,12 +6,23 @@ import ResistancesMap, {
 } from "@/app/util/types/resistancesMap";
 import { SortByGeneric } from "@/app/util/types/sortBy";
 
+/**
+ * SortByArmorKey is a type that represents a key for a SortByArmor object.
+ */
 export type SortByArmorKey =
     | "children"
     | "operation"
     | DefensesMapKey
     | ResistancesMapKey
     | "poise";
+
+/**
+ * SortByArmor is a type that represents a SortByGeneric object for Armor.
+ *
+ * It extends the SortByGeneric type with the DefensesMap and ResistancesMap types.
+ *
+ * It also includes a boolean for poise and a string for label.
+ */
 export type SortByArmor = SortByGeneric &
     DefensesMap<boolean> &
     ResistancesMap<boolean> & {
@@ -19,6 +30,9 @@ export type SortByArmor = SortByGeneric &
         label: string;
     };
 
+/**
+ * DEFAULT_SORTBYARMOR is the default SortByArmor object.
+ */
 export const DEFAULT_SORTBYARMOR: SortByArmor = deepFreeze({
     label: "Default",
     children: [],
@@ -40,6 +54,10 @@ export const DEFAULT_SORTBYARMOR: SortByArmor = deepFreeze({
     "death-blight": false,
     poise: false,
 });
+
+/**
+ * SELECTABLE_SORTING_FIELDS_SET is a Set of all selectable sorting fields.
+ */
 const SELECTABLE_SORTING_FIELDS_SET = new Set([
     "physical",
     "strike",
@@ -59,6 +77,9 @@ const SELECTABLE_SORTING_FIELDS_SET = new Set([
     "poise",
 ]);
 
+/**
+ * VALID_TOKENS is an array of all valid tokens for sorting.
+ */
 const VALID_TOKENS: string[] = [
     ...Array.from(SELECTABLE_SORTING_FIELDS_SET.values()).map((f) =>
         f.toUpperCase()
@@ -66,14 +87,28 @@ const VALID_TOKENS: string[] = [
     "SUM(",
     "AVG(",
     "MULT(",
+    "INV(",
     "(",
     ")",
 ];
 
+/**
+ * Returns true if the given field is a valid sorting field. E.g. "physical", "strike", "slash", etc.
+ * @param {string} field - The field to check.
+ * @returns {boolean} True if the field is a valid sorting field, false otherwise.
+ */
 function isSelectableSortingField(field: string): boolean {
     return SELECTABLE_SORTING_FIELDS_SET.has(field);
 }
 
+/**
+ * Returns the number of selected sorting fields in the given SortByArmor object.
+ *
+ * A field is considered selected if it is a valid sorting field and its value is true.
+ *
+ * @param {SortByArmor} sortBy - The SortByArmor object to count the selected fields of.
+ * @returns {number} The number of selected sorting fields.
+ */
 function countSelectedSortingFields(sortBy: SortByArmor): number {
     let count = 0;
     for (const key in sortBy) {
@@ -83,13 +118,32 @@ function countSelectedSortingFields(sortBy: SortByArmor): number {
     return count;
 }
 
+/**
+ * Evaluates the given sort by object on the given armor object.
+ *
+ * If the sort by object is a number, it is returned as is.
+ *
+ * If the sort by object is an object, it is evaluated as follows:
+ * If the operation is "average", the children and every selected field are averaged together.
+ * If the operation is "sum", the children and every selected field are summed together.
+ * If the operation is "multiply", the children and every selected field are multiplied together.
+ * If the operation is "invert", the provided value is inverted.
+ * If the operation is not one of the above, the value of the selected field or child is returned.
+ *
+ * @param {number | SortByArmor} sortBy - The SortBy object to evaluate.
+ * @param {Armor} armor - The armor object to evaluate on.
+ * @returns {number} The result of the evaluation.
+ * @throws {Error} If there is an error in the evaluation.
+ */
 export function evaluateSortBy(
     sortBy: number | SortByArmor,
     armor: Armor
 ): number {
     if (typeof sortBy === "number") return sortBy;
 
+    /** A count of the number of selected fields */
     const SELECTED_FIELDS_COUNT: number = countSelectedSortingFields(sortBy);
+    /** A count of the number of children */
     const CHILDREN_COUNT: number = sortBy.children.length;
 
     // evaluate children
@@ -210,6 +264,39 @@ export function evaluateSortBy(
         result = factor;
     }
 
+    // else if invert is selected
+    // invert the provided value
+    else if (sortBy.operation === "invert") {
+        if (SELECTED_FIELDS_COUNT + CHILDREN_COUNT !== 1) {
+            throw new Error("Invert requires exactly 1 value");
+        }
+
+        // set inverted child value
+        if (childrenValues[0]) {
+            result = 1 / childrenValues[0];
+        }
+
+        for (const key in sortBy) {
+            if (
+                isSelectableSortingField(key) &&
+                sortBy[key as SortByArmorKey]
+            ) {
+                // if defense
+                if (armor.defenses[key as DefensesMapKey]) {
+                    result = 1 / armor.defenses[key as DefensesMapKey]!;
+                }
+                // if resistance
+                if (armor.resistances[key as ResistancesMapKey]) {
+                    result = 1 / armor.resistances[key as ResistancesMapKey]!;
+                }
+                // if poise
+                if (key === "poise") {
+                    result = 1 / armor.poise!;
+                }
+            }
+        }
+    }
+
     // if average nor sum nor multiply is selected
     // get the value of the selected field or child
     else {
@@ -219,12 +306,12 @@ export function evaluateSortBy(
             );
         }
 
-        for (const key in sortBy) {
-            // add children values
-            for (const value of childrenValues) {
-                result = value;
-            }
+        // return child value
+        if (childrenValues[0]) {
+            result = childrenValues[0];
+        }
 
+        for (const key in sortBy) {
             if (
                 isSelectableSortingField(key) &&
                 sortBy[key as SortByArmorKey]
@@ -270,7 +357,10 @@ export function marshallSortByToTokens(sortBy: SortByArmor): string[] {
         case "multiply":
             result.push("MULT(");
             break;
-        case "value":
+        case "invert":
+            result.push("INV(");
+            break;
+        default:
             result.push("(");
             break;
     }
@@ -372,7 +462,9 @@ export function analyzeTokens(tokens: string[]): {
     };
 }
 
-function getOperation(token: string): "average" | "sum" | "multiply" | "value" {
+function getOperation(
+    token: string
+): "average" | "sum" | "multiply" | "invert" | "value" {
     switch (token) {
         case "AVG(":
             return "average";
@@ -380,6 +472,8 @@ function getOperation(token: string): "average" | "sum" | "multiply" | "value" {
             return "sum";
         case "MULT(":
             return "multiply";
+        case "INV(":
+            return "invert";
         default:
             return "value";
     }
@@ -487,9 +581,13 @@ function validateTokens(tokens: string[]): void {
         }
     }
 
-    // if operation is value, assert at most 1 value
-    if (tokens[0] === "(" && SELECTED_FIELDS_COUNT + CHILDREN_COUNT > 1) {
-        throw new Error("Cannot have more than 1 value without average or sum");
+    // if operation is value or invert, assert at most 1 value
+    if (SELECTED_FIELDS_COUNT + CHILDREN_COUNT !== 1) {
+        if (tokens[0].includes("INV")) {
+            throw new Error("Must have exactly one value in invert operation");
+        } else if (tokens[0] === "(") {
+            throw new Error("Must have exactly one value in plain parentheses");
+        }
     }
 
     for (const group of tokenGroups) {
