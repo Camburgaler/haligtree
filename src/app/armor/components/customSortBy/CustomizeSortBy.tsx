@@ -86,95 +86,435 @@ export function CustomizeSortBy(props: {
                         <p>
                             In the text box above, you can create a formula for
                             your own custom sorting method! Here are the
-                            commands available:
+                            operations available:
                         </p>
-                        <h3>( X )</h3>
+                        <h3>Plain Parentheses</h3>
                         The parentheses will group things into one value. This
                         is useful for separating values when trying to ensure an
                         order of operations.
-                        <h3>AVG( X X ... )</h3>
+                        <p>Format:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            ( X )
+                        </p>
+                        <h3>Average</h3>
                         This will average all space-separated values inside the
                         parentheses. Note that more than one value is required.
-                        <h3>SUM( X X ... )</h3>
-                        This will sum all space-separated values inside the
+                        <p>Format:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            AVG( X X ... )
+                        </p>
+                        <h3>Summation</h3>
+                        This will add all space-separated values inside the
                         parentheses. Note that more than one value is required.
                         Subtraction can be achieved by providing a negative
                         value
-                        <h3>MULT( X X ... )</h3>
+                        <p>Format:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            SUM( X X ... )
+                        </p>
+                        <h3>Multiplication</h3>
                         This will multiply all space-separated values inside the
                         parentheses. Note that more than one value is required.
                         Division can be achieved by providing a value between -1
                         and 1.
-                        <h3>INV( X )</h3>
+                        <p>Format:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            MULT( X X ... )
+                        </p>
+                        <h3>Inversion</h3>
                         This will invert the value inside the parentheses. This
                         can be used to facilitate easy division and to make
                         division of variables possible.
-                        <h3>PHYSICAL</h3>
-                        This will use the value of an armor piece&#39;s Physical
-                        Absorption.
-                        <h3>STRIKE</h3>
-                        This will use the value of an armor piece&#39;s Strike
-                        Absorption.
-                        <h3>SLASH</h3>
-                        This will use the value of an armor piece&#39;s Slash
-                        Absorption.
-                        <h3>PIERCE</h3>
-                        This will use the value of an armor piece&#39;s Pierce
-                        Absorption.
-                        <h3>MAGIC</h3>
-                        This will use the value of an armor piece&#39;s Magic
-                        Absorption.
-                        <h3>FIRE</h3>
-                        This will use the value of an armor piece&#39;s Fire
-                        Absorption.
-                        <h3>LIGHTNING</h3>
-                        This will use the value of an armor piece&#39;s
-                        Lightning Absorption.
-                        <h3>HOLY</h3>
-                        This will use the value of an armor piece&#39;s Holy
-                        Absorption.
-                        <h3>POISON</h3>
-                        This will use the value of the armor piece&#39;s Poison
-                        Resistance.
-                        <h3>SCARLETROT</h3>
-                        This will use the value of the armor piece&#39;s Scarlet
-                        Rot Resistance.
-                        <h3>HEMORRHAGE</h3>
-                        This will use the value of the armor piece&#39;s
-                        Hemorrhage Resistance.
-                        <h3>FROSTBITE</h3>
-                        This will use the value of the armor piece&#39;s
-                        Frostbite Resistance.
-                        <h3>SLEEP</h3>
-                        This will use the value of the armor piece&#39;s Sleep
-                        Resistance.
-                        <h3>MADNESS</h3>
-                        This will use the value of the armor piece&#39;s Madness
-                        Resistance.
-                        <h3>DEATHBLIGHT</h3>
-                        This will use the value of the armor piece&#39;s Death
-                        Blight Resistance.
-                        <h3>POISE</h3>
-                        This will use the value of the armor piece&#39;s Poise.
+                        <p>Format:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            INV( X )
+                        </p>
+                        <h3>Values</h3>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Physical Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            PHYSICAL
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Strike Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            STRIKE
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Slash Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            SLASH
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Pierce Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            PIERCE
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Magic Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            MAGIC
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Fire Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            FIRE
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Lightning Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            LIGHTNING
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Holy Absorption:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            HOLY
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Poison Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            POISON
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Scarlet Rot Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            SCARLETROT
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Hemorrhage Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            HEMORRHAGE
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Frostbite Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            FROSTBITE
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Sleep Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            SLEEP
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Madness Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            MADNESS
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Death Blight Resistance:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            DEATHBLIGHT
+                        </p>
+                        <p>
+                            The following will use the value of an armor
+                            piece&#39;s Poise:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
+                            POISE
+                        </p>
                         <h2>Examples</h2>
-                        The following will sum all Standard Absorptions:
-                        <p style={{ fontFamily: "monospace" }}>
+                        <p>The following will sum all Standard Absorptions:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
                             SUM( PHYSICAL STRIKE SLASH PIERCE )
                         </p>
-                        The following will average all Resistances:
-                        <p style={{ fontFamily: "monospace" }}>
+                        <p>The following will average all Resistances:</p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
                             AVG( POISON SCARLETROT HEMORRHAGE FROSTBITE SLEEP
                             MADNESS DEATHBLIGHT )
                         </p>
-                        The following will sum all Standard Absorptions and then
-                        divide by Poise:
-                        <p style={{ fontFamily: "monospace" }}>
+                        <p>
+                            The following will sum all Standard Absorptions and
+                            then divide by Poise:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
                             MULT( SUM( PHYSICAL STRIKE SLASH PIERCE ) INV( POISE
                             ) )
                         </p>
-                        The following will create a weighted sum of certain
-                        Absorptions and Resistances:
-                        <p style={{ fontFamily: "monospace" }}>
+                        <p>
+                            The following will create a weighted sum of certain
+                            Absorptions and Resistances:
+                        </p>
+                        <p
+                            style={{
+                                fontFamily: "monospace",
+                                backgroundColor: "var(--secondary)",
+                                color: "var(--contrast)",
+                                padding: "5px",
+                                borderRadius: "5px",
+                                display: "inline-block",
+                                margin: "5px",
+                            }}
+                        >
                             SUM( MULT( INV( 3 ) SUM( PHYSICAL PIERCE ) ) MULT(
                             INV( 3 ) SUM( MAGIC FIRE HEMORRHAGE ) ) MULT( INV( 3
                             ) HOLY ) )
