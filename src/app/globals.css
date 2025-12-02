@@ -5,13 +5,11 @@
     --contrast: black;
     --accent: #005f61;
 }
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary: #313131;
-        --secondary: #212121;
-        --contrast: white;
-        --accent: #f1a639;
-    }
+:root[data-theme="dark"] {
+    --primary: #313131;
+    --secondary: #212121;
+    --contrast: white;
+    --accent: #f1a639;
 }
 
 html {
