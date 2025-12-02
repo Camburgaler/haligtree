@@ -13,33 +13,30 @@
         "lighthouse": "next build && next start -p 3000 & npx wait-on http://localhost:3000 && npx lhci autorun"
     },
     "dependencies": {
-        "@tailwindcss/postcss": "^4.1.17",
         "@vercel/analytics": "^1",
         "@vercel/speed-insights": "^1",
-        "core-js": "^3.46.0",
-        "next": "^15.5.5",
+        "core-js": "^3",
+        "next": "^15",
         "react": "^19",
         "react-dom": "^19",
-        "remark": "^15.0.1",
-        "remark-html": "^16.0.1",
-        "sharp": "^0.34.3"
+        "remark": "^15",
+        "remark-html": "^16",
+        "sharp": "^0"
     },
     "devDependencies": {
-        "@lhci/cli": "^0.15.1",
-        "@testing-library/jest-dom": "^6.9.1",
-        "@testing-library/react": "^16.3.0",
-        "@types/jest": "^30.0.0",
+        "@testing-library/jest-dom": "^6",
+        "@testing-library/react": "^16",
+        "@types/jest": "^30",
         "@types/node": "^24",
-        "@types/react": "^19.1.11",
-        "@types/react-dom": "^19.2.2",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
         "eslint": "^9",
         "eslint-config-next": "^16",
-        "jest": "^30.2.0",
-        "jest-environment-jsdom": "^30.2.0",
+        "jest": "^30",
+        "jest-environment-jsdom": "^30",
         "postcss": "^8",
-        "tailwindcss": "^4",
         "ts-jest": "^29",
         "typescript": "^5",
-        "wait-on": "^9.0.1"
+        "wait-on": "^9"
     }
 }
