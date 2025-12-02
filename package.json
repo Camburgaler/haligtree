@@ -1,6 +1,6 @@
 {
     "name": "haligtree",
-    "version": "2.11.7",
+    "version": "2.12.0",
     "private": true,
     "scripts": {
         "dev": "next dev",
@@ -16,7 +16,7 @@
         "@vercel/analytics": "^1",
         "@vercel/speed-insights": "^1",
         "core-js": "^3",
-        "next": "^15",
+        "next": "^16",
         "react": "^19",
         "react-dom": "^19",
         "remark": "^15",
@@ -34,9 +34,7 @@
         "eslint-config-next": "^16",
         "jest": "^30",
         "jest-environment-jsdom": "^30",
-        "postcss": "^8",
         "ts-jest": "^29",
-        "typescript": "^5",
-        "wait-on": "^9"
+        "typescript": "^5"
     }
 }
