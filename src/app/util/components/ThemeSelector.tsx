@@ -41,10 +41,9 @@ export function ThemeSelector() {
                 padding: "0.5rem",
                 color: "var(--contrast)",
                 backgroundColor: "var(--secondary)",
-                border: "1px solid var(--secondary)",
                 borderRadius: "0.5rem",
                 flexDirection: "row",
-                position: "fixed",
+                position: "absolute",
                 top: "0.5rem",
                 right: "0.5rem",
             }}
@@ -62,7 +61,17 @@ export function ThemeSelector() {
                 <option value="system">System</option>
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
-                <option value="neon">Neon</option>
+                <option value="limgrave">Limgrave</option>
+                <option value="nox">Nox</option>
+                <option value="liurnia">Liurnia</option>
+                <option value="caelid">Caelid</option>
+                <option value="mohgwyn">Mohgwyn</option>
+                <option value="altus">Altus</option>
+                <option value="gelmir">Gelmir</option>
+                <option value="leyndell">Leyndell</option>
+                <option value="mountaintops">Mountaintops</option>
+                <option value="farum-azula">Farum Azula</option>
+                <option value="haligtree">Haligtree</option>
             </select>
         </div>
     );
