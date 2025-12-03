@@ -13,8 +13,6 @@ export function ThemeSelector() {
     }, []);
 
     useEffect(() => {
-        console.log("Setting theme to", theme);
-
         let newTheme = theme;
         if (newTheme === "system") {
             localStorage.removeItem("theme");
@@ -29,8 +27,6 @@ export function ThemeSelector() {
                 : newTheme;
 
         document.documentElement.dataset.theme = newTheme;
-
-        console.log("Theme set to", document.documentElement.dataset.theme);
     }, [theme]);
 
     return (
