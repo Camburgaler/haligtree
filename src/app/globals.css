@@ -20,7 +20,6 @@
 :root[data-theme="nox"] {
     --primary: #6e7fa1;
     --secondary: #2f3a52;
-    --contrast: white;
     --accent: #8ed4c9;
 }
 :root[data-theme="liurnia"] {
@@ -32,13 +31,11 @@
 :root[data-theme="caelid"] {
     --primary: #d75a5a;
     --secondary: #722028;
-    --contrast: white;
     --accent: #e3a94a;
 }
 :root[data-theme="mohgwyn"] {
     --primary: #8a1b1b;
     --secondary: #b74646;
-    --contrast: white;
     --accent: #e3cbaa;
 }
 :root[data-theme="altus"] {
@@ -50,7 +47,6 @@
 :root[data-theme="gelmir"] {
     --primary: #b33f1a;
     --secondary: #7a2b11;
-    --contrast: white;
     --accent: #ff8c42;
 }
 :root[data-theme="leyndell"] {
@@ -65,7 +61,7 @@
     --contrast: black;
     --accent: #1e3aa8;
 }
-:root[data-theme="farum-azula"] {
+:root[data-theme="azula"] {
     --primary: #a0a0a0;
     --secondary: #bfa18b;
     --contrast: black;
@@ -76,6 +72,72 @@
     --secondary: #e1d9cd;
     --contrast: black;
     --accent: #d9772b;
+}
+:root[data-theme="shadow"] {
+    --primary: #7e7e7e;
+    --secondary: #a59c89;
+    --contrast: black;
+    --accent: #5c4c40;
+}
+:root[data-theme="charo"] {
+    --primary: #b2353c;
+    --secondary: #5a6a75;
+    --contrast: black;
+    --accent: #a8a39d;
+}
+:root[data-theme="cerulean"] {
+    --primary: #4c6fa5;
+    --secondary: #a19c91;
+    --contrast: black;
+    --accent: #2f4a6b;
+}
+:root[data-theme="jagged"] {
+    --primary: #5a5a5a;
+    --secondary: #7a6f63;
+    --contrast: black;
+    --accent: #ff1f1f;
+}
+:root[data-theme="finger"] {
+    --primary: #6b6b6b;
+    --secondary: #9a958a;
+    --contrast: black;
+    --accent: #3b4a63;
+}
+:root[data-theme="abyssal"] {
+    --primary: #0f1613;
+    --secondary: #1a2320;
+    --contrast: white;
+    --accent: #d94f23;
+}
+:root[data-theme="keep"] {
+    --primary: #111317;
+    --secondary: #3a3f45;
+    --contrast: white;
+    --accent: #c03a1b;
+}
+:root[data-theme="shaman"] {
+    --primary: #c9a6ba;
+    --secondary: #6a5a52;
+    --contrast: white;
+    --accent: #e5c46a;
+}
+:root[data-theme="rauh"] {
+    --primary: #999;
+    --secondary: #4f6a52;
+    --contrast: white;
+    --accent: #4a8fbf;
+}
+:root[data-theme="bud"] {
+    --primary: #4a443c;
+    --secondary: #2a2623;
+    --contrast: white;
+    --accent: #c12b45;
+}
+:root[data-theme="enir-ilim"] {
+    --primary: #f0e6ca;
+    --secondary: #d9d886;
+    --contrast: black;
+    --accent: #e6aa00;
 }
 
 html {

@@ -66,8 +66,19 @@ export function ThemeSelector() {
                 <option value="gelmir">Gelmir</option>
                 <option value="leyndell">Leyndell</option>
                 <option value="mountaintops">Mountaintops</option>
-                <option value="farum-azula">Farum Azula</option>
+                <option value="azula">Farum Azula</option>
                 <option value="haligtree">Haligtree</option>
+                <option value="shadow">Shadow</option>
+                <option value="charo">Charo</option>
+                <option value="cerulean">Cerulean Coast</option>
+                <option value="jagged">Jagged Peak</option>
+                <option value="finger">Finger Ruins</option>
+                <option value="abyssal">Abyssal Woods</option>
+                <option value="keep">Shadow Keep</option>
+                <option value="shaman">Shaman Village</option>
+                <option value="rauh">Rauh</option>
+                <option value="bud">Church of the Bud</option>
+                <option value="enir-ilim">Enir-Ilim</option>
             </select>
         </div>
     );
