@@ -341,7 +341,7 @@ describe("Armor Page", () => {
         expect(ignoredItems.children.length).toBe(1);
 
         let restoreButton = screen.getByRole("button", {
-            name: "🗑",
+            name: "→",
         });
 
         act(() => {
@@ -361,7 +361,7 @@ describe("Armor Page", () => {
         expect(ignoredItems.children.length).toBe(1);
 
         restoreButton = screen.getByRole("button", {
-            name: "🗑",
+            name: "→",
         });
 
         act(() => {
@@ -381,7 +381,7 @@ describe("Armor Page", () => {
         expect(ignoredItems.children.length).toBe(1);
 
         restoreButton = screen.getByRole("button", {
-            name: "🗑",
+            name: "→",
         });
 
         act(() => {
@@ -401,7 +401,7 @@ describe("Armor Page", () => {
         expect(ignoredItems.children.length).toBe(1);
 
         restoreButton = screen.getByRole("button", {
-            name: "🗑",
+            name: "→",
         });
 
         act(() => {

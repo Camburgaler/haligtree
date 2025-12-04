@@ -32,6 +32,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
+                <script nonce={nonce} />
                 <NavLinks />
                 {children}
                 <Analytics />
@@ -74,7 +75,6 @@ export default function RootLayout({
                         </p>
                     </span>
                 </footer>
-                <script nonce={nonce} />
             </body>
         </html>
     );

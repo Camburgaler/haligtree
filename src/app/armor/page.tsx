@@ -584,12 +584,16 @@ export default function ArmorPage() {
                                                 ])
                                             }
                                             style={{
-                                                backgroundColor: "green",
+                                                color: "var(--contrast)",
+                                                backgroundColor:
+                                                    "var(--accent)",
                                                 minWidth: "24px",
                                                 minHeight: "24px",
+                                                border: "none",
+                                                borderRadius: "3px",
                                             }}
                                         >
-                                            {" 🗑"}
+                                            →
                                         </button>
                                     </li>
                                 ))}

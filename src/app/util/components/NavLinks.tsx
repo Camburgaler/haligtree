@@ -2,49 +2,56 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeSelector } from "./ThemeSelector";
 
 export function NavLinks() {
     const pathname = usePathname();
 
     return (
-        <nav>
-            <h3>
-                <Link href="/" className={pathname === "/" ? "current" : ""}>
-                    Home
-                </Link>
-            </h3>
-            <h3>
-                <Link
-                    href="/class"
-                    className={pathname === "/class" ? "current" : ""}
-                >
-                    Starting Class
-                </Link>
-            </h3>
-            <h3>
-                <Link
-                    href="/armor"
-                    className={pathname === "/armor" ? "current" : ""}
-                >
-                    Armor Optimizer
-                </Link>
-            </h3>
-            <h3>
-                <Link
-                    href="/weapons"
-                    className={pathname === "/weapons" ? "current" : ""}
-                >
-                    Weapon Finder
-                </Link>
-            </h3>
-            <h3>
-                <Link
-                    href="/about"
-                    className={pathname === "/about" ? "current" : ""}
-                >
-                    About
-                </Link>
-            </h3>
-        </nav>
+        <div>
+            <nav>
+                <h3>
+                    <Link
+                        href="/"
+                        className={pathname === "/" ? "current" : ""}
+                    >
+                        Home
+                    </Link>
+                </h3>
+                <h3>
+                    <Link
+                        href="/class"
+                        className={pathname === "/class" ? "current" : ""}
+                    >
+                        Starting Class
+                    </Link>
+                </h3>
+                <h3>
+                    <Link
+                        href="/armor"
+                        className={pathname === "/armor" ? "current" : ""}
+                    >
+                        Armor Optimizer
+                    </Link>
+                </h3>
+                <h3>
+                    <Link
+                        href="/weapons"
+                        className={pathname === "/weapons" ? "current" : ""}
+                    >
+                        Weapon Finder
+                    </Link>
+                </h3>
+                <h3>
+                    <Link
+                        href="/about"
+                        className={pathname === "/about" ? "current" : ""}
+                    >
+                        About
+                    </Link>
+                </h3>
+            </nav>
+            <ThemeSelector />
+        </div>
     );
 }

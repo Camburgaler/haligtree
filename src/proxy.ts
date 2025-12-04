@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
     const nonce = Buffer.from(crypto.randomUUID()).toString("base64"); // Generate a nonce
     const isDev = process.env.NODE_ENV === "development";
 
