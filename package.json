@@ -36,7 +36,6 @@
         "eslint-config-next": "^16",
         "jest": "^30",
         "jest-environment-jsdom": "^30",
-        "ts-jest": "^29",
         "typescript": "^7"
     }
 }

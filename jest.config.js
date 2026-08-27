@@ -10,9 +10,6 @@ const customJestConfig = {
     },
     roots: ["<rootDir>/__tests__"],
     testMatch: ["**/__tests__/**/*.test.tsx"],
-    transform: {
-        "^.+\\.tsx?$": "ts-jest",
-    },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     collectCoverage: true,
     coverageThreshold: {
