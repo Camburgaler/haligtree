@@ -125,7 +125,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(22);
@@ -146,7 +146,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(19);
@@ -167,7 +167,7 @@ describe("Weapon Script", () => {
             "all",
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(19);
@@ -188,7 +188,7 @@ describe("Weapon Script", () => {
             "all",
             DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(19);
@@ -209,7 +209,7 @@ describe("Weapon Script", () => {
             "all",
             { ...DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN, physical: true },
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(22);
@@ -230,7 +230,7 @@ describe("Weapon Script", () => {
             "all",
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(22);
@@ -251,7 +251,7 @@ describe("Weapon Script", () => {
             "exactly",
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(19);
@@ -272,7 +272,7 @@ describe("Weapon Script", () => {
             "exactly",
             DEFAULT_ATTACK_POWER_TYPE_MAP_BOOLEAN,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(19);
@@ -293,7 +293,7 @@ describe("Weapon Script", () => {
             "exactly",
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(22);
@@ -314,7 +314,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(76);
@@ -335,7 +335,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(49);
@@ -363,7 +363,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(5);
@@ -384,10 +384,10 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
-        expect(result.length).toBe(340);
+        expect(result.length).toBe(345);
 
         expect(weaponResultsAreDisplayable(result)).toBe(true);
     });
@@ -405,7 +405,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             false,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(22);
@@ -426,7 +426,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(20);
@@ -447,7 +447,7 @@ describe("Weapon Script", () => {
             attackPowerTypeMode,
             attackPowerTypes,
             reinforced,
-            considerStatusEffects
+            considerStatusEffects,
         );
 
         expect(result.length).toBe(14);
@@ -493,7 +493,7 @@ describe("Weapon Script", () => {
         render(
             <table>
                 <tbody>{mapResults(results, sortBy)}</tbody>
-            </table>
+            </table>,
         );
 
         expect(screen.getAllByRole("row").length).toBe(2);
@@ -544,7 +544,7 @@ describe("Weapon Script", () => {
         render(
             <table>
                 <tbody>{mapResults(results, sortBy)}</tbody>
-            </table>
+            </table>,
         );
 
         expect(screen.getAllByRole("row").length).toBe(2);
@@ -595,7 +595,7 @@ describe("Weapon Script", () => {
         render(
             <table>
                 <tbody>{mapResults(results, sortBy)}</tbody>
-            </table>
+            </table>,
         );
 
         expect(screen.getAllByRole("row").length).toBe(2);
@@ -646,7 +646,7 @@ describe("Weapon Script", () => {
         render(
             <table>
                 <tbody>{mapResults(results, sortBy)}</tbody>
-            </table>
+            </table>,
         );
 
         expect(screen.getAllByRole("row").length).toBe(2);

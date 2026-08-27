@@ -2809,6 +2809,31 @@
         "poise": 12,
         "weight": 6.3
     },
+    "gold-tattoo": {
+        "id": "gold-tattoo",
+        "name": "Gold Tattoo",
+        "defenses": {
+            "physical": 3.8,
+            "slash": 2.1,
+            "strike": 2.1,
+            "pierce": 0.3,
+            "magic": 10.4,
+            "fire": 11.0,
+            "lightning": 10.4,
+            "holy": 11.9
+        },
+        "resistances": {
+            "scarlet-rot": 34,
+            "poison": 34,
+            "hemorrhage": 9,
+            "frostbite": 9,
+            "sleep": 0,
+            "madness": 0,
+            "death-blight": 53
+        },
+        "poise": 5,
+        "weight": 2.2
+    },
     "goldmasks-rags": {
         "id": "goldmasks-rags",
         "name": "Goldmask's Rags",
@@ -3583,6 +3608,31 @@
         },
         "poise": 21,
         "weight": 10.6
+    },
+    "leontiels-armor": {
+        "id": "leontiels-armor",
+        "name": "Leontiel's Armor",
+        "defenses": {
+            "physical": 11.9,
+            "slash": 11.5,
+            "strike": 12.7,
+            "pierce": 10.1,
+            "magic": 7.6,
+            "fire": 11.3,
+            "lightning": 6.5,
+            "holy": 7.7
+        },
+        "resistances": {
+            "scarlet-rot": 21,
+            "poison": 21,
+            "hemorrhage": 41,
+            "frostbite": 41,
+            "sleep": 7,
+            "madness": 7,
+            "death-blight": 16
+        },
+        "poise": 8,
+        "weight": 8.3
     },
     "leyndell-knight-armor": {
         "id": "leyndell-knight-armor",
@@ -5459,6 +5509,56 @@
         "poise": 10,
         "weight": 5.1
     },
+    "silver-grooved-armor": {
+        "id": "silver-grooved-armor",
+        "name": "Silver Grooved Armor",
+        "defenses": {
+            "physical": 10.2,
+            "slash": 10.0,
+            "strike": 9.4,
+            "pierce": 9.8,
+            "magic": 6.8,
+            "fire": 7.4,
+            "lightning": 5.8,
+            "holy": 7.7
+        },
+        "resistances": {
+            "scarlet-rot": 23,
+            "poison": 23,
+            "hemorrhage": 37,
+            "frostbite": 37,
+            "sleep": 14,
+            "madness": 14,
+            "death-blight": 14
+        },
+        "poise": 16,
+        "weight": 7.1
+    },
+    "silver-grooved-armor-altered": {
+        "id": "silver-grooved-armor-altered",
+        "name": "Silver Grooved Armor (Altered)",
+        "defenses": {
+            "physical": 9.7,
+            "slash": 9.6,
+            "strike": 9.0,
+            "pierce": 9.3,
+            "magic": 6.3,
+            "fire": 7.0,
+            "lightning": 5.2,
+            "holy": 7.1
+        },
+        "resistances": {
+            "scarlet-rot": 21,
+            "poison": 21,
+            "hemorrhage": 35,
+            "frostbite": 35,
+            "sleep": 12,
+            "madness": 12,
+            "death-blight": 12
+        },
+        "poise": 12,
+        "weight": 6.5
+    },
     "snow-witch-robe": {
         "id": "snow-witch-robe",
         "name": "Snow Witch Robe",
@@ -5558,6 +5658,31 @@
         },
         "poise": 5,
         "weight": 2.5
+    },
+    "steel-armor": {
+        "id": "steel-armor",
+        "name": "Steel Armor",
+        "defenses": {
+            "physical": 18.5,
+            "slash": 18.3,
+            "strike": 16.3,
+            "pierce": 17.8,
+            "magic": 12.4,
+            "fire": 14.2,
+            "lightning": 11.2,
+            "holy": 12.1
+        },
+        "resistances": {
+            "scarlet-rot": 41,
+            "poison": 41,
+            "hemorrhage": 81,
+            "frostbite": 81,
+            "sleep": 33,
+            "madness": 33,
+            "death-blight": 37
+        },
+        "poise": 35,
+        "weight": 18.5
     },
     "thiolliers-garb": {
         "id": "thiolliers-garb",

@@ -34263,7 +34263,7 @@
             "standard": {
                 "id": "standard",
                 "damage": {
-                    "physical": 69,
+                    "physical": 38,
                     "magic": 69,
                     "fire": 0,
                     "lightning": 0,
@@ -34281,7 +34281,7 @@
                     "physical": {
                         "STR": true,
                         "DEX": true,
-                        "INT": false,
+                        "INT": true,
                         "FTH": false,
                         "ARC": false
                     },
@@ -34295,21 +34295,21 @@
                     "fire": {
                         "STR": false,
                         "DEX": false,
-                        "INT": false,
+                        "INT": true,
                         "FTH": true,
                         "ARC": false
                     },
                     "lightning": {
                         "STR": false,
                         "DEX": true,
-                        "INT": false,
+                        "INT": true,
                         "FTH": false,
                         "ARC": false
                     },
                     "holy": {
                         "STR": false,
                         "DEX": false,
-                        "INT": false,
+                        "INT": true,
                         "FTH": true,
                         "ARC": false
                     }
@@ -39634,7 +39634,7 @@
                 "id": "standard",
                 "damage": {
                     "physical": 0,
-                    "magic": 105,
+                    "magic": 112,
                     "fire": 0,
                     "lightning": 0,
                     "holy": 0
@@ -51855,7 +51855,7 @@
             "unique": {
                 "id": "unique",
                 "damage": {
-                    "physical": 92,
+                    "physical": 98,
                     "magic": 0,
                     "fire": 0,
                     "lightning": 0,
@@ -67583,7 +67583,7 @@
                 "damage": {
                     "physical": 0,
                     "magic": 0,
-                    "fire": 110,
+                    "fire": 118,
                     "lightning": 0,
                     "holy": 0
                 },
@@ -73187,7 +73187,7 @@
                 "damage": {
                     "physical": 0,
                     "magic": 0,
-                    "fire": 105,
+                    "fire": 112,
                     "lightning": 0,
                     "holy": 0
                 },
@@ -106851,6 +106851,888 @@
             }
         }
     },
+    "hefty-scimitar": {
+        "id": "hefty-scimitar",
+        "name": "Hefty Scimitar",
+        "requirements": { "STR": 13, "DEX": 11, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "curved-greatsword",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 135,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.52,
+                    "DEX": 0.32,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.52,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.11,
+                    "DEX": 0.51,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.57,
+                    "DEX": 0.57,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 130,
+                    "magic": 130,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.14,
+                    "DEX": 0.11,
+                    "INT": 0.42,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 130,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.4,
+                    "DEX": 0.11,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 130,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.1,
+                    "DEX": 0.06,
+                    "INT": 0.0,
+                    "FTH": 0.39,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 130,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.19,
+                    "DEX": 0.32,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 130
+                },
+                "scaling": {
+                    "STR": 0.1,
+                    "DEX": 0.06,
+                    "INT": 0.0,
+                    "FTH": 0.39,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.5,
+                    "DEX": 0.3,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.3
+                },
+                "aux": { "poison": [80, 115] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.5,
+                    "DEX": 0.3,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.3
+                },
+                "aux": { "blood": [69, 100] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 130,
+                    "magic": 103,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.39,
+                    "DEX": 0.3,
+                    "INT": 0.3,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "frost": [80, 127] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 130,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.1,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.69
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
     "helphens-steeple": {
         "id": "helphens-steeple",
         "name": "Helphen's Steeple",
@@ -111716,6 +112598,888 @@
                 },
                 "corrections": {
                     "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
+    "idus-sword": {
+        "id": "idus-sword",
+        "name": "Idus Sword",
+        "requirements": { "STR": 10, "DEX": 15, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "light-greatsword",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 124,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.28,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.36,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.12,
+                    "DEX": 0.35,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.37,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 120,
+                    "magic": 120,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.06,
+                    "DEX": 0.12,
+                    "INT": 0.28,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 120,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.25,
+                    "DEX": 0.12,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 120,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.06,
+                    "DEX": 0.13,
+                    "INT": 0.0,
+                    "FTH": 0.28,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 120,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.12,
+                    "DEX": 0.27,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 120
+                },
+                "scaling": {
+                    "STR": 0.06,
+                    "DEX": 0.12,
+                    "INT": 0.0,
+                    "FTH": 0.27,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.39,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.24
+                },
+                "aux": { "poison": [66, 95] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.39,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.24
+                },
+                "aux": { "blood": [57, 82] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 120,
+                    "magic": 103,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.21,
+                    "DEX": 0.37,
+                    "INT": 0.28,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "frost": [66, 105] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 120,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.08,
+                    "DEX": 0.13,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.48
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
                     "magic": "0",
                     "fire": "0",
                     "lightning": "0",
@@ -124872,7 +126636,7 @@
                     "physical": 0,
                     "magic": 0,
                     "fire": 0,
-                    "lightning": 110,
+                    "lightning": 118,
                     "holy": 0
                 },
                 "scaling": {
@@ -161109,6 +162873,84 @@
             }
         }
     },
+    "rabbaths-cannon": {
+        "id": "rabbaths-cannon",
+        "name": "Rabbath's Cannon",
+        "requirements": { "STR": 28, "DEX": 16, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "ballista",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 135,
+                    "magic": 135,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.0,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
     "rakshasas-great-katana": {
         "id": "rakshasas-great-katana",
         "name": "Rakshasa's Great Katana",
@@ -165831,6 +167673,888 @@
             }
         }
     },
+    "reed-great-katana": {
+        "id": "reed-great-katana",
+        "name": "Reed Great Katana",
+        "requirements": { "STR": 11, "DEX": 16, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "great-katana",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 158,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.25,
+                    "DEX": 0.35,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.34,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.11,
+                    "DEX": 0.34,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.39,
+                    "DEX": 0.39,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 152,
+                    "magic": 152,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.05,
+                    "DEX": 0.1,
+                    "INT": 0.3,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 152,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.11,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 152,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.05,
+                    "DEX": 0.1,
+                    "INT": 0.0,
+                    "FTH": 0.28,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 152,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.11,
+                    "DEX": 0.28,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 152
+                },
+                "scaling": {
+                    "STR": 0.05,
+                    "DEX": 0.1,
+                    "INT": 0.0,
+                    "FTH": 0.28,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [55, 55] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.4,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.23
+                },
+                "aux": { "blood": [50, 50], "poison": [80, 115] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.4,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.23
+                },
+                "aux": { "blood": [69, 100] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 152,
+                    "magic": 130,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.21,
+                    "DEX": 0.38,
+                    "INT": 0.3,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "blood": [50, 50], "frost": [80, 127] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 152,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.07,
+                    "DEX": 0.15,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.45
+                },
+                "aux": { "blood": [50, 50] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
     "regalia-of-eochaid": {
         "id": "regalia-of-eochaid",
         "name": "Regalia of Eochaid",
@@ -166058,6 +168782,888 @@
                 },
                 "corrections": {
                     "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
+    "reverse-bladed-sword": {
+        "id": "reverse-bladed-sword",
+        "name": "Reverse-Bladed Sword",
+        "requirements": { "STR": 9, "DEX": 11, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "backhand-blade",
+        "paired": true,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 115,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.3,
+                    "DEX": 0.4,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.4,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.15,
+                    "DEX": 0.5,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.45,
+                    "DEX": 0.45,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 110,
+                    "magic": 110,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.1,
+                    "DEX": 0.11,
+                    "INT": 0.41,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 110,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.35,
+                    "DEX": 0.07,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 110,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.09,
+                    "DEX": 0.11,
+                    "INT": 0.0,
+                    "FTH": 0.4,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 110,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.07,
+                    "DEX": 0.36,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 110
+                },
+                "scaling": {
+                    "STR": 0.1,
+                    "DEX": 0.12,
+                    "INT": 0.0,
+                    "FTH": 0.4,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.31,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.22
+                },
+                "aux": { "poison": [66, 95] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.31,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.22
+                },
+                "aux": { "blood": [57, 82] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 110,
+                    "magic": 94,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.4,
+                    "DEX": 0.49,
+                    "INT": 0.39,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "frost": [66, 105] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 110,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.12,
+                    "DEX": 0.17,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.6
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
                     "magic": "0",
                     "fire": "0",
                     "lightning": "0",
@@ -168066,6 +171672,888 @@
                     "madness": "10"
                 },
                 "buffable": true
+            }
+        }
+    },
+    "ritual-thrusting-shield": {
+        "id": "ritual-thrusting-shield",
+        "name": "Ritual Thrusting Shield",
+        "requirements": { "STR": 13, "DEX": 12, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "thrusting-shield",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 135,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.25,
+                    "DEX": 0.4,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.38,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.12,
+                    "DEX": 0.35,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.45,
+                    "DEX": 0.45,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": true
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 131,
+                    "magic": 131,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.07,
+                    "DEX": 0.11,
+                    "INT": 0.28,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 131,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.26,
+                    "DEX": 0.12,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 131,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.07,
+                    "DEX": 0.11,
+                    "INT": 0.0,
+                    "FTH": 0.26,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 131,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.12,
+                    "DEX": 0.26,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 131
+                },
+                "scaling": {
+                    "STR": 0.07,
+                    "DEX": 0.11,
+                    "INT": 0.0,
+                    "FTH": 0.26,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.24,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.22
+                },
+                "aux": { "poison": [66, 95] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.24,
+                    "DEX": 0.37,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.22
+                },
+                "aux": { "blood": [57, 82] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 131,
+                    "magic": 113,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.22,
+                    "DEX": 0.31,
+                    "INT": 0.25,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "frost": [66, 105] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 131,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.1,
+                    "DEX": 0.15,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.52
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
             }
         }
     },
@@ -186378,6 +190866,888 @@
                     "fire": "0",
                     "lightning": "0",
                     "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            }
+        }
+    },
+    "silver-grooved-shield": {
+        "id": "silver-grooved-shield",
+        "name": "Silver Grooved Shield",
+        "requirements": { "STR": 9, "DEX": 12, "INT": 0, "FTH": 0, "ARC": 0 },
+        "category": "medium-shield",
+        "paired": false,
+        "glintstone-staff": false,
+        "sacred-seal": false,
+        "infusions": {
+            "standard": {
+                "id": "standard",
+                "damage": {
+                    "physical": 61,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.4,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "heavy": {
+                "id": "heavy",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.36,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "1",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "keen": {
+                "id": "keen",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.08,
+                    "DEX": 0.32,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "2",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "quality": {
+                "id": "quality",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.4,
+                    "DEX": 0.4,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "8",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "magic": {
+                "id": "magic",
+                "damage": {
+                    "physical": 59,
+                    "magic": 59,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.16,
+                    "DEX": 0.0,
+                    "INT": 0.24,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "fire": {
+                "id": "fire",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 59,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.28,
+                    "DEX": 0.12,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": true,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "flame-art": {
+                "id": "flame-art",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 59,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.14,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.24,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "4",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "lightning": {
+                "id": "lightning",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 59,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.08,
+                    "DEX": 0.28,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "4",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "sacred": {
+                "id": "sacred",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 59
+                },
+                "scaling": {
+                    "STR": 0.18,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.24,
+                    "ARC": 0.0
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "4",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "poison": {
+                "id": "poison",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.38,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.3
+                },
+                "aux": { "poison": [66, 95] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "blood": {
+                "id": "blood",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.38,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.3
+                },
+                "aux": { "blood": [57, 82] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "cold": {
+                "id": "cold",
+                "damage": {
+                    "physical": 59,
+                    "magic": 50,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.36,
+                    "DEX": 0.0,
+                    "INT": 0.24,
+                    "FTH": 0.0,
+                    "ARC": 0.0
+                },
+                "aux": { "frost": [66, 105] },
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "0",
+                    "magic": "4",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
+                    "poison": "6",
+                    "blood": "6",
+                    "sleep": "6",
+                    "madness": "6"
+                },
+                "buffable": false
+            },
+            "occult": {
+                "id": "occult",
+                "damage": {
+                    "physical": 59,
+                    "magic": 0,
+                    "fire": 0,
+                    "lightning": 0,
+                    "holy": 0
+                },
+                "scaling": {
+                    "STR": 0.38,
+                    "DEX": 0.0,
+                    "INT": 0.0,
+                    "FTH": 0.0,
+                    "ARC": 0.38
+                },
+                "aux": {},
+                "masks": {
+                    "physical": {
+                        "STR": true,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": true
+                    },
+                    "magic": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": true,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "fire": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    },
+                    "lightning": {
+                        "STR": false,
+                        "DEX": true,
+                        "INT": false,
+                        "FTH": false,
+                        "ARC": false
+                    },
+                    "holy": {
+                        "STR": false,
+                        "DEX": false,
+                        "INT": false,
+                        "FTH": true,
+                        "ARC": false
+                    }
+                },
+                "corrections": {
+                    "physical": "7",
+                    "magic": "0",
+                    "fire": "0",
+                    "lightning": "0",
+                    "holy": "0",
                     "poison": "6",
                     "blood": "6",
                     "sleep": "6",

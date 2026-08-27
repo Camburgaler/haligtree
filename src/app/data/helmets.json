@@ -684,6 +684,31 @@
         "poise": 9,
         "weight": 5.1
     },
+    "broken-gold-mask": {
+        "id": "broken-gold-mask",
+        "name": "Broken Gold Mask",
+        "defenses": {
+            "physical": 2.0,
+            "slash": 1.8,
+            "strike": 1.7,
+            "pierce": 1.1,
+            "magic": 4.2,
+            "fire": 4.0,
+            "lightning": 4.2,
+            "holy": 4.4
+        },
+        "resistances": {
+            "scarlet-rot": 20,
+            "poison": 20,
+            "hemorrhage": 7,
+            "frostbite": 7,
+            "sleep": 29,
+            "madness": 29,
+            "death-blight": 30
+        },
+        "poise": 2,
+        "weight": 2.0
+    },
     "bull-goat-helm": {
         "id": "bull-goat-helm",
         "name": "Bull-Goat Helm",
@@ -3379,6 +3404,31 @@
         "poise": 2,
         "weight": 1.0
     },
+    "leontiels-hat": {
+        "id": "leontiels-hat",
+        "name": "Leontiel's Hat",
+        "defenses": {
+            "physical": 3.2,
+            "slash": 2.9,
+            "strike": 3.4,
+            "pierce": 3.6,
+            "magic": 2.4,
+            "fire": 3.2,
+            "lightning": 2.3,
+            "holy": 3.2
+        },
+        "resistances": {
+            "scarlet-rot": 13,
+            "poison": 13,
+            "hemorrhage": 18,
+            "frostbite": 18,
+            "sleep": 8,
+            "madness": 8,
+            "death-blight": 8
+        },
+        "poise": 3,
+        "weight": 3.0
+    },
     "leyndell-knight-helm": {
         "id": "leyndell-knight-helm",
         "name": "Leyndell Knight Helm",
@@ -4989,6 +5039,31 @@
         "poise": 4,
         "weight": 3.3
     },
+    "silver-grooved-helm": {
+        "id": "silver-grooved-helm",
+        "name": "Silver Grooved Helm",
+        "defenses": {
+            "physical": 3.7,
+            "slash": 3.6,
+            "strike": 3.1,
+            "pierce": 3.7,
+            "magic": 2.4,
+            "fire": 2.6,
+            "lightning": 2.2,
+            "holy": 2.8
+        },
+        "resistances": {
+            "scarlet-rot": 12,
+            "poison": 12,
+            "hemorrhage": 20,
+            "frostbite": 20,
+            "sleep": 6,
+            "madness": 6,
+            "death-blight": 7
+        },
+        "poise": 6,
+        "weight": 3.0
+    },
     "silver-tear-mask": {
         "id": "silver-tear-mask",
         "name": "Silver Tear Mask",
@@ -5123,6 +5198,31 @@
         },
         "poise": 2,
         "weight": 1.0
+    },
+    "steel-helm": {
+        "id": "steel-helm",
+        "name": "Steel Helm",
+        "defenses": {
+            "physical": 7.2,
+            "slash": 7.5,
+            "strike": 5.4,
+            "pierce": 6.8,
+            "magic": 3.5,
+            "fire": 5.1,
+            "lightning": 2.6,
+            "holy": 3.4
+        },
+        "resistances": {
+            "scarlet-rot": 18,
+            "poison": 18,
+            "hemorrhage": 33,
+            "frostbite": 33,
+            "sleep": 14,
+            "madness": 14,
+            "death-blight": 13
+        },
+        "poise": 13,
+        "weight": 7.9
     },
     "thiolliers-mask": {
         "id": "thiolliers-mask",

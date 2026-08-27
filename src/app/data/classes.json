@@ -75,6 +75,21 @@
         }
     },
     {
+        "id": "idus-knight",
+        "name": "Idus Knight",
+        "level": 7,
+        "stats": {
+            "VIG": 10,
+            "MND": 12,
+            "END": 11,
+            "STR": 13,
+            "DEX": 15,
+            "INT": 8,
+            "FTH": 11,
+            "ARC": 6
+        }
+    },
+    {
         "id": "warrior",
         "name": "Warrior",
         "level": 8,
@@ -146,6 +161,21 @@
             "DEX": 12,
             "INT": 9,
             "FTH": 14,
+            "ARC": 9
+        }
+    },
+    {
+        "id": "heavy-knight",
+        "name": "Heavy Knight",
+        "level": 10,
+        "stats": {
+            "VIG": 14,
+            "MND": 8,
+            "END": 17,
+            "STR": 15,
+            "DEX": 11,
+            "INT": 7,
+            "FTH": 8,
             "ARC": 9
         }
     }
