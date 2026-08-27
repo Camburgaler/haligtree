@@ -1349,6 +1349,31 @@
         "poise": 1,
         "weight": 0.8
     },
+    "gold-tattoo": {
+        "id": "gold-tattoo",
+        "name": "Gold Tattoo",
+        "defenses": {
+            "physical": 0.8,
+            "slash": 0.4,
+            "strike": 0.4,
+            "pierce": 0.1,
+            "magic": 2.2,
+            "fire": 2.1,
+            "lightning": 2.2,
+            "holy": 2.4
+        },
+        "resistances": {
+            "scarlet-rot": 11,
+            "poison": 11,
+            "hemorrhage": 3,
+            "frostbite": 3,
+            "sleep": 0,
+            "madness": 0,
+            "death-blight": 16
+        },
+        "poise": 1,
+        "weight": 0.6
+    },
     "golden-prosthetic": {
         "id": "golden-prosthetic",
         "name": "Golden Prosthetic",
@@ -1773,6 +1798,31 @@
         },
         "poise": 3,
         "weight": 2.4
+    },
+    "leontiels-leather-gloves": {
+        "id": "leontiels-leather-gloves",
+        "name": "Leontiel's Leather Gloves",
+        "defenses": {
+            "physical": 3.0,
+            "slash": 2.5,
+            "strike": 2.9,
+            "pierce": 2.3,
+            "magic": 2.3,
+            "fire": 2.9,
+            "lightning": 1.4,
+            "holy": 2.1
+        },
+        "resistances": {
+            "scarlet-rot": 6,
+            "poison": 6,
+            "hemorrhage": 12,
+            "frostbite": 12,
+            "sleep": 4,
+            "madness": 4,
+            "death-blight": 3
+        },
+        "poise": 2,
+        "weight": 1.9
     },
     "leyndell-knight-gauntlets": {
         "id": "leyndell-knight-gauntlets",
@@ -2599,6 +2649,31 @@
         "poise": 3,
         "weight": 2.4
     },
+    "silver-grooved-gauntlets": {
+        "id": "silver-grooved-gauntlets",
+        "name": "Silver Grooved Gauntlets",
+        "defenses": {
+            "physical": 3.1,
+            "slash": 2.7,
+            "strike": 2.1,
+            "pierce": 2.5,
+            "magic": 2.0,
+            "fire": 2.2,
+            "lightning": 1.8,
+            "holy": 2.6
+        },
+        "resistances": {
+            "scarlet-rot": 9,
+            "poison": 9,
+            "hemorrhage": 12,
+            "frostbite": 12,
+            "sleep": 5,
+            "madness": 5,
+            "death-blight": 5
+        },
+        "poise": 3,
+        "weight": 2.4
+    },
     "sorcerer-manchettes": {
         "id": "sorcerer-manchettes",
         "name": "Sorcerer Manchettes",
@@ -2648,6 +2723,31 @@
         },
         "poise": 1,
         "weight": 1.2
+    },
+    "steel-gauntlets": {
+        "id": "steel-gauntlets",
+        "name": "Steel Gauntlets",
+        "defenses": {
+            "physical": 5.6,
+            "slash": 5.8,
+            "strike": 4.2,
+            "pierce": 5.2,
+            "magic": 2.1,
+            "fire": 2.5,
+            "lightning": 1.7,
+            "holy": 2.4
+        },
+        "resistances": {
+            "scarlet-rot": 14,
+            "poison": 14,
+            "hemorrhage": 22,
+            "frostbite": 22,
+            "sleep": 10,
+            "madness": 10,
+            "death-blight": 14
+        },
+        "poise": 10,
+        "weight": 6.1
     },
     "thiolliers-gloves": {
         "id": "thiolliers-gloves",

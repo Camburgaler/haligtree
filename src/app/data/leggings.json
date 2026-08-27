@@ -1374,6 +1374,31 @@
         "poise": 6,
         "weight": 2.5
     },
+    "gold-tattoo": {
+        "id": "gold-tattoo",
+        "name": "Gold Tattoo",
+        "defenses": {
+            "physical": 3.2,
+            "slash": 3.0,
+            "strike": 3.0,
+            "pierce": 2.2,
+            "magic": 5.9,
+            "fire": 5.6,
+            "lightning": 5.9,
+            "holy": 6.5
+        },
+        "resistances": {
+            "scarlet-rot": 26,
+            "poison": 26,
+            "hemorrhage": 11,
+            "frostbite": 11,
+            "sleep": 0,
+            "madness": 0,
+            "death-blight": 43
+        },
+        "poise": 4,
+        "weight": 3.5
+    },
     "gold-waistwrap": {
         "id": "gold-waistwrap",
         "name": "Gold Waistwrap",
@@ -1823,6 +1848,31 @@
         },
         "poise": 11,
         "weight": 5.5
+    },
+    "leontiels-boots": {
+        "id": "leontiels-boots",
+        "name": "Leontiel's Boots",
+        "defenses": {
+            "physical": 6.7,
+            "slash": 7.0,
+            "strike": 5.7,
+            "pierce": 6.8,
+            "magic": 4.5,
+            "fire": 5.2,
+            "lightning": 3.1,
+            "holy": 4.3
+        },
+        "resistances": {
+            "scarlet-rot": 13,
+            "poison": 13,
+            "hemorrhage": 24,
+            "frostbite": 24,
+            "sleep": 8,
+            "madness": 8,
+            "death-blight": 5
+        },
+        "poise": 5,
+        "weight": 4.7
     },
     "leyndell-knight-greaves": {
         "id": "leyndell-knight-greaves",
@@ -2874,6 +2924,31 @@
         "poise": 4,
         "weight": 3.1
     },
+    "silver-grooved-greaves": {
+        "id": "silver-grooved-greaves",
+        "name": "Silver Grooved Greaves",
+        "defenses": {
+            "physical": 6.4,
+            "slash": 6.2,
+            "strike": 5.6,
+            "pierce": 6.0,
+            "magic": 3.5,
+            "fire": 3.8,
+            "lightning": 3.2,
+            "holy": 3.8
+        },
+        "resistances": {
+            "scarlet-rot": 15,
+            "poison": 15,
+            "hemorrhage": 27,
+            "frostbite": 27,
+            "sleep": 9,
+            "madness": 9,
+            "death-blight": 9
+        },
+        "poise": 8,
+        "weight": 4.4
+    },
     "snow-witch-skirt": {
         "id": "snow-witch-skirt",
         "name": "Snow Witch Skirt",
@@ -2973,6 +3048,31 @@
         },
         "poise": 5,
         "weight": 2.6
+    },
+    "steel-greaves": {
+        "id": "steel-greaves",
+        "name": "Steel Greaves",
+        "defenses": {
+            "physical": 10.8,
+            "slash": 11.0,
+            "strike": 10.1,
+            "pierce": 10.5,
+            "magic": 7.1,
+            "fire": 7.4,
+            "lightning": 6.6,
+            "holy": 7.1
+        },
+        "resistances": {
+            "scarlet-rot": 24,
+            "poison": 24,
+            "hemorrhage": 44,
+            "frostbite": 44,
+            "sleep": 20,
+            "madness": 20,
+            "death-blight": 23
+        },
+        "poise": 19,
+        "weight": 11.3
     },
     "thiolliers-trousers": {
         "id": "thiolliers-trousers",
